@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <script>
+    // get the urlparam showoffer and set it to a variable
+    // todo: move this to a global script
+    var urlParams = new URLSearchParams(window.location.search);
+    var showoffer = urlParams.get('showoffer');
+  </script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon_uni.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon_uni.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon_uni.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap"
+    rel="stylesheet">
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <link href="../css/styles.css" rel="stylesheet">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>(1) Unicorn</title>
+  <link rel="preconnect" href="https://fast.wistia.com/" crossorigin>
+  <link rel="preconnect" href="https://embed-cloudfront.wistia.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+  <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+  <script src="../page-loader.js"></script>
+
+  <link rel="preload" as="image" href="../images/loading-video.gif">
+
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&amp;family=Open+Sans&amp;display=swap"
+    as="style" onload="this.rel='stylesheet'">
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
+    as="style" onload="this.rel='stylesheet'">
+</head>
+
+<body class="relative font-sans h-100 m-0 p-0" x-data="{
+    show: false,
+    initOffer() {
+      // replicate your x-init logic here
+      if (showoffer === '1') {
+        this.show = true;
+      } else {
+        setTimeout(() => this.show = true, 540000);
+      }
+    },
+    showModal: false,
+  }" x-init="initOffer()">
+  <!-- Modal -->
+  <div x-data="{ showModal: false }" x-init="
+        document.addEventListener('mouseleave', (event) => {
+            if (event.clientY <= 0) {
+                showModal = false; // set to true if we need the modal
+            }
+        });
+    ">
+    <!-- Backdrop -->
+    <div x-show="showModal" x-cloak
+      class="fixed inset-0 bg-black bg-opacity-80 z-[2000] flex items-center justify-center">
+      <div
+        class="bg-white rounded-xl shadow-xl max-w-4xl w-full relative lg:h-auto lg:mt-0 h-auto mt-12 mx-3 my-3 max-h-[calc(100vh-24px)] overflow-y-auto"
+        @click.away="showModal = false">
+        <!-- Close Button -->
+        <button type="button" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900"
+          @click="showModal = false" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Modal Header -->
+        <div>
+          <div class="px-1 lg:px-6 mt-6">
+            <div class="flex items-center justify-center gap-2 lg:gap-4">
+              <div>
+                <img class="h-8 w-8 lg:h-12 lg:w-12" src="../images/popwarn_ico.png" alt="pop warn">
+              </div>
+              <div class="text-upsell-pink text-4xl lg:text-5xl font-serif font-bold">WAIT!</div>
+            </div>
+            <div class="mt-6 text-[20px] lg:text-2xl font-bold font-serif text-center">
+              <div>
+                Before I remove The UNIGLOBE for the <span>Code Update</span> permanently from your
+                Unicorn
+                system, I need you to confirm that
+                <span class="underline">
+                  you're 100% sure you don't want your copy of the Unicorn activated.
+                </span>
+              </div>
+            </div>
+            <div class="mt-6 text-[20px] text-2xl font-bold font-serif text-center">
+              Remember, this early bird ONE-TIME offer of $29 is ONLY for the first 100 people that
+              activate The UNIGLOBE.
+            </div>
+
+            <div
+              class="bg-gradient-to-b from-upsell-green-2 to-upsell-green w-full text-center rounded-xl border-2 border-upsell-pink px-2 lg:px-8 py-3 mt-6">
+              <a href="https://getUnicorn.pay.clickbank.net/?cbitems=2&cbur=a&pg=vdrd"
+                class="font-sans text-lg lg:text-3xl uppercase text-white font-bold oswald-font">
+                I changed my mind. Please Activate my copy of The UNIGLOBE for the VIP-Only price of
+                just&nbsp;$29.</a>
+            </div>
+
+            <div class="text:lg lg:text-xl font-serif underline text-center mt-6">
+              <a href="https://getUnicorn.pay.clickbank.net/?cbitems=2&cbur=d&pg=vdrd">Deactivate The UNIGLOBE
+                update, and remove it completley from my Unicorn. Pass My $4561
+                Discount to Another&nbsp;Member.
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-upsell-slate w-full mt-6 mb-6 py-6">
+            <div class="lg:flex lg:flex-row-reverse lg:items-center lg:justify-center px-6">
+              <div class="flex items-center justify-center">
+                <img src="../images/popmbseal.png" alt="money back"
+                  class="w-36 h-36 min-h-36 min-w-36 lg:ml-8 lg:min-w-48 lg:min-ht-48 lg:w-48 lg:h-48">
+              </div>
+
+              <div>
+                <div
+                  class="text-center lg:text-left text-base lg:text-xl font-serif lg:leading-relaxed">
+                  I understand <strong>The UNIGLOBE</strong> is exclusively offered only to new
+                  members ONLY. I
+                  understand this special price will not be available after I leave this page and
+                  the 100 spots are
+                  gone. I also understand that The UNIGLOBE&nbsp;Update is backed by the same
+                  <strong>Ironclad 100% Money Back Guarantee</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full bg-upsell-red py-2">
+      <div class="flex items-center justify-center">
+        <div class="text-center">
+          <div
+            class="text-yellow-300 font-serif text-base lg:text-lg font-semibold capitalize px-4">
+            IMPORTANT! Do NOT close this window or click the "back" button.
+          </div>
+          <div class="text-white font-serif text-base lg:text-lg lg:font-semibold capitalize px-4">
+            Clicking your "back" button will result in your order being double-billed.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-start justify-center">
+      <div class="w-full lg:max-w-[950px] lg:w-[950px]">
+        <header class="">
+          <div class="flex flex-col lg:flex-row items-center justify-center mt-6 gap-6 w-full">
+            <div class="lg:flex lg:items-center lg:justify-center lg:gap-3">
+              <div class="flex items-center justify-center lg:mt-1">
+                <div>
+                  <div class="-ml-6">
+                    <img class="w-[42px] lg:w-[77px]" src="../images/stop.png" alt="stop sign">
+                  </div>
+                </div>
+                <div
+                  class="text-upsell-red font-serif text-5xl lg:text-6xl font-bold uppercase ml-4">
+                  WAIT!</div>
+              </div>
+
+              <div class="font-serif text-center lg:text-left lg:ml-4">
+                <div class="capitalize text-base lg:text-xl -mb-2">
+                  <span>Your order is not complete yet</span>
+                </div>
+
+                <div class="capitalize text-lg lg:text-2xl font-semibold mt-2 lg:mt-2 px-6 lg:px-0">
+                  <span class="bg-upsell-yellow">Please watch this important new member update
+                    below</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-start justify-center mt-3 lg:mt-1">
+            <div
+              class="relative w-[330px] h-[578px] lg:w-[910px] lg:h-[515px] border-4 bg-black flex items-center justify-center min-w-[330px] min-h-[515px]">
+              <div class="flex items-center justify-center">
+                <img src="../images/loading-video.gif" alt="Loading Video"
+                  class="absolute w-100 lg:w-[500px]" loading="lazy">
+
+                <!-- Wistia Video Container -->
+                <div
+                  class="wistia-video-container relative w-full lg:w-[910px] lg:h-[515px] aspect-w-910 aspect-h-515 border-4 border-white shadow-lg shadow-gray-500">
+                  <!-- Wistia Video -->
+                  <div id="wistia-video" class="absolute inset-0 w-full h-full"></div>
+                </div>
+              </div>
+              <!-- Placeholder Image to Reserve Space -->
+            </div>
+          </div>
+          <div class="mt-20 mb-10 lg:mt-12 text-sm lg:text-base tracking-wide font-serif font-thin">
+            <div class="lg:flex lg:items-start lg:justify-start ml-4">
+              <div>
+                <strong
+                  class="font-serif font-semibold text-pure-red text-xl lg:text-2xl whitespace-nowrap px-4">DO
+                  THIS FIRST:
+                </strong>
+              </div>
+              <div class="capitalize font-semibold text-base lg:text-xl lg:ml-4 px-4 lg:px-0">
+                Please Watch This Important New Member Update In Full Right Now. Your Access Link
+                Will Appear At The
+                End Of Your Video.
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+    <div id="offer" x-cloak x-show="show"
+      class="bg-upsell-slate flex items-start justify-center mt-8 my-8 pb-8 border-b">
+      <div class="lg:max-w-[1050px] lg:w-[1050px]">
+        <div class="w-full">
+          <div class="font-serif text-[24px] lg:text-[44px] font-semibold text-center mt-10">
+            Activate The UNIGLOBE Today!
+          </div>
+        </div>
+
+        <div
+          class="relative bg-upsell-ivory border-2 border-upsell-buttercream rounded-lg mt-24 w-full"
+          :class="'h-[540px] lg:h-[700px]'">
+          <div class="flex justify-center items-center w-full">
+            <div class="absolute lg:-top-20 -top-8">
+              <div>
+                <img src="../images/uniglobe_mockup.png" alt="The UNIGLOBE" class="sm:h-96 w-auto h-64">
+              </div>
+            </div>
+            <div class="absolute top-40 lg:top-24">
+              <div
+                class="lg:mt-56 mt-24 flex items-center justify-center font-serif text-xl tracking-wide gap-4">
+                <div class="tracking-wider">
+                  Original Price:
+                  <span class="relative inline-block">$997+$297/mo
+                    <span
+                      class="absolute left-0 right-0 border-b-2 border-red-500 rotate-[-10deg] top-1/2 -translate-y-1/2"></span></span>
+                </div>
+              </div>
+              <div class="flex items-center justify-center lg:mt-6">
+                <div>
+                  <img class="mb-6 w-[65px] lg:w-auto mt-4 lg:mt-0" alt="left call out arrow"
+                    src="../images/left_arrow_pink.png">
+                </div>
+                <div>
+                  <div class="font-serif text-2xl font-bold text-center">
+                    <div class="mt-6 lg:mt-0">Today Just For</div>
+                  </div>
+                  <div class="font-serif text-[71px] font-bold text-center -mt-3 text-upsell-teal">
+                    $29</div>
+                </div>
+                <div>
+                  <img class="mb-6 w-[65px] lg:w-auto mt-4 lg:mt-0" alt="right call out arrow"
+                    src="../images/right_arrow_pink.png">
+                </div>
+              </div>
+
+              <div class="flex items-center justify-center px-2 lg:px-28">
+                <a href="https://getUnicorn.pay.clickbank.net/?cbitems=2&cbur=a">
+                  <img class="lg:w-[724px] w-[300px]" alt="activate now button"
+                    src="../images/activate-button.png"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10 flex justify-center items-center mb-16">
+          <a href="javascript:void(0);">
+            <div class="flex items-start justify-start gap-2 px-6 lg:px-0">
+              <div>
+                <img class="min-w-4 min-h-4 w-4 h-4" src="../images/cross.png" alt="cross button">
+              </div>
+              <div
+                class="text-sm lg:text-[19px] font-serif underline tracking-wider font-thin text-gray-700 cursor-pointer"
+                @click="showModal= true">
+                <div class="leading-relaxed">
+                  No thanks, I don't want to Activate my The UNIGLOBE update and accelerate my hands
+                  free profits from
+                  the Unicorn. I understand that this is a one-time offer and understand I
+                  will not get it
+                  again.
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <hr>
+    </div>
+
+    <footer x-show="show" class="mb-12">
+      <div class="flex items-center justify-center">
+        <div>
+          <div
+            class="flex items-center justify-center mt-12 font-serif text-sm lg:text-xl tracking-wide font-light gap-4">
+            <div><a href="../tos/index.html">Privacy Policy &amp; Terms Of Service</a></div>
+            <div>|</div>
+            <div><a href="mailto:support@getUnicornofficial.com">Contact Us</a></div>
+          </div>
+          <div
+            class="flex items-center justify-center font-serif text-sm lg:text-xl tracking-wide font-light mt-3 lg:px-0 px-4 text-center">
+            Copyright © 2025 Unicorn. All Rights Reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="pt-24 bg-[#f9f9f9]"></div>
+
+    <script>
+    let globalVideo;
+
+    function loadWistiaVideo() {
+      const videoContainer = document.getElementById("wistia-video");
+      videoContainer.innerHTML = "";
+
+      let videoId = window.matchMedia("(max-width: 800px)").matches ? "ct7ryjfwif" : "d1bari1381";
+
+      const wistiaDiv = document.createElement("div");
+      wistiaDiv.className = `wistia_embed wistia_async_${videoId}`;
+      videoContainer.appendChild(wistiaDiv);
+
+      if (!window._wistiaInitialized) {
+        const wistiaScript = document.createElement("script");
+        wistiaScript.src = "https://fast.wistia.com/assets/external/E-v1.js";
+        wistiaScript.async = true;
+        document.head.appendChild(wistiaScript);
+        window._wistiaInitialized = true;
+      }
+
+      window._wq = window._wq || [];
+      _wq.push({
+        id: videoId,
+        options: {
+          videoFoam: false,
+        },
+        onReady: function (video) {
+          globalVideo = video;
+
+          video.bind("play", function () {
+            window.dispatchEvent(new Event("videoplay"));
+          });
+
+          video.bind("pause", function () {
+            window.dispatchEvent(new Event("videopause"));
+          });
+        },
+      });
+    }
+
+    loadWistiaVideo();
+  </script>
+  </div>
+</body>
+
+</html>
