@@ -390,6 +390,18 @@
       color: #efe6dc;
       font-weight: 800
     }
+/* --- Controls: robust highlight + disabled states --- */
+.pill.primary {
+  background-image: linear-gradient(135deg, var(--pink-1) 0%, var(--pink-2) 100%);
+  color: var(--tab-ink);
+  border-color: transparent;
+  box-shadow: 0 10px 22px rgba(240, 98, 146, .35);
+}
+.pill:disabled {
+  opacity: .45;
+  pointer-events: none;
+}
+
 
     .pill:hover {
       transform: translateY(-1px)
@@ -875,6 +887,7 @@
       const cur = getBadges();
       if(!cur.includes(modId)){ cur.push(modId); setBadges(cur); }
       renderBadges();
+      updateNav();
     }
     function renderBadges(){
       const row = document.getElementById('badgesRow'); if(!row) return;
@@ -902,6 +915,7 @@
       document.getElementById('moduleInfo').style.display = '';
       document.querySelector('.progress').style.display = '';
       renderTabs(); renderSlide(); updateBadgesVisibility("course");
+      updateNav();
     ; updateBadgesVisibility("course"); }
     function showSalesView() {
       salesMode = true;
@@ -1015,20 +1029,75 @@
     }
 
 
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      const L = modules[currentModule].lessons.length;
-      currentSlide = (currentSlide - 1 + L) % L; renderSlide();
-    });
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      const L = modules[currentModule].lessons.length;
-      currentSlide = (currentSlide + 1) % L; renderSlide();
-    });
-    tabs.addEventListener('click', e => {
-      const b = e.target.closest('.tab'); if (!b) return;
-      if (b.dataset.sales) { showSalesView(); return; }
-      const i = parseInt(b.dataset.i, 10);
-      currentModule = i; currentSlide = 0; showCourseView();
-    });
+    
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function updateNav() {
+  if (!prevBtn || !nextBtn) return;
+  const L = modules[currentModule].lessons.length;
+  const lastAllowed = Math.min(2, L - 1); // allow up to 3rd lesson (index 2)
+
+  const canPrev = currentSlide > 0;
+  const canNext = currentSlide < lastAllowed;
+
+  prevBtn.disabled = !canPrev;
+  nextBtn.disabled = !canNext;
+
+  prevBtn.classList.remove('primary');
+  nextBtn.classList.remove('primary');
+
+  if (currentSlide === 0 && canNext) {
+    // Lesson 1 → Next only
+    nextBtn.classList.add('primary');
+  } else if (currentSlide === 1 && canPrev && canNext) {
+    // Lesson 2 → both
+    prevBtn.classList.add('primary');
+    nextBtn.classList.add('primary');
+  } else if (currentSlide >= lastAllowed && canPrev) {
+    // Lesson 3 → Prev only
+    prevBtn.classList.add('primary');
+  }
+}
+
+prevBtn.addEventListener('click', () => {
+  if (currentSlide > 0) {
+    currentSlide -= 1;
+    renderSlide();
+    updateNav();
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  const L = modules[currentModule].lessons.length;
+  const lastAllowed = Math.min(2, L - 1);
+  if (currentSlide < lastAllowed) {
+    currentSlide += 1;
+    renderSlide();
+    updateNav();
+  }
+});
+
+tabs.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+
+  if (btn.hasAttribute('data-sales')) {
+    showSalesView();
+    return;
+  }
+
+  const attr = btn.getAttribute('data-i');
+  if (attr !== null) {
+    const idx = parseInt(attr, 10);
+    if (!Number.isNaN(idx)) {
+      currentModule = idx;
+      currentSlide = 0;
+      showCourseView();
+    }
+  }
+});
+
 
     // Keyboard navigation
     window.addEventListener('keydown', (e) => {
@@ -1038,6 +1107,7 @@
 
     // Init
     renderTabs(); renderSlide(); updateBadgesVisibility("course"); renderBadges();
+    updateNav();
     // sales panel off initially
     document.getElementById('salesPanel').style.display = 'none';
   </script>
