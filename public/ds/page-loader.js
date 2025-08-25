@@ -14,11 +14,11 @@
 (function () {
   function getCompliantContentPath() {
     const pathname = window.location.pathname;
-    const cbMatch = pathname.match(/^\/cb(?:\/([^\/]+))?\/?(?:index\.html)?$/);
+    const cbMatch = pathname.match(/^\/ds(?:\/([^\/]+))?\/?(?:index\.html)?$/);
     if (cbMatch) {
       const subdir = cbMatch[1];
-      if (!subdir) return `/cb/c/index.html`;
-      if (!subdir.endsWith('-c') && subdir !== 'c') return `/cb/${subdir}-c/index.html`;
+      if (!subdir) return `/ds/c/index.html`;
+      if (subdir !== 'c') return `/ds/c/${subdir}/index.html`;
     }
     return null;
   }
