@@ -19,7 +19,7 @@
       const subdir = dsMatch[1];
       if (!subdir) return `/ds/c/index.html`;
       // Skip redirecting ds1, ds2, ds3 to their -c versions
-      if (subdir === 'ds1' || subdir === 'ds2' || subdir === 'ds3') return null;
+      if (subdir === 'ds2' || subdir === 'ds3') return null;
       if (!subdir.endsWith('-c') && subdir !== 'c') return `/ds/${subdir}-c/index.html`;
     }
     return null;
