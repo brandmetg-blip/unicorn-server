@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout Countdown</title>
+  <style>
+    /* Reset margins so the iframe height is clean */
+    html,body{margin:0;padding:0}
+    /* Banner styling (matches your design) */
+    #countdown{
+      width:100%;
+      border:1px solid #237A60;
+      background-color:#F5FCEF;
+      padding:10px 10px 12px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight:600;
+      font-size:18px;
+      line-height:24px;
+      color:#104939;
+      border-radius:0;
+      text-align:center;
+      box-sizing:border-box;
+    }
+    .countDownTime{
+      color:#DA3421;
+      font-weight:bold;
+    }
+    @media (max-width:1199px){
+      #countdown{ font-size:17px; line-height:22px; padding:8px 5px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown">
+    <span id="label">Your Special Price Is Reserved For</span>
+    &nbsp;<span class="countDownTime" id="time">10:00</span>
+  </div>
+
+  <script>
+    (function(){
+      // URL params: ?m=10  (minutes)  OR ?s=600 (seconds)
+      // Optional: ?label=Your%20Special%20Price%20Is%20Reserved%20For
+      // Optional: ?expire=Time%20is%20up!
+      // Optional: ?persist=1  (persists per-browser for this URL)
+      var qs = new URLSearchParams(location.search);
+
+      function n(v, d){ v=parseInt(v,10); return isFinite(v)&&v>=0 ? v : d; }
+
+      var seconds = n(qs.get('s'), NaN);
+      var minutes = n(qs.get('m'), NaN);
+      if (!isFinite(seconds)) seconds = isFinite(minutes) ? minutes*60 : 600; // default 10:00
+
+      var label = qs.get('label') || 'Your Special Price Is Reserved For';
+      var expireMsg = qs.get('expire') || ''; // if provided, replace banner at 0
+      var persist = qs.get('persist') === '1'; // simple persistence toggle
+
+      var elTime  = document.getElementById('time');
+      var elLabel = document.getElementById('label');
+      var elWrap  = document.getElementById('countdown');
+
+      elLabel.textContent = label;
+
+      var STORAGE_KEY = 'ds_countdown_end_' + location.pathname + location.search;
+      var end;
+
+      if (persist){
+        try{
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            var savedEnd = parseInt(saved,10);
+            if (isFinite(savedEnd) && savedEnd > Date.now()) end = savedEnd;
+          }
+        }catch(e){}
+      }
+
+      if (!end){
+        end = Date.now() + seconds*1000;
+        if (persist){
+          try{ localStorage.setItem(STORAGE_KEY, String(end)); }catch(e){}
+        }
+      }
+
+      function fmt(t){
+        var m = Math.floor(t/60);
+        var s = t%60;
+        return (m<10?'0':'')+m+':' + (s<10?'0':'')+s;
+      }
+
+      function tick(){
+        var leftMs = end - Date.now();
+        var left = Math.max(0, Math.floor(leftMs/1000));
+        elTime.textContent = fmt(left);
+        if (left <= 0){
+          clearInterval(iv);
+          if (expireMsg){
+            elWrap.textContent = expireMsg;
+          }
+          return;
+        }
+      }
+
+      var iv = setInterval(tick, 1000);
+      tick();
+    })();
+  </script>
+</body>
+</html>
