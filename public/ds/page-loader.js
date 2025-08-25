@@ -14,11 +14,13 @@
 (function () {
   function getCompliantContentPath() {
     const pathname = window.location.pathname;
-    const cbMatch = pathname.match(/^\/ds(?:\/([^\/]+))?\/?(?:index\.html)?$/);
-    if (cbMatch) {
-      const subdir = cbMatch[1];
+    const dsMatch = pathname.match(/^\/ds(?:\/([^\/]+))?\/?(?:index\.html)?$/);
+    if (dsMatch) {
+      const subdir = dsMatch[1];
       if (!subdir) return `/ds/c/index.html`;
-      if (subdir !== 'c') return `/ds/c/${subdir}/index.html`;
+      // Skip redirecting ds1, ds2, ds3 to their -c versions
+      if (subdir === 'ds1' || subdir === 'ds2' || subdir === 'ds3') return null;
+      if (!subdir.endsWith('-c') && subdir !== 'c') return `/ds/${subdir}-c/index.html`;
     }
     return null;
   }
