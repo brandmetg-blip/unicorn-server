@@ -1,133 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="apple-touch-icon" sizes="180x180" href="../images/favico1.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../images/favico1.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../images/favico1.png">
-<title>The UNIGLOBE – Phoenix</title>
-<style>
-:root{
-  --gold-1:#f8b4d9; /* light pink */
-  --gold-2:#f06292; /* medium pink */
-  --gold-3:#d81b60; /* deep pink */
-  --text:#1e1f20;
-  --muted:#5c6166;
-  --bg:#ffffff;
-  --panel:#fdf3f7;
-  --border:rgba(0,0,0,.08);
-  --radius:14px;
-  --shadow: 0 10px 30px rgba(0,0,0,.08);
-}
+  <head>
+    <script src="../page-loader.js"></script>
+    <script>
+      digistoreUpsell();
+    </script>
+    <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
+    <script type="text/javascript">
+      digistorePromocode({ product_id: 631608, adjust_domain: true });
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favico1.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../images/favico1.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../images/favico1.png"
+    />
+    <title>The UNIGLOBE – Phoenix</title>
+    <style>
+      :root {
+        --gold-1: #f8b4d9; /* light pink */
+        --gold-2: #f06292; /* medium pink */
+        --gold-3: #d81b60; /* deep pink */
+        --text: #1e1f20;
+        --muted: #5c6166;
+        --bg: #ffffff;
+        --panel: #fdf3f7;
+        --border: rgba(0, 0, 0, 0.08);
+        --radius: 14px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
 
-  *{box-sizing:border-box}
-  body{margin:0;font:500 16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
-  img{max-width:100%;display:block}
-  a{text-decoration:none;color:inherit}
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font: 500 16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
 
-  .topbar{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(6px);background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.75));border-bottom:1px solid var(--border)}
-  .wrap{width:min(980px,100%);margin-inline:auto;padding-inline:22px}
-  .bar{display:flex;align-items:center;justify-content:space-between;min-height:64px}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:34px;height:34px;border-radius:10px;background:radial-gradient(100% 100% at 20% 20%,var(--gold-1),var(--gold-2) 55%,var(--gold-3));border:1px solid var(--border)}
-  .secure{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
-  .secure .dot{width:8px;height:8px;border-radius:99px;background:var(--gold-2);box-shadow:0 0 0 2px rgba(199,152,58,.15)}
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        backdrop-filter: saturate(140%) blur(6px);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.75)
+        );
+        border-bottom: 1px solid var(--border);
+      }
+      .wrap {
+        width: min(980px, 100%);
+        margin-inline: auto;
+        padding-inline: 22px;
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: radial-gradient(
+          100% 100% at 20% 20%,
+          var(--gold-1),
+          var(--gold-2) 55%,
+          var(--gold-3)
+        );
+        border: 1px solid var(--border);
+      }
+      .secure {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .secure .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 99px;
+        background: var(--gold-2);
+        box-shadow: 0 0 0 2px rgba(199, 152, 58, 0.15);
+      }
 
-  .lead{padding:26px 0 10px}
-  .panel{background:linear-gradient(180deg,#fff,var(--panel));border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-  h1{font-size:clamp(24px,3.2vw,34px);line-height:1.2;margin:8px 0 8px}
-  .eyebrow{font-weight:800;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#f06292}
-  p{margin:0 0 12px;color:var(--muted)}
+      .lead {
+        padding: 26px 0 10px;
+      }
+      .panel {
+        background: linear-gradient(180deg, #fff, var(--panel));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+      h1 {
+        font-size: clamp(24px, 3.2vw, 34px);
+        line-height: 1.2;
+        margin: 8px 0 8px;
+      }
+      .eyebrow {
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #f06292;
+      }
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
 
-  .benefits{margin:14px 0 4px;display:grid;gap:8px}
-  .benefits li{list-style:none;position:relative;padding-left:28px;color:#3b3f44}
-  .benefits li::before{content:"";position:absolute;left:0;top:.3em;width:18px;height:18px;border-radius:6px;background:linear-gradient(180deg,var(--gold-1),var(--gold-2));box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
-  .benefits li::after{content:"";position:absolute;left:6px;top:.7em;width:6px;height:10px;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg)}
+      .benefits {
+        margin: 14px 0 4px;
+        display: grid;
+        gap: 8px;
+      }
+      .benefits li {
+        list-style: none;
+        position: relative;
+        padding-left: 28px;
+        color: #3b3f44;
+      }
+      .benefits li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.3em;
+        width: 18px;
+        height: 18px;
+        border-radius: 6px;
+        background: linear-gradient(180deg, var(--gold-1), var(--gold-2));
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+      .benefits li::after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 0.7em;
+        width: 6px;
+        height: 10px;
+        border: 2px solid #fff;
+        border-top: 0;
+        border-left: 0;
+        transform: rotate(45deg);
+      }
 
-  .cta{margin-top:10px;padding:16px;border-radius:var(--radius);border:1px solid var(--border);background:#fff;box-shadow:var(--shadow);text-align:center}
-  .cta h3{margin:0 0 6px;font-size:20px}
-  .cta p{margin:0 0 12px;color:var(--muted)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:12px;font-weight:800;letter-spacing:.2px;color:#1f1400;background:linear-gradient(180deg,var(--gold-1),var(--gold-2));box-shadow:0 10px 18px rgba(199, 58, 189, 0.25),inset 0 0 0 1px rgba(0,0,0,.06)}
-  .btn:hover{transform:translateY(-1px)}
-  .btn small{display:block;font-weight:600;opacity:.9}
-  .decline{display:block;margin-top:10px;font-size:13.5px;color:#6a6f75;text-align:center;text-decoration:underline}
+      .cta {
+        margin-top: 10px;
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: #fff;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+      .cta h3 {
+        margin: 0 0 6px;
+        font-size: 20px;
+      }
+      .cta p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 22px;
+        border-radius: 12px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        color: #1f1400;
+        background: linear-gradient(180deg, var(--gold-1), var(--gold-2));
+        box-shadow: 0 10px 18px rgba(199, 58, 189, 0.25),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+      .btn small {
+        display: block;
+        font-weight: 600;
+        opacity: 0.9;
+      }
+      .decline {
+        display: block;
+        margin-top: 10px;
+        font-size: 13.5px;
+        color: #6a6f75;
+        text-align: center;
+        text-decoration: underline;
+      }
 
-  .media{border-radius:14px;overflow:hidden;margin-bottom:16px}
+      .media {
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
 
-  .guarantee{margin:18px 0;padding:14px 16px;border-radius:12px;border:1px dashed rgba(199, 58, 175, 0.55);background:linear-gradient(180deg,#ffe1ee,#ffc8de)}
-  .guarantee b{color:#f06292}
+      .guarantee {
+        margin: 18px 0;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px dashed rgba(199, 58, 175, 0.55);
+        background: linear-gradient(180deg, #ffe1ee, #ffc8de);
+      }
+      .guarantee b {
+        color: #f06292;
+      }
 
-  .footer{margin-top:28px;background:linear-gradient(180deg,#ffc1e6,#ffa0e2);border-top:1px solid rgba(0,0,0,.06)}  
-  .footer .wrap{padding-block:18px}
-  .f-links{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:13px}
-  .f-links a{text-decoration:underline;color:#541251}
-  .disclaimer{margin-top:10px;font-size:11px;color:#541251}
-</style>
-</head>
-<body>
-  <div class="topbar">
-    <div class="wrap bar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <b>The UNIGLOBE</b>
-      </div>
-      <div class="secure"><span class="dot"></span> Secure checkout • 60‑Day guarantee</div>
-    </div>
-  </div>
-
-  <section class="lead">
-    <div class="wrap">
-      <div class="panel">
-        <h1>Unlock the Starting Point for Your Digital Future</h1>
-        <p>What if you could create something once… and have it live online, ready to be discovered, shared, and sold—again and again?</p>
-        <p>The UNIGLOBE is your introduction to making that happen.
-In just three hours, you’ll see exactly how to take an idea and turn it into a simple digital product—like an ebook, guide, or short video course—without tech headaches or marketing hype.</p>
-
-        <ul class="benefits">
-          <li>Beginner-Friendly – No skills required.</li>
-          <li>Step-by-Step – From idea to product.</li>
-          <li>Ethical & Simple – No gimmicks.</li>
-          <li>Flexible – Works for ebooks, guides, or courses.</li>
-        </ul>
-
-        <p>Think of it as the foundation you’ll stand on before you build anything bigger. By the end, you’ll know the steps, the tools, and the mindset that make creating and selling online products not only possible—but practical.</p>
-
-        <div class="guarantee"><b>60‑Day Money‑Back Guarantee included.</b> Try it risk‑free.</div>
-
-        <div class="media">
-          <img src="uniglobe_new_laptop.png" alt="The UNIGLOBE Product">
+      .footer {
+        margin-top: 28px;
+        background: linear-gradient(180deg, #ffc1e6, #ffa0e2);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .footer .wrap {
+        padding-block: 18px;
+      }
+      .f-links {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 13px;
+      }
+      .f-links a {
+        text-decoration: underline;
+        color: #541251;
+      }
+      .disclaimer {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #541251;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="wrap bar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <b>The UNIGLOBE</b>
         </div>
-
-        <div class="cta">
-          <h3>Add The UNIGLOBE to your order</h3>
-          <p>One‑time upgrade. Instant access.</p>
-          <a class="btn" href="https://www.digistore24.com/answer/yes?template=light">
-            Add The UNIGLOBE
-            <small>One‑Time Fee • $29</small>
-          </a>
-          <a class="decline" href="https://www.digistore24.com/answer/no">No thanks, I’ll pass for now</a>
+        <div class="secure">
+          <span class="dot"></span> Secure checkout • 60‑Day guarantee
         </div>
       </div>
     </div>
-  </section>
 
-  <footer class="footer">
-    <div class="wrap">
-      <nav class="f-links">
-        <a href="https://getunicornofficial.com/tos/">Privacy Policy / Terms Of Service</a>
-        <a href="mailto:support@getunicornofficial.com">Contact</a>
-      </nav>
-      <div class="disclaimer">
-        DISCLAIMER: Individual results vary. The examples shown are for illustration and do not guarantee future outcomes. Use judgment and follow all applicable laws and platform rules.
+    <section class="lead">
+      <div class="wrap">
+        <div class="panel">
+          <h1>Unlock the Starting Point for Your Digital Future</h1>
+          <p>
+            What if you could create something once… and have it live online,
+            ready to be discovered, shared, and sold—again and again?
+          </p>
+          <p>
+            The UNIGLOBE is your introduction to making that happen. In just
+            three hours, you’ll see exactly how to take an idea and turn it into
+            a simple digital product—like an ebook, guide, or short video
+            course—without tech headaches or marketing hype.
+          </p>
+
+          <ul class="benefits">
+            <li>Beginner-Friendly – No skills required.</li>
+            <li>Step-by-Step – From idea to product.</li>
+            <li>Ethical & Simple – No gimmicks.</li>
+            <li>Flexible – Works for ebooks, guides, or courses.</li>
+          </ul>
+
+          <p>
+            Think of it as the foundation you’ll stand on before you build
+            anything bigger. By the end, you’ll know the steps, the tools, and
+            the mindset that make creating and selling online products not only
+            possible—but practical.
+          </p>
+
+          <div class="guarantee">
+            <b>60‑Day Money‑Back Guarantee included.</b> Try it risk‑free.
+          </div>
+
+          <div class="media">
+            <img src="uniglobe_new_laptop.png" alt="The UNIGLOBE Product" />
+          </div>
+
+          <div class="cta">
+            <h3>Add The UNIGLOBE to your order</h3>
+            <p>One‑time upgrade. Instant access.</p>
+            <a
+              class="btn"
+              href="https://www.digistore24.com/answer/yes?template=light"
+            >
+              Add The UNIGLOBE
+              <small>One‑Time Fee • $29</small>
+            </a>
+            <a class="decline" href="https://www.digistore24.com/answer/no"
+              >No thanks, I’ll pass for now</a
+            >
+          </div>
+        </div>
       </div>
-    </div>
-  </footer>
-  <script src="/ds/page-loader.js"></script>
-  <script>digistoreUpsell()</script>
-  <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
-<script type="text/javascript">
-digistorePromocode( { "product_id": 631608, "adjust_domain": true } );
-</script>
-</body>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap">
+        <nav class="f-links">
+          <a href="https://getunicornofficial.com/tos/"
+            >Privacy Policy / Terms Of Service</a
+          >
+          <a href="mailto:support@getunicornofficial.com">Contact</a>
+        </nav>
+        <div class="disclaimer">
+          DISCLAIMER: Individual results vary. The examples shown are for
+          illustration and do not guarantee future outcomes. Use judgment and
+          follow all applicable laws and platform rules.
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
