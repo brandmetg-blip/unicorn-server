@@ -701,6 +701,33 @@
 }
 
   </style>
+
+<style id="mobile-live-fixes">
+/* Hide next/prev controls globally */
+.controls{ display:none !important; }
+
+/* Mobile fixes for Live Sales dashboard */
+@media (max-width: 720px){
+  body.sales-mode::before{ height:260px; }
+  .sales-title{ font-size:20px; }
+  .sales-head, .sales-row{
+    grid-template-columns:44px 1fr 96px 88px; /* # | Name | Amount | Time */
+  }
+  /* Hide Location column (3rd child) on mobile */
+  .sales-head > :nth-child(3),
+  .sales-row > :nth-child(3){ display:none; }
+  .sales-head{ padding:10px 12px; }
+  .sales-row{ padding:10px 12px; }
+  .sales-amount, .sales-time{ font-size:14px; }
+}
+@media (max-width: 420px){
+  .sales-head, .sales-row{
+    grid-template-columns:36px 1fr 84px 74px;
+  }
+  .sales-amount, .sales-time{ font-size:13px; }
+}
+</style>
+
 </head>
 
 <body>
@@ -1369,6 +1396,34 @@ tabs.addEventListener('click', (e) => {
       }
     })();
   </script>
+
+
+<script id="enforce-single-lesson">
+(function(){
+  try{
+    // Force 1 lesson per module
+    if (window.modules && Array.isArray(window.modules)){
+      window.modules.forEach(function(m){
+        if (m && Array.isArray(m.lessons) && m.lessons.length) m.lessons = [m.lessons[0]];
+      });
+    }
+    // Block keyboard nav if any code listens for it
+    window.addEventListener('keydown', function(e){
+      if (['ArrowRight','ArrowLeft','PageDown','PageUp'].includes(e.key)) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
+    // Neutralize typical nav functions if present
+    if (typeof window.nextSlide === 'function') window.nextSlide = function(){};
+    if (typeof window.prevSlide === 'function') window.prevSlide = function(){};
+
+    // Clamp common globals
+    try { if ('currentSlide' in window) window.currentSlide = 0; } catch(e){}
+  }catch(e){}
+})();
+</script>
 
 </body>
 
