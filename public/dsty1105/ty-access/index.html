@@ -728,6 +728,47 @@
 }
 </style>
 
+<style>
+/* --- Progress & "More lessons" additions --- */
+.coming-soon{
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px dashed var(--line, rgba(255,255,255,.1));
+  border-radius:12px;
+  background:rgba(255,255,255,.03);
+  color:#e9e0d5;
+  font-size:14px;
+}
+.coming-soon b{ color: var(--pink, #f06292); }
+.status-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 10px;border-radius:999px;
+  border:1px solid var(--line, rgba(255,255,255,.12));
+  background:rgba(255,255,255,.05);font-weight:800;font-size:12px;
+}
+.status-chip .dot{ width:8px;height:8px;border-radius:50%;background:#888; }
+.status-chip.done .dot{ background:#22c55e; }
+</style>
+<style>
+/* Pulse animations for status chip */
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,.45); }
+  70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+@keyframes pulse-gray {
+  0% { box-shadow: 0 0 0 0 rgba(136,136,136,.45); }
+  70% { box-shadow: 0 0 0 8px rgba(136,136,136,0); }
+  100% { box-shadow: 0 0 0 0 rgba(136,136,136,0); }
+}
+
+.status-chip .dot{
+  animation: pulse-gray 1.8s ease-out infinite;
+}
+.status-chip.done .dot{
+  animation: pulse-green 1.8s ease-out infinite;
+}
+</style>
 </head>
 
 <body>
@@ -786,6 +827,7 @@
         <div class="resources" id="resources" style="display:none"></div>
         <div class="tip" id="studentTip" style="display:none"></div>
         <div class="teaser" id="nextTeaser" style="display:none"></div>
+        <div class="coming-soon" id="comingSoonNotice"><b>More lessons are coming.</b> New lessons will be added automatically here as they release.</div>
       </div>
     </section>
 
@@ -1422,6 +1464,90 @@ tabs.addEventListener('click', (e) => {
     // Clamp common globals
     try { if ('currentSlide' in window) window.currentSlide = 0; } catch(e){}
   }catch(e){}
+})();
+</script>
+
+
+<script id="progress-fix">
+(function(){
+  function $(id){ return document.getElementById(id); }
+
+  function inferModuleNumber(){
+    // Try to read the active tab text "MODULE X"
+    var tabs = document.querySelectorAll('#tabs .tab');
+    for (var i=0;i<tabs.length;i++){
+      var t = tabs[i];
+      if (t.classList && t.classList.contains('active') && !t.hasAttribute('data-sales')){
+        var m = (t.textContent||'').match(/MODULE\s+(\d+)/i);
+        return m ? m[1] : null;
+      }
+    }
+    return null;
+  }
+
+  function updateProgressUI(){
+    try{
+      var info = $('moduleInfo');
+      var bar = $('progressBar');
+      var chk = $('completeToggle');
+      var completed = !!(chk && chk.checked);
+      var total = 1;
+      var current = 1; // single lesson view always on lesson 1
+
+      // Update fraction + labels
+      if (info){
+        var modNo = inferModuleNumber();
+        var modLabel = modNo ? modNo : "";
+        var status = completed ? 'Completed' : 'Not completed';
+        var statusChip = '<span class="status-chip '+(completed?'done':'')+'"><span class="dot"></span>'+status+'</span>';
+        info.innerHTML =
+          '<span class="label">Module</span> <span class="value">'+(modLabel||'')+'</span>' +
+          '<span class="sep">•</span>' +
+          '<span class="label">Lessons</span> <span class="value">'+ total +'</span>' +
+          '<span class="sep">•</span>' +
+          '<span class="now"><span class="dot"></span> <span class="tag">Now playing</span> ' +
+          '<span class="fraction"><span class="cur">'+ current +'</span><span class="slash">/</span>'+ total +'</span></span>' +
+          '<span class="sep">•</span>' + statusChip;
+      }
+
+      // Progress is 100% only when lesson is marked complete
+      if (bar){
+        bar.style.width = completed ? '100%' : '0%';
+        bar.setAttribute('aria-valuenow', completed ? '100' : '0');
+      }
+    }catch(e){}
+  }
+
+  function attach(){
+    var chk = $('completeToggle');
+    if (chk && !chk.__bound){
+      chk.addEventListener('change', updateProgressUI);
+      chk.__bound = true;
+    }
+  }
+
+  // Recompute when tabs change (delegate clicks)
+  var tabs = document.getElementById('tabs');
+  if (tabs && !tabs.__bound){
+    tabs.addEventListener('click', function(ev){
+      setTimeout(function(){ attach(); updateProgressUI(); }, 80);
+    });
+    tabs.__bound = true;
+  }
+
+  // Observe changes to the title/frame to catch slide swaps
+  var frame = document.getElementById('frame') || document.querySelector('.frame');
+  if (frame && window.MutationObserver){
+    var mo = new MutationObserver(function(){ setTimeout(function(){ attach(); updateProgressUI(); }, 50); });
+    mo.observe(frame, { childList:true, subtree:false });
+  }
+
+  // Initial run
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ attach(); updateProgressUI(); });
+  }else{
+    attach(); updateProgressUI();
+  }
 })();
 </script>
 
