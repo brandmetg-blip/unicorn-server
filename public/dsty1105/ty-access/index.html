@@ -769,6 +769,18 @@
   animation: pulse-green 1.8s ease-out infinite;
 }
 </style>
+
+<style id="center-fix-final">
+/* Keep the player card perfectly centered within .wrap */
+.player-card{
+  margin-left:auto !important;
+  margin-right:auto !important;
+  width:100%;
+  max-width: 940px; /* visually centered inside 980px wrap */
+}
+.frame{ width:100%; }
+</style>
+
 </head>
 
 <body>
@@ -793,29 +805,6 @@
       <div class="bar" id="progressBar"></div>
     </div>
     <div class="badges" id="badgesRow" style="display:none"></div>
-
-    <!-- LIVE SALES TAB CONTENT -->
-    <section class="sales-panel" id="salesPanel" aria-labelledby="salesTitle">
-
-      <div class="content" style="padding:16px 16px 0;">
-        <div class="sales-title" id="salesTitle">
-          <span class="sales-ping"><span class="dot"></span> Live Sales</span>
-          <span class="sales-muted">Recent purchases made via Unicorn</span>
-        </div>
-        <div class="sales-legend">
-          <div class="sales-muted">Updates in real-time.</div>
-
-        </div>
-      </div>
-      <div class="sales-head">
-        <div>#</div>
-        <div>Name</div>
-        <div>Location</div>
-        <div>Amount</div>
-        <div>Time</div>
-      </div>
-      <div class="sales-body" id="salesBody"></div>
-    </section>
 
     <section class="player-card">
       <div class="frame" id="frame"></div>
@@ -967,8 +956,7 @@
     const progressBar = document.getElementById('progressBar');
     function showCourseView() {
       salesMode = false;
-      document.body.classList.remove('sales-mode');
-      document.getElementById('salesPanel').style.display = 'none';
+      /* sales-mode removed */
       document.querySelector('.player-card').style.display = '';
       document.querySelector('.controls').style.display = '';
       document.getElementById('moduleInfo').style.display = '';
@@ -976,30 +964,11 @@
       renderTabs(); renderSlide(); updateBadgesVisibility("course");
       updateNav();
     ; updateBadgesVisibility("course"); }
-    function showSalesView() {
-      salesMode = true;
-      document.body.classList.add('sales-mode');
-      const panel = document.getElementById('salesPanel');
-      panel.style.display = 'block';
-      document.querySelector('.player-card').style.display = 'none';
-      document.querySelector('.controls').style.display = 'none';
-      document.getElementById('moduleInfo').style.display = 'none';
-      document.querySelector('.progress').style.display = 'none';
-      renderTabs();
-      // tell the sales feed to seed rows immediately
-      window.dispatchEvent(new CustomEvent('enterSalesTab'));
-    ; updateBadgesVisibility("sales"); }
-
-
     function renderTabs() {
       const modTabs = modules
         .map((m, i) => `<button class="tab ${i === currentModule && !salesMode ? 'active' : ''}" data-i="${i}">${m.title}</button>`)
         .join('');
-
-      // Make Live Sales pink when selected
-      const salesTab = `<button class="tab ${salesMode ? 'active' : ''}" data-sales="1">LIVE SALES</button>`;
-
-      tabs.innerHTML = modTabs + salesTab;
+      tabs.innerHTML = modTabs;
     }
 
 
@@ -1076,10 +1045,10 @@
       const toggle = document.getElementById('completeToggle');
       if (toggle){
         toggle.checked = isLessonCompleted(currentModule, currentSlide);
+        if (toggle.checked) { try { unlockBadge(mod.id); } catch(e){} }
         toggle.onchange = function(){
           setLessonCompleted(currentModule, currentSlide, this.checked);
-          // if that action makes the whole module complete, award badge
-          checkModuleBadge(mod.id);
+          if (this.checked) unlockBadge(mod.id);
           renderBadges();
         };
       }
@@ -1141,10 +1110,7 @@ tabs.addEventListener('click', (e) => {
   const btn = e.target.closest('.tab');
   if (!btn) return;
 
-  if (btn.hasAttribute('data-sales')) {
-    showSalesView();
-    return;
-  }
+  
 
   const attr = btn.getAttribute('data-i');
   if (attr !== null) {
@@ -1167,127 +1133,8 @@ tabs.addEventListener('click', (e) => {
     // Init
     renderTabs(); renderSlide(); updateBadgesVisibility("course"); renderBadges();
     updateNav();
-    // sales panel off initially
-    document.getElementById('salesPanel').style.display = 'none';
-  </script>
-
-  <script>
-
-    // --- Live Sales Feed (demo) ---
-    (function () {
-      const body = document.getElementById('salesBody');
-      let rank = 0;
-      const baseRank = Math.floor(Math.random() * 901);
-
-      // American women 30+ (sample names)
-      const names = [
-        "Jessica Miller", "Ashley Johnson", "Amanda Davis", "Sarah Wilson", "Megan Anderson", "Brittany Thompson", "Nicole Martinez",
-        "Rachel Taylor", "Kimberly Moore", "Samantha Jackson", "Heather White", "Erin Harris", "Christina Lewis", "Tiffany Walker",
-        "Danielle Hall", "Courtney Allen", "Brooke Young", "Vanessa King", "Lauren Wright", "Katie Scott", "Amber Green", "Erica Adams",
-        "Katherine Baker", "Natalie Nelson", "Lisa Carter", "Monica Mitchell", "Hannah Perez", "Allison Roberts", "Whitney Turner", "Alyssa Phillips",
-        "Shannon Campbell", "Kelly Parker", "Chelsea Evans", "Morgan Edwards", "Jasmine Collins", "Alicia Stewart", "Bianca Sanchez", "Julia Morris"
-      ];
-
-      // City/State combos like "Boise, Idaho"
-      const locations = [
-        "Boise, Idaho", "Miami, Florida", "Tampa, Florida", "Austin, Texas", "Dallas, Texas", "Phoenix, Arizona", "Mesa, Arizona",
-        "Nashville, Tennessee", "Memphis, Tennessee", "Charlotte, North Carolina", "Raleigh, North Carolina", "Columbus, Ohio",
-        "Cleveland, Ohio", "Detroit, Michigan", "Grand Rapids, Michigan", "Madison, Wisconsin", "Milwaukee, Wisconsin",
-        "Albany, New York", "Buffalo, New York", "Rochester, New York", "Pittsburgh, Pennsylvania", "Philadelphia, Pennsylvania",
-        "Richmond, Virginia", "Norfolk, Virginia", "Charleston, South Carolina", "Savannah, Georgia", "Atlanta, Georgia",
-        "Birmingham, Alabama", "New Orleans, Louisiana", "Omaha, Nebraska", "Lincoln, Nebraska", "Sioux Falls, South Dakota",
-        "Fargo, North Dakota", "Salt Lake City, Utah", "Provo, Utah", "Denver, Colorado", "Colorado Springs, Colorado",
-        "Portland, Oregon", "Eugene, Oregon", "Seattle, Washington", "Spokane, Washington"
-      ];
-
-      function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-      // Amount from $40 - $700, slightly clustered around ~150-300, but with full-range coverage
-      function randomAmount() {
-        // mixture: 70% normal-ish around 240, 30% uniform across range
-        if (Math.random() < 0.7) {
-          // Box-Muller for normal-like distribution
-          let u = 0, v = 0;
-          while (u === 0) u = Math.random();
-          while (v === 0) v = Math.random();
-          let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-          let val = 240 + num * 120; // mean 240, std 120
-          val = Math.min(700, Math.max(40, val));
-          // add cents .00 - .99
-          const cents = Math.floor(Math.random() * 100);
-          return Math.floor(val) + cents / 100;
-        } else {
-          const val = 40 + Math.random() * (700 - 40);
-          const cents = Math.floor(Math.random() * 100);
-          return Math.floor(val) + cents / 100;
-        }
-      }
-
-      function fmtAmount(n) { return '$' + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-      function formatTime(d) {
-        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      }
-
-      function addRow(name, location, amount, when) {
-        rank += 1;
-        const row = document.createElement('div');
-        row.className = 'sales-row';
-        row.innerHTML = `
-      <div class="sales-rank">${baseRank + rank}</div>
-      <div>${name}</div>
-      <div>${location}</div>
-      <div class="sales-amount">${fmtAmount(amount)}</div>
-      <div class="sales-time">${formatTime(when || new Date())}</div>
-    `;
-        body.prepend(row);
-        // cap at 30 rows, remove older ones
-        while (body.children.length > 30) body.removeChild(body.lastElementChild);
-      }
-
-      function randomSale() {
-        addRow(pick(names), pick(locations), randomAmount(), new Date());
-      }
-
-      // Variable timing: sometimes fast (3-6s), sometimes slow (up to ~30s)
-      function scheduleNext() {
-        const fast = Math.random() < 0.6;
-        const delay = fast ? (1000 + Math.random() * 2000) : (5000 + Math.random() * 7000); // ~1-3s or 5-12s
-        setTimeout(() => {
-          randomSale();
-          scheduleNext();
-        }, delay);
-      }
-
-      // seed when entering tab (ensure 30 exist)
-      window.addEventListener('enterSalesTab', () => {
-        try {
-          if (body.children.length < 30) {
-            for (let i = body.children.length; i < 30; i++) {
-              const agoSec = Math.floor(Math.random() * (30 * 60));
-              const when = new Date(Date.now() - agoSec * 1000);
-              addRow(pick(names), pick(locations), randomAmount(), when);
-            }
-          }
-        } catch (e) { }
-      });
-
-      // expose manual seed (optional)
-      window.__unicornSales = window.__unicornSales || {};
-      window.__unicornSales.seed = () => { for (let i = body.children.length; i < 30; i++) randomSale(); };
-
-      // also generate even if not viewing the tab so it's ready
-      (function bootstrap() {
-        for (let i = 0; i < 30; i++) {
-          const agoSec = Math.floor(Math.random() * (30 * 60));
-          const when = new Date(Date.now() - agoSec * 1000);
-          addRow(pick(names), pick(locations), randomAmount(), when);
-        }
-        scheduleNext();
-      })();
-    })();
-  </script>
-
-  <!-- One-time welcome (localStorage + optional server check) -->
+    </script>
+<!-- One-time welcome (localStorage + optional server check) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script>
     // Optional: set this globally after login to tie the flag to a user
