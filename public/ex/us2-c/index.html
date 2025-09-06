@@ -2,7 +2,16 @@
 <html lang="en">
   <head>
     <script src="../page-loader.js"></script>
-
+<script>
+function clickAndDisable(link)
+{
+//disable subsequent clicks
+link.onclick = function(event)
+{
+e.preventDefault();
+}
+}
+</script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favico1.png" />
@@ -320,8 +329,7 @@
           <div class="cta">
             <h3>Add The UNIPAY directly to your order</h3>
             <p>One‑time upgrade. Instant access.</p>
-            <a class="btn" href="https://explodely.com/p/1492175423?ocu=yes" onclick="clickAndDisable(this);"> href="https://www.digistore24.com/answer/yes?template=light"
-            >
+            <a class="btn" href="https://explodely.com/p/1492175423?ocu=yes" onclick="clickAndDisable(this);">
               Add The UNIPAY
               <small>One‑Time Fee • $67</small>
             </a>

@@ -1,371 +1,291 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="../page-loader.js"></script>
-    <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
-    <script>
-      digistoreUpsell();
-    </script>
-    <script type="text/javascript">
-      digistorePromocode({ product_id: 631609, adjust_domain: true });
-    </script>
 
-    <script>
-      // get the showoffer value in order to show and hide items below
-      const showoffer = new URLSearchParams(window.location.search).get(
-        "showoffer"
-      );
-    </script>
+<head>
+  <script src="../page-loader.js"></script>
 
-    <script>
-      const digistoreProductId = 631609;
-      const isUpsell = true;
-    </script>
 
-    <script>
-      const script = document.createElement("script");
-      script.src = "/js/main.js?_=" + new Date().getTime();
-      script.defer = true;
-      document.head.appendChild(script);
-    </script>
-
-    <!-- <base href="/" /> -->
-    <meta name="robots" content="noindex,nofollow" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="../images/favicon_uni.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="../images/favicon_uni.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="../images/favicon_uni.png"
-    />
-    <title>(1) Unicorn</title>
-    <link href="../css/zombi.css" rel="stylesheet" type="text/css" />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&amp;family=Open+Sans&amp;display=swap"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Lora-BoldItalic:wght@400;600;700&amp;family=Open+Sans&amp;display=swap"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <style>
-      .preload-cover {
-        position: fixed;
-        overflow: hidden;
-        height: 100%;
-        width: 100%;
-        background: #fff;
-        display: block;
-        z-index: 999;
+  <script>
+    // get the showoffer value in order to show and hide items below
+    const showoffer = new URLSearchParams(window.location.search).get(
+      "showoffer"
+    );
+  </script>
+  <script>
+    function clickAndDisable(link) {
+      //disable subsequent clicks
+      link.onclick = function (event) {
+        e.preventDefault();
       }
-      #preload-bkg {
-        position: absolute;
-        left: -9999px;
-        top: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
-      #preload-bkg img {
-        width: 1px;
-        height: 1px;
-      }
-    </style>
-  </head>
+    }
+  </script>
+  <script>
+    const script = document.createElement("script");
+    script.src = "/js/main.js?_=" + new Date().getTime();
+    script.defer = true;
+    document.head.appendChild(script);
+  </script>
 
-  <body>
-    <div class="ovrfl">
-      <div class="down5-sec1 flt">
-        <div class="containerx bdinpad">
-          <p class="down5s1-hding1">
-            Congratulations! <span>You’ve Been Selected</span>
-          </p>
-          <p class="down5s1-hding2">
-            <span>For A</span> <br class="show-767" />$30 Discount!
-          </p>
-        </div>
+  <!-- <base href="/" /> -->
+  <meta name="robots" content="noindex,nofollow" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon_uni.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon_uni.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon_uni.png" />
+  <title>(1) Unicorn</title>
+  <link href="../css/zombi.css" rel="stylesheet" type="text/css" />
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&amp;family=Open+Sans&amp;display=swap"
+    as="style" onload="this.rel='stylesheet'" />
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Lora-BoldItalic:wght@400;600;700&amp;family=Open+Sans&amp;display=swap"
+    as="style" onload="this.rel='stylesheet'" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
+    as="style" onload="this.rel='stylesheet'" />
+  <style>
+    .preload-cover {
+      position: fixed;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      background: #fff;
+      display: block;
+      z-index: 999;
+    }
+
+    #preload-bkg {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    #preload-bkg img {
+      width: 1px;
+      height: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ovrfl">
+    <div class="down5-sec1 flt">
+      <div class="containerx bdinpad">
+        <p class="down5s1-hding1">
+          Congratulations! <span>You’ve Been Selected</span>
+        </p>
+        <p class="down5s1-hding2">
+          <span>For A</span> <br class="show-767" />$30 Discount!
+        </p>
       </div>
-      <div class="down5-sec2 flt">
-        <div class="containerx bdinpad">
-          <div class="down5s2bx dsplay">
-            <div class="down5s2bx-lft">
-              <img
-                src="../images/unicode_upsell.png"
-                alt=""
-                class="down5s2prd"
-              />
-            </div>
-            <div class="down5s2bx-rgt">
-              <p class="down5s2bx-txt1 txlncntr">
-                Want to start making hands free profits 2x Faster? You’ve been
-                selected to claim a $30 discount<strong class="blue2">
-                  So You Can Activate The <i>UNICODE</i></strong
-                >
-                for a steal of&nbsp;only
-              </p>
-
-              <img
-                src="../images/unicode_upsell.png"
-                alt=""
-                class="down5s2prd show-767"
-              />
-
-              <p class="reg-prc down5reg-prc">
-                Regular Price: <span class="strikeout">$997+$297/mo</span>
-                <span class="strikeout">$197</span>
-                <span class="strikeout">$97</span>
-              </p>
-              <p class="down5s2-prc"><span>Only</span> $67</p>
-              <p class="down5s2bx-txt1 down5s2bx-txt">
-                Only <strong class="brown">3</strong> Activation Codes Left<br />
-                That Qualify For This Special
-                <strong>$30&nbsp;Discount.</strong>
-              </p>
-            </div>
-            <div class="clearall"></div>
-            <div class="down5btm">
-              <p class="down5s2txt">
-                CLOSE THIS PAGE AND THE DEAL IS GONE&nbsp;FOREVER
-              </p>
-              <a href="https://www.digistore24.com/answer/yes"
-                ><img
-                  src="../images/discount_button.png"
-                  alt=""
-                  class="down5s2btn"
-              /></a>
-              <a
-                href="https://www.digistore24.com/answer/no"
-                class="down5nothank"
-                id="down-nothank1"
-                ><img src="../images/cross.png" alt="" /> No thanks. I don't
-                want to activate the UNICODE Update. I reject my $30 savings
-                coupon. I understand that by rejecting this offer, I am giving
-                up the massive discount that is only available to me on
-                this&nbsp;page.
-              </a>
-            </div>
-          </div>
-
-          <p class="bdhding1 mar1">
-            Just look at what these folks had to say after activating their ...
-            <i><u>"The UNICODE Update"</u>..</i>
-          </p>
-
-          <div class="s4tbx">
-            <img
-              src="../images/quotat_pink_left.png"
-              alt=""
-              class="start-quote"
-            />
-
-            <img src="../images/testimonial3.png" alt="" class="s4timg" />
-
-            <p class="bdfont3 bold">
-              <i
-                >“I thought it was all a load of baloney, until I saw $3,218 hit
-                my account...”</i
-              >
-            </p>
-
-            <p class="bdfont mar1">
-              “When I first stumbled upon your site, I'll confess, <br />
-              I thought it was all a load of baloney. How could a 49-year-old
-              woman like me possibly rake in thousands of dollars online without
-              being a tech wizard or an influencer? But after I saw all the
-              others, I pulled the trigger. After all I only have another 15
-              years or so on this planet... And sure enough, within my first
-              month, <strong>I went on to make $3,218</strong>
-
-              <br />
-              So when you sent me an email last month about this “UNICODE”
-              update, I replied as fast I could to get my hands on it. Within 5
-              minutes, Emma’s team had installed it directly into my Unicorn, I
-              didn’t have to do a single thing
-              <br />
-              I was just taking a look at this months bank statement,
-              <strong>
-                and I’ve added $38,280 to my name in the last 30 days!
-              </strong>
-              I wake up everyday in sheer disbelief that this is my new
-              reality.. But it sure is true. Thank you guys!”
-            </p>
-
-            <p class="bdfont mar1">
-              That was from
-              <strong>Keisha Williams,</strong> in&nbsp;Boise&nbsp;Idaho
-            </p>
-            <img
-              src="../images/quotat_mark_right.png"
-              alt=""
-              class="end-quote"
-            />
-          </div>
-
-          <div class="s4tbx">
-            <img
-              src="../images/quotat_pink_left.png"
-              alt=""
-              class="start-quote"
-            />
-
-            <img src="../images/testimonial1.png" alt="" class="s4timg" />
-
-            <p class="bdfont3 bold">
-              <i
-                >“My 62-year-old mom pulled in an extra $5,000 last month, and I
-                did almost double that...”</i
-              >
-            </p>
-
-            <p class="bdfont mar1">
-              “I’d already been using Emma’s 5 minutes a day system. Cash was
-              starting to flow in. It wasn’t much, $100 here, $300 there...
-              <br />
-              An extra $2,100 a month for just 7 minutes in the morning? I’ll
-              take it any day! But when you and Emma released the new The
-              UNICODE Update, things take a took a turn (for the better)
-              <br />
-              I remember waking up in the middle of the night. I usually don’t
-              check my phone but I was so excited to see this new algorithm at
-              work... And what I saw shocked me... $1,289.. Literally
-              overnight... Now that’s what I call Passive Income!
-              <br />
-              And get this – I shared Unicorn with my dear ol' mom, a she's 62,
-              and what does she do? She pulls in an extra $5,000!
-              <br />
-              As for me? Hold onto your hat – a jaw-dropping $11,290 last month,
-              and I'm just getting started! My life will never be the same
-              again.. All thanks to you & Emma!"”
-            </p>
-
-            <p class="bdfont mar1">
-              That was from
-              <strong>Heather Anderson</strong> in&nbsp;Denver,&nbsp;Colorado
-            </p>
-            <img
-              src="../images/quotat_mark_right.png"
-              alt=""
-              class="end-quote"
-            />
-          </div>
-
-          <div class="s4tbx">
-            <img
-              src="../images/quotat_pink_left.png"
-              alt=""
-              class="start-quote"
-            />
-
-            <img src="../images/testimonial2.png" alt="" class="s4timg" />
-
-            <p class="bdfont3 bold">
-              <i
-                >“The clock strikes 9:00 am and what do I see? A whopping $4,000
-                grinning at me”</i
-              >
-            </p>
-
-            <p class="bdfont mar1">
-              “Picture this: I used to fantasize about waking up to money
-              magically appearing in my account. And now?
-              <br />
-              <strong><i>It's not a fantasy – it's my reality!</i></strong>
-              <br />
-              Before the clock even strikes 9:00am, what do I see? A whopping
-              $4,000 grinning at me from my account. I’ve become a money magnet
-              <br />
-              That’s what I used to make in a month working as a English
-              teacher...
-              <br />
-              I now spend most my time traveling the world, and creating lasting
-              memories with my grand kids and my family... I just got back from
-              a long month vacation in Hawaii, and in a few weeks I’ll be on a
-              plane to Japan (I’ve always wanted to check it out, and now I
-              can). All thanks to Unicorn & this genius The UNICODE Update
-            </p>
-
-            <p class="bdfont mar1">
-              That was <strong>Melissa Turner</strong> in Vancouver, CANADA
-            </p>
-            <img
-              src="../images/quotat_mark_right.png"
-              alt=""
-              class="end-quote"
-            />
-          </div>
-
-          <p class="down5s2txt down5s2txt2">
-            CLOSE THIS PAGE AND THE DEAL IS GONE&nbsp;FOREVER
-          </p>
-          <a href="https://www.digistore24.com/answer/yes?template=light"
-            ><img src="../images/discount_button.png" alt="" class="down5s2btn"
-          /></a>
-          <a
-            href="https://www.digistore24.com/answer/no?template=light"
-            class="down5nothank"
-            id="down-nothank2"
-            ><img src="../images/cross.png" alt="" /> No thanks. I don't want to
-            activate The UNICODE Update. I reject my $30 savings coupon. I
-            understand that by rejecting this offer, I am giving up the massive
-            discount that is only available to me on this&nbsp;page.
-          </a>
-        </div>
-      </div>
-
-      <footer class="flt">
-        <div class="containerx bdinpad">
-          <ul class="ftrlist dsplay">
-            <li>
-              <a href="https://getunicornofficial.com/tos/" target="blank"
-                >Privacy Policy & Terms Of Service</a
-              >
-            </li>
-            <li>
-              <a href="mailto:support@getunicornofficial.com">Contact Us</a>
-            </li>
-          </ul>
-
-          <p class="ftrtxt">
-            Copyright © <span id="cyear">2025</span> Unicorn.
-            <br class="show-479" />All Right Reserved.
-          </p>
-          <div class="text-center mb-8 mt-8">
-            Your purchase is covered by a 60-day no questions asked guarantee.
-            If you don't absolutely love Unicorn or "The UNICODE Update" FOR ANY
-            REASON you just shoot us an email and we'll refund the entire
-            investment amount immediately. And you get to keep the entire
-            program.
-          </div>
-        </div>
-      </footer>
     </div>
-    <script
-      src="js/jquery-3.6.0.min.js"
-      type="87dafd393296f724a34d63a1-text/javascript"
-    ></script>
-    <script type="87dafd393296f724a34d63a1-text/javascript">
+    <div class="down5-sec2 flt">
+      <div class="containerx bdinpad">
+        <div class="down5s2bx dsplay">
+          <div class="down5s2bx-lft">
+            <img src="../images/unicode_upsell.png" alt="" class="down5s2prd" />
+          </div>
+          <div class="down5s2bx-rgt">
+            <p class="down5s2bx-txt1 txlncntr">
+              Want to start making hands free profits 2x Faster? You’ve been
+              selected to claim a $30 discount<strong class="blue2">
+                So You Can Activate The <i>UNICODE</i></strong>
+              for a steal of&nbsp;only
+            </p>
+
+            <img src="../images/unicode_upsell.png" alt="" class="down5s2prd show-767" />
+
+            <p class="reg-prc down5reg-prc">
+              Regular Price: <span class="strikeout">$997+$297/mo</span>
+              <span class="strikeout">$197</span>
+              <span class="strikeout">$97</span>
+            </p>
+            <p class="down5s2-prc"><span>Only</span> $67</p>
+            <p class="down5s2bx-txt1 down5s2bx-txt">
+              Only <strong class="brown">3</strong> Activation Codes Left<br />
+              That Qualify For This Special
+              <strong>$30&nbsp;Discount.</strong>
+            </p>
+          </div>
+          <div class="clearall"></div>
+          <div class="down5btm">
+            <p class="down5s2txt">
+              CLOSE THIS PAGE AND THE DEAL IS GONE&nbsp;FOREVER
+            </p>
+            <a href="https://www.digistore24.com/answer/yes"><img src="../images/discount_button.png" alt=""
+                class="down5s2btn" /></a>
+            <a href="https://www.digistore24.com/answer/no" class="down5nothank" id="down-nothank1"><img
+                src="../images/cross.png" alt="" /> No thanks. I don't
+              want to activate the UNICODE Update. I reject my $30 savings
+              coupon. I understand that by rejecting this offer, I am giving
+              up the massive discount that is only available to me on
+              this&nbsp;page.
+            </a>
+          </div>
+        </div>
+
+        <p class="bdhding1 mar1">
+          Just look at what these folks had to say after activating their ...
+          <i><u>"The UNICODE Update"</u>..</i>
+        </p>
+
+        <div class="s4tbx">
+          <img src="../images/quotat_pink_left.png" alt="" class="start-quote" />
+
+          <img src="../images/testimonial3.png" alt="" class="s4timg" />
+
+          <p class="bdfont3 bold">
+            <i>“I thought it was all a load of baloney, until I saw $3,218 hit
+              my account...”</i>
+          </p>
+
+          <p class="bdfont mar1">
+            “When I first stumbled upon your site, I'll confess, <br />
+            I thought it was all a load of baloney. How could a 49-year-old
+            woman like me possibly rake in thousands of dollars online without
+            being a tech wizard or an influencer? But after I saw all the
+            others, I pulled the trigger. After all I only have another 15
+            years or so on this planet... And sure enough, within my first
+            month, <strong>I went on to make $3,218</strong>
+
+            <br />
+            So when you sent me an email last month about this “UNICODE”
+            update, I replied as fast I could to get my hands on it. Within 5
+            minutes, Emma’s team had installed it directly into my Unicorn, I
+            didn’t have to do a single thing
+            <br />
+            I was just taking a look at this months bank statement,
+            <strong>
+              and I’ve added $38,280 to my name in the last 30 days!
+            </strong>
+            I wake up everyday in sheer disbelief that this is my new
+            reality.. But it sure is true. Thank you guys!”
+          </p>
+
+          <p class="bdfont mar1">
+            That was from
+            <strong>Keisha Williams,</strong> in&nbsp;Boise&nbsp;Idaho
+          </p>
+          <img src="../images/quotat_mark_right.png" alt="" class="end-quote" />
+        </div>
+
+        <div class="s4tbx">
+          <img src="../images/quotat_pink_left.png" alt="" class="start-quote" />
+
+          <img src="../images/testimonial1.png" alt="" class="s4timg" />
+
+          <p class="bdfont3 bold">
+            <i>“My 62-year-old mom pulled in an extra $5,000 last month, and I
+              did almost double that...”</i>
+          </p>
+
+          <p class="bdfont mar1">
+            “I’d already been using Emma’s 5 minutes a day system. Cash was
+            starting to flow in. It wasn’t much, $100 here, $300 there...
+            <br />
+            An extra $2,100 a month for just 7 minutes in the morning? I’ll
+            take it any day! But when you and Emma released the new The
+            UNICODE Update, things take a took a turn (for the better)
+            <br />
+            I remember waking up in the middle of the night. I usually don’t
+            check my phone but I was so excited to see this new algorithm at
+            work... And what I saw shocked me... $1,289.. Literally
+            overnight... Now that’s what I call Passive Income!
+            <br />
+            And get this – I shared Unicorn with my dear ol' mom, a she's 62,
+            and what does she do? She pulls in an extra $5,000!
+            <br />
+            As for me? Hold onto your hat – a jaw-dropping $11,290 last month,
+            and I'm just getting started! My life will never be the same
+            again.. All thanks to you & Emma!"”
+          </p>
+
+          <p class="bdfont mar1">
+            That was from
+            <strong>Heather Anderson</strong> in&nbsp;Denver,&nbsp;Colorado
+          </p>
+          <img src="../images/quotat_mark_right.png" alt="" class="end-quote" />
+        </div>
+
+        <div class="s4tbx">
+          <img src="../images/quotat_pink_left.png" alt="" class="start-quote" />
+
+          <img src="../images/testimonial2.png" alt="" class="s4timg" />
+
+          <p class="bdfont3 bold">
+            <i>“The clock strikes 9:00 am and what do I see? A whopping $4,000
+              grinning at me”</i>
+          </p>
+
+          <p class="bdfont mar1">
+            “Picture this: I used to fantasize about waking up to money
+            magically appearing in my account. And now?
+            <br />
+            <strong><i>It's not a fantasy – it's my reality!</i></strong>
+            <br />
+            Before the clock even strikes 9:00am, what do I see? A whopping
+            $4,000 grinning at me from my account. I’ve become a money magnet
+            <br />
+            That’s what I used to make in a month working as a English
+            teacher...
+            <br />
+            I now spend most my time traveling the world, and creating lasting
+            memories with my grand kids and my family... I just got back from
+            a long month vacation in Hawaii, and in a few weeks I’ll be on a
+            plane to Japan (I’ve always wanted to check it out, and now I
+            can). All thanks to Unicorn & this genius The UNICODE Update
+          </p>
+
+          <p class="bdfont mar1">
+            That was <strong>Melissa Turner</strong> in Vancouver, CANADA
+          </p>
+          <img src="../images/quotat_mark_right.png" alt="" class="end-quote" />
+        </div>
+
+        <p class="down5s2txt down5s2txt2">
+          CLOSE THIS PAGE AND THE DEAL IS GONE&nbsp;FOREVER
+        </p>
+        <a href="https://www.digistore24.com/answer/yes?template=light"><img src="../images/discount_button.png" alt=""
+            class="down5s2btn" /></a>
+        <a href="https://www.digistore24.com/answer/no?template=light" class="down5nothank" id="down-nothank2"><img
+            src="../images/cross.png" alt="" /> No thanks. I don't want to
+          activate The UNICODE Update. I reject my $30 savings coupon. I
+          understand that by rejecting this offer, I am giving up the massive
+          discount that is only available to me on this&nbsp;page.
+        </a>
+      </div>
+    </div>
+
+    <footer class="flt">
+      <div class="containerx bdinpad">
+        <ul class="ftrlist dsplay">
+          <li>
+            <a href="https://getunicornofficial.com/tos/" target="blank">Privacy Policy & Terms Of Service</a>
+          </li>
+          <li>
+            <a href="mailto:support@getunicornofficial.com">Contact Us</a>
+          </li>
+        </ul>
+
+        <p class="ftrtxt">
+          Copyright © <span id="cyear">2025</span> Unicorn.
+          <br class="show-479" />All Right Reserved.
+        </p>
+        <div class="text-center mb-8 mt-8">
+          Your purchase is covered by a 60-day no questions asked guarantee.
+          If you don't absolutely love Unicorn or "The UNICODE Update" FOR ANY
+          REASON you just shoot us an email and we'll refund the entire
+          investment amount immediately. And you get to keep the entire
+          program.
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="js/jquery-3.6.0.min.js" type="87dafd393296f724a34d63a1-text/javascript"></script>
+  <script type="87dafd393296f724a34d63a1-text/javascript">
       $(document).ready(function(e) {
           $('#pop_overlay').css('display','none');
 
@@ -406,5 +326,6 @@
           $('.preload-cover').hide();
       })
     </script>
-  </body>
+</body>
+
 </html>
