@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="../page-loader.js"></script>
+    <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
+    <script>
+      digistoreUpsell();
+    </script>
+    <script type="text/javascript">
+      digistorePromocode({ product_id: 631605, adjust_domain: true });
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favico1.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../images/favico1.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../images/favico1.png"
+    />
+    <title>The CODEX – Unicorn</title>
+    <!-- Begin of Digistore24 Trusted Badge Code -->
+    <script
+      type="text/javascript"
+      src="https://www.digistore24.com/trusted-badge/40575/RJJ5yWkVOd2wiqT/salespage"
+    ></script>
+    <!-- End of Digistore24 Trusted Badge Code -->
+    <style>
+      :root {
+        --gold-1: #f8b4d9; /* light pink */
+        --gold-2: #f06292; /* medium pink */
+        --gold-3: #d81b60; /* deep pink */
+        --text: #1e1f20;
+        --muted: #5c6166;
+        --bg: #ffffff;
+        --panel: #fdf3f7;
+        --border: rgba(0, 0, 0, 0.08);
+        --radius: 14px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font: 500 16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        backdrop-filter: saturate(140%) blur(6px);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.75)
+        );
+        border-bottom: 1px solid var(--border);
+      }
+      .wrap {
+        width: min(980px, 100%);
+        margin-inline: auto;
+        padding-inline: 22px;
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: radial-gradient(
+          100% 100% at 20% 20%,
+          var(--gold-1),
+          var(--gold-2) 55%,
+          var(--gold-3)
+        );
+        border: 1px solid var(--border);
+      }
+      .secure {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .secure .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 99px;
+        background: var(--gold-2);
+        box-shadow: 0 0 0 2px rgba(199, 152, 58, 0.15);
+      }
+
+      .lead {
+        padding: 26px 0 10px;
+      }
+      .panel {
+        background: linear-gradient(180deg, #fff, var(--panel));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+      h1 {
+        font-size: clamp(24px, 3.2vw, 34px);
+        line-height: 1.2;
+        margin: 8px 0 8px;
+      }
+      .eyebrow {
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #f06292;
+      }
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+
+      .benefits {
+        margin: 14px 0 4px;
+        display: grid;
+        gap: 8px;
+      }
+      .benefits li {
+        list-style: none;
+        position: relative;
+        padding-left: 28px;
+        color: #3b3f44;
+      }
+      .benefits li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.3em;
+        width: 18px;
+        height: 18px;
+        border-radius: 6px;
+        background: linear-gradient(180deg, var(--gold-1), var(--gold-2));
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+      .benefits li::after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 0.7em;
+        width: 6px;
+        height: 10px;
+        border: 2px solid #fff;
+        border-top: 0;
+        border-left: 0;
+        transform: rotate(45deg);
+      }
+
+      .cta {
+        margin-top: 10px;
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: #fff;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+      .cta h3 {
+        margin: 0 0 6px;
+        font-size: 20px;
+      }
+      .cta p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 22px;
+        border-radius: 12px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        color: #1f1400;
+        background: linear-gradient(180deg, var(--gold-1), var(--gold-2));
+        box-shadow: 0 10px 18px rgba(199, 58, 189, 0.25),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+      .btn small {
+        display: block;
+        font-weight: 600;
+        opacity: 0.9;
+      }
+      .decline {
+        display: block;
+        margin-top: 10px;
+        font-size: 13.5px;
+        color: #6a6f75;
+        text-align: center;
+        text-decoration: underline;
+      }
+
+      .media {
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
+
+      .guarantee {
+        margin: 18px 0;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px dashed rgba(199, 58, 175, 0.55);
+        background: linear-gradient(180deg, #ffe1ee, #ffc8de);
+      }
+      .guarantee b {
+        color: #f06292;
+      }
+
+      .footer {
+        margin-top: 28px;
+        background: linear-gradient(180deg, #ffc1e6, #ffa0e2);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .footer .wrap {
+        padding-block: 18px;
+      }
+      .f-links {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 13px;
+      }
+      .f-links a {
+        text-decoration: underline;
+        color: #541251;
+      }
+      .disclaimer {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #541251;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="wrap bar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <b>UNICODE Update</b>
+        </div>
+        <div class="secure">
+          <span class="dot"></span> Secure checkout • 60‑Day guarantee
+        </div>
+      </div>
+    </div>
+
+    <section class="lead">
+      <div class="wrap">
+        <div class="panel">
+          <span class="eyebrow">Congratulations on Unicorn</span>
+          <h1>Stay ahead of what’s working now.</h1>
+          <p>
+            Now that you’ve built the structure to sell online, the next step is
+            keeping your system aligned with real‑time trends—without chasing
+            every new shiny thing.
+          </p>
+          <p>
+            <em>Introducing: The UNICODE Update.</em> A simple, ongoing update
+            that shows you where attention is moving and how to adapt—calmly and
+            profitably.
+          </p>
+
+          <ul class="benefits">
+            <li>Actionable trend notes in plain English</li>
+            <li>Quick moves to keep revenue flowing</li>
+            <li>No‑hype guidance you can trust</li>
+          </ul>
+
+          <div class="guarantee">
+            <b>60‑Day Money‑Back Guarantee included.</b> Try it risk‑free.
+          </div>
+
+          <div class="media">
+            <img src="unicode_upsell.png" alt="The CODEX Product" />
+          </div>
+
+          <div class="cta">
+            <h3>Add The CODEX to your order</h3>
+            <p>One‑time upgrade. Instant access.</p>
+            <a
+              class="btn"
+              href="https://www.digistore24.com/answer/yes?template=light"
+            >
+              Add The CODEX Now
+              <small>One‑Time Fee • $97</small>
+            </a>
+            <a class="decline" href="https://www.digistore24.com/answer/no"
+              >No thanks, I’ll pass for now</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap">
+        <nav class="f-links">
+          <a href="https://getunicornofficial.com/tos/"
+            >Privacy Policy / Terms Of Service</a
+          >
+          <a href="mailto:support@getunicornofficial.com">Contact</a>
+        </nav>
+        <div class="disclaimer">
+        Explodely.com is the trusted gateway for getunicornofficial.com. Explodely is a trademark of Explodely LLC, a US corporation located at 1317 Edgewater Drive Suite #4648, Orlando FL, 32804, United States and used by permission. Explodely’s role as a gateway provider does not constitute an endorsement, approval or review of this product(s) or any claim, statement or opinion used in promotion of this product(s). If you aren't completely satisfied with your purchase, or need order support, please contact Explodely here: http://expldely.com/.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

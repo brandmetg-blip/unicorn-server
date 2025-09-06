@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unicorn – Income System</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favico1.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../images/favico1.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../images/favico1.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pine-1: #8e2456; /* deep pink base */
+        --pine-2: #b8326a; /* stronger pink */
+        --leaf-1: #f06292; /* medium pink */
+        --leaf-2: #ec407a; /* vivid pink */
+        --mint-1: #f8b4d9; /* light pink */
+        --mint-2: #fde4ef; /* very light pink */
+        --gray-50: #fdf3f7;
+        --radius: 14px;
+        --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui;
+        background: #fbf8f4;
+        color: #201a17;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
+      header {
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+      }
+      header .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 12px 0;
+        min-height: 58px;
+        flex-wrap: nowrap;
+      }
+      .brand {
+        font-family: "Poppins";
+        font-weight: 900;
+        font-size: 24px;
+        color: #0b0b0b;
+        margin-left: 50px;
+      }
+      nav {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+      nav a {
+        color: #2b2b2b;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 8px 6px;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
+      nav a:hover {
+        background: #f6f6f6;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .access-btn {
+        background: #f06292;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 800;
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 50px;
+        box-shadow: 0 6px 14px rgba(240, 98, 146, 0.35);
+      }
+      .access-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+      .menu-toggle {
+        display: none;
+        background: transparent;
+        border: 0;
+        padding: 6px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .dot {
+        fill: var(--leaf-1);
+      }
+      .menu-wrap {
+        position: relative;
+      }
+      .nav-panel {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: #fff;
+        border: 1px solid #eee2d4;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 8px;
+        min-width: 190px;
+      }
+      .nav-panel a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 8px;
+      }
+      .nav-panel a:hover {
+        background: #fde4ef;
+      }
+      .nav-open .nav-panel {
+        display: block;
+      }
+      .faq-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .faq {
+        border: 1px solid #f8b4d9;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: var(--shadow);
+        padding: 0;
+        overflow: hidden;
+        transition: transform 0.2s ease;
+      }
+      .faq:where(:hover, :focus-within) {
+        transform: translateY(-2px);
+      }
+      .faq summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+      }
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq summary span {
+        flex: 1;
+      }
+      .faq summary::after {
+        content: "▾";
+        font-weight: 900;
+        transform: rotate(-90deg);
+        transition: transform 0.2s ease;
+      }
+      .faq[open] summary::after {
+        transform: rotate(0deg);
+      }
+      .faq .answer {
+        padding: 0 18px 16px;
+        color: #423c23;
+        border-top: 1px dashed #f8b4d9;
+        background: linear-gradient(180deg, #ffffff, #fff7fb);
+      }
+      @media (max-width: 900px) {
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .hero {
+        color: #fff;
+        padding: 56px 0 48px;
+        background: radial-gradient(
+            1200px 380px at 20% -15%,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0) 55%
+          ),
+          radial-gradient(
+            900px 300px at 85% 110%,
+            rgba(0, 0, 0, 0.35) 0%,
+            rgba(0, 0, 0, 0) 60%
+          ),
+          linear-gradient(
+            140deg,
+            #f8b4d9 0%,
+            #f06292 35%,
+            #ec407a 55%,
+            #d81b60 78%,
+            #ad1457 100%
+          );
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 24px;
+      }
+      .product {
+        width: 100%;
+        border-radius: 12px;
+      }
+      .eyebrow {
+        font-weight: 800;
+        font-size: 13px;
+        opacity: 0.95;
+        margin: 0 0 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      h1 {
+        font-family: "Poppins";
+        font-weight: 900;
+        line-height: 1.2;
+        margin: 0 0 8px;
+        font-size: 40px;
+      }
+      .subhead {
+        opacity: 0.95;
+        font-size: 15px;
+        font-weight: 700;
+        margin: 8px 0 20px;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(180deg, #f8b4d9, #f06292);
+        color: #fff;
+        text-decoration: none;
+        padding: 16px 28px;
+        border-radius: 12px;
+        font-weight: 900;
+        font-size: 18px;
+        box-shadow: 0 14px 22px rgba(173, 20, 87, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+      .cta small {
+        display: block;
+        font-weight: 700;
+        font-size: 11px;
+        opacity: 0.9;
+      }
+      .rating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 900;
+      }
+      .rating .stars {
+        letter-spacing: 2px;
+      }
+      .rating .stars span {
+        color: #ffd1e8;
+        text-shadow: 0 0 8px rgba(248, 180, 217, 0.55);
+      }
+      .card {
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px 28px;
+        margin: 26px auto;
+        max-width: 980px;
+        border: 1px solid #f8b4d9;
+      }
+      .center {
+        text-align: center;
+      }
+      .logo-title {
+        font-family: "Poppins";
+        font-weight: 900;
+        font-size: 28px;
+        margin: 0.3rem 0 1rem;
+      }
+      .muted {
+        color: #5a483d;
+      }
+      .band {
+        color: #2b1600;
+        text-align: center;
+        padding: 46px 20px;
+        background: radial-gradient(
+            900px 380px at 20% -40%,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 60%
+          ),
+          linear-gradient(180deg, #fde4ef 0%, var(--mint-1) 60%, #f8b4d9 100%);
+      }
+      .band h2 {
+        font-family: "Poppins";
+        font-weight: 900;
+        letter-spacing: 0.3px;
+        margin: 0 0 10px;
+      }
+      .band p {
+        max-width: 760px;
+        margin: 0 auto;
+        font-weight: 700;
+      }
+      .testimonials {
+        max-width: 980px;
+        margin: 34px auto 50px;
+        padding: 0 22px;
+      }
+      .t-item {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        background: #fff;
+        border: 1px solid #f8b4d9;
+        border-radius: 12px;
+        padding: 18px 16px;
+        box-shadow: var(--shadow);
+        margin: 16px 0;
+      }
+      .t-item img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .t-item strong {
+        font-weight: 900;
+      }
+      .t-verified {
+        font-size: 12px;
+        color: #f06292;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      footer {
+        margin-top: 40px;
+        color: #000;
+        text-align: center;
+        padding: 32px 20px;
+      }
+      footer a {
+        color: #000;
+        text-decoration: none;
+        font-weight: 800;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        .menu-toggle {
+          display: inline-flex;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .rating {
+          justify-content: center;
+        }
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .unicorn-icon {
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="brand">Unicorn</div>
+        <nav>
+          <a href="#about">About</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="actions">
+          <div class="menu-wrap">
+            <button
+              class="menu-toggle"
+              aria-label="Open menu"
+              aria-expanded="false"
+              aria-controls="nav-panel"
+            >
+              <svg viewBox="0 0 24 24">
+                <circle class="dot" cx="6" cy="12" r="1.8"></circle>
+                <circle class="dot" cx="12" cy="12" r="1.8"></circle>
+                <circle class="dot" cx="18" cy="12" r="1.8"></circle>
+              </svg>
+            </button>
+            <div id="nav-panel" class="nav-panel">
+              <a href="#about">About</a>
+              <a href="#testimonials">Testimonials</a>
+              <a href="#faq">FAQ</a>
+            </div>
+          </div>
+          <a
+            class="access-btn"
+            href="https://explodely.com/p/775300325"
+          >
+            Order Now
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M10 8l4 4-4 4"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <img
+          class="product"
+          src="tb_unicorn_main_safe_page.png"
+          alt="product"
+        />
+        <div>
+          <div class="eyebrow">Unlock Your</div>
+          <h1>Next Income Stream</h1>
+          <div class="subhead">Make More Money & Feel Great With Unicorn.</div>
+          <div class="rating">
+            <div class="stars"><span>★★★★★</span></div>
+            <div>5/5</div>
+          </div>
+          <p></p>
+          <a class="cta" href="https://explodely.com/p/775300325"
+            >Get Unicorn Now <small>One-Time Fee Of Only $47</small></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="card">
+      <div class="center">
+        <div class="logo-title">
+          What is... <span style="color: #f06292">Unicorn?</span>
+        </div>
+      </div>
+      <p class="muted">
+        Unicorn is a structured training system built for everyday people who
+        want to discover how digital tools and scalable systems can fuel their
+        goals online. This step-by-step program shows you exactly how to build
+        an online presence, streamline your workflow, and tap into automation—no
+        prior experience required. Whether you’re starting from scratch or
+        already have a foothold online, Unicorn gives you the structure,
+        clarity, and momentum to move in the right direction.
+      </p>
+      <p class="muted">
+        It’s not about chasing the latest fads or working yourself into
+        burnout—it’s about creating a rhythm that matches your goals, your pace,
+        and your values. Unicorn cuts through the noise and brings order to the
+        chaos, helping you take meaningful action with a grounded, strategic
+        approach. It doesn’t mean you won’t have to work—but you’ll work
+        smarter, not harder. You don’t need to have the entire path mapped out.
+        You just need a clear, doable starting point. That’s what Unicorn
+        delivers.
+      </p>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <h2
+        class="center"
+        style="font-family: 'Poppins'; font-weight: 900; margin: 0 0 14px"
+      >
+        Real Unicorn Users. Real <u>Life‑Changing Results</u>
+      </h2>
+
+      <article class="t-item">
+        <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Tina" />
+        <div>
+          <div class="t-verified">✔ Verified Unicorn User</div>
+          <strong>Tina R.</strong>
+          <p>
+            “Unicorn gave me the structure I was missing. I finally feel like I
+            have a clear plan instead of just guessing my way through.”
+          </p>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="John" />
+        <div>
+          <div class="t-verified">✔ Verified Unicorn User</div>
+          <strong>Emily G.</strong>
+          <p>
+            ““Before Unicorn, I was overwhelmed by all the moving parts. Now I
+            know exactly what steps to take and in what order.”
+          </p>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <img
+          src="https://randomuser.me/api/portraits/women/68.jpg"
+          alt="Sarah"
+        />
+        <div>
+          <div class="t-verified">✔ Verified Unicorn User</div>
+          <strong>Sarah T.</strong>
+          <p>
+            “I’ve tried other programs, but Unicorn is the first one that made
+            everything simple and doable for me. It’s like a weight off my
+            shoulders.”
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section id="faq" class="card" style="max-width: 980px">
+      <h2
+        style="
+          font-family: 'Poppins';
+          font-weight: 900;
+          margin: 0 0 18px;
+          text-align: center;
+        "
+      >
+        Frequently Asked Questions
+      </h2>
+      <div class="faq-grid">
+        <!-- Items will be styled as accordions -->
+        <details class="faq">
+          <summary><span>How &amp; When Will I Get Access?</span></summary>
+          <div class="answer">
+            You'll get instant access to the whole members area and all bonuses
+            within ~30 seconds of completing your order via email.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>
+            <span
+              >Is Unicorn really protected by a 60‑Day Money‑Back
+              Guarantee?</span
+            >
+          </summary>
+          <div class="answer">
+            Yes—it's a 60‑day, no‑questions‑asked guarantee. If Unicorn isn't
+            for you, just email us and we'll refund you in full.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>Who is Unicorn for?</span></summary>
+          <div class="answer">
+            Complete beginners who want a simple side income—and those ready to
+            build multiple streams of income, creating passive &amp; active
+            sources that fund the lifestyle you want.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>Will this work for me?</span></summary>
+          <div class="answer">
+            Business is like the gym. If you follow the step‑by‑step plan and
+            put in the work, you'll see results. Unicorn gives you the plan—you
+            bring the consistency.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>Do I need my own products?</span></summary>
+          <div class="answer">
+            Nope. You can sell other people's products and make money. If you
+            already have a product or service, Unicorn works great with that
+            too.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>
+            <span>How much can I expect to make after getting Unicorn?</span>
+          </summary>
+          <div class="answer">
+            There's no definitive income guarantee. What you can expect is the
+            knowledge and framework our users used to reach 5–6‑figure income
+            levels online from home. Individual results vary.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>Will I receive any new updates?</span></summary>
+          <div class="answer">
+            Yes. Whenever we add effective strategies or improvements, you get
+            them free. We also email updates so you're always up to speed.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>Can I do this with a full‑time job?</span></summary>
+          <div class="answer">
+            Absolutely. Unicorn is self‑paced. Many of our users started while
+            studying or working full‑time.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div>
+          <a href="https://getunicornofficial.com/tos/">Privacy Policy</a>
+          &nbsp;•&nbsp;
+          <a href="https://getunicornofficial.com/tos/">Terms of Service</a>
+          &nbsp;•&nbsp;
+          <a href="mailto:support@getunicornofficial.com">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.querySelector(".menu-toggle");
+      const wrap = document.querySelector(".menu-wrap");
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          const open = wrap.classList.toggle("nav-open");
+          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
+      document.addEventListener("click", (e) => {
+        if (!wrap.contains(e.target)) {
+          wrap.classList.remove("nav-open");
+          toggle && toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    </script>
+    <script src="/ex/page-loader.js"></script>
+  </body>
+</html>
