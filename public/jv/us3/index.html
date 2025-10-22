@@ -27,8 +27,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 
-  <link rel="prefetch" href="https://fast.wistia.com/embed/medias/usl0u2w8p7.jsonp">
   <link rel="prefetch" href="https://fast.wistia.com/embed/medias/n1pqkt4xy2.jsonp">
+  <link rel="prefetch" href="https://fast.wistia.com/embed/medias/usl0u2w8p7.jsonp">
   <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
   <script src="../page-loader.js"></script>
 
@@ -320,8 +320,8 @@
         videoContainer.innerHTML = "";
 
         let videoId = window.matchMedia("(max-width: 800px)").matches
-          ? "usl0u2w8p7"
-          : "n1pqkt4xy2";
+          ? "n1pqkt4xy2"
+          : "usl0u2w8p7";
 
         const wistiaDiv = document.createElement("div");
         wistiaDiv.className = `wistia_embed wistia_async_${videoId}`;
