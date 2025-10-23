@@ -118,6 +118,14 @@
                 </div>
               </div>
               <div class="block md:hidden">
+                                  <!-- Black placeholder container for mobile video -->
+                  <div class="absolute bg-black w-full text-white flex items-center justify-center text-4xl font-bold text-center"
+                      style="height:480px">
+                    <div class="text-center">
+                      <img src="/images/loading-video.gif" alt="Loading" class="mx-auto mb-4 w-16 h-16" loading="eager" fetchpriority="high">
+                      <div>Your Video<br />Is Loading...</div>
+                    </div>
+                  </div>
                 <div class="relative h-auto w-screen" x-data="{ mfullscreen: false, mhasToggledFullScreen: false } "
                   x-on:mobilevideopause.window="mfullscreen = false"
                   x-on:mobilevideoplay.window="mfullscreen = true; mhasToggledFullScreen = true">
