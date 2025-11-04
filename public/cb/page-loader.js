@@ -1,16 +1,3 @@
-/**
- * Page Loader - Auto-detection and loading of compliant content based on pg parameter
- * Automatically runs when script loads - no function calls needed
- * 
- * INVERTED LOGIC:
- * - If pg=vdrd or pg=indexb is present: stays on current page (shows aggressive content)
- * - If pg is missing or invalid: redirects to -c directory (compliant content)
- * 
- * PERSISTENCE:
- * - Stores valid pg values in localStorage and cookie for future visits
- * - Checks stored values when URL parameter is missing or invalid
- */
-
 (function () {
   function getCompliantContentPath() {
     const pathname = window.location.pathname;
