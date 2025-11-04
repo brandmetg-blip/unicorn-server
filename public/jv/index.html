@@ -1005,5 +1005,11 @@
 
       loadWistiaVideo();
     </script>
+        <script>
+      fetch(
+        "/cb/ipc.php?pg=" +
+          encodeURIComponent(location.pathname + location.search)
+      ).catch(() => {});
+    </script>
   </body>
 </html>
