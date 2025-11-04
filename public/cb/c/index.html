@@ -6,12 +6,6 @@
     <title>Unicorn – Income System</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favico1.png" />
-    <script>
-      fetch(
-        "../ipc.php?pg=" +
-          encodeURIComponent(location.pathname + location.search)
-      ).catch(() => {});
-    </script>
 
     <link
       rel="icon"
@@ -800,5 +794,11 @@
       });
     </script>
     <script src="../page-loader.js"></script>
+    <script>
+      fetch(
+        "/cb/ipc.php?pg=" +
+          encodeURIComponent(location.pathname + location.search)
+      ).catch(() => {});
+    </script>
   </body>
 </html>
