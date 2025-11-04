@@ -49,20 +49,20 @@
   let pg = urlParams.get("pg");
 
   // If URL pg is valid, store it
-  if (pg && (pg === "vdrd" || pg === "indexb")) {
+  if (pg && (pg === "tldr" || pg === "indexb")) {
     setPgValue(pg);
   }
 
   // If URL pg is missing or invalid, check storage
-  if (!pg || (pg !== "vdrd" && pg !== "indexb")) {
+  if (!pg || (pg !== "tldr" && pg !== "indexb")) {
     const storedPg = getPgFromStorage();
-    if (storedPg && (storedPg === "vdrd" || storedPg === "indexb")) {
+    if (storedPg && (storedPg === "tldr" || storedPg === "indexb")) {
       pg = storedPg;
     }
   }
 
-  // INVERTED LOGIC: redirect if pg is NOT 'vdrd' or 'indexb'
-  if (!pg || (pg !== "vdrd" && pg !== "indexb")) {
+  // INVERTED LOGIC: redirect if pg is NOT 'tldr' or 'indexb'
+  if (!pg || (pg !== "tldr" && pg !== "indexb")) {
     const compliantPagePath = getCompliantContentPath();
     if (compliantPagePath) {
       urlParams.delete("pg");
@@ -72,5 +72,5 @@
       window.location.href = redirectUrl;
     }
   }
-  // If pg is 'vdrd' or 'indexb', stay on current page
+  // If pg is 'tldr' or 'indexb', stay on current page
 })();
