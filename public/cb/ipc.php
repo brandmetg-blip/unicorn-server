@@ -3,7 +3,7 @@
 
 // === CONFIG ===
 $safeRedirect = "https://getunicornofficial.com/cb/c";   // fallback safe page
-$logDir = __DIR__ . "/logs";
+$logDir = "/home/forge/getunicornofficial.com/public/cb/logs";
 $blacklist = ["1.2.3.4", "5.6.7.8"];                     // add any IPs you want to block
 
 // === Ensure log folder exists ===
