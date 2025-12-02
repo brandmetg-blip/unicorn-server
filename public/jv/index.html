@@ -1004,5 +1004,54 @@
           encodeURIComponent(location.pathname + location.search)
       ).catch(() => {});
     </script>
+        <script>
+      (function () {
+        const pageParams = new URLSearchParams(window.location.search);
+
+        // Save all current query params into localStorage with 'p_' prefix
+        pageParams.forEach((value, key) => {
+          try {
+            localStorage.setItem("p_" + key, value);
+          } catch (e) {
+            // Ignore storage errors
+          }
+        });
+
+        document.addEventListener("click", function (e) {
+          const link = e.target.closest("a");
+          if (!link) return;
+
+          if (!link.href.includes("checkout-c.html")) return;
+
+          const url = new URL(link.href, window.location.origin);
+
+          // Start with whatever query may already be on the href
+          const finalParams = new URLSearchParams(url.search);
+
+          // Add live params from this page
+          pageParams.forEach((value, key) => {
+            finalParams.set(key, value);
+          });
+
+          // Add any restored params from localStorage (prefixed with p_)
+          try {
+            for (let i = 0; i < localStorage.length; i++) {
+              const key = localStorage.key(i);
+              if (!key || !key.startsWith("p_")) continue;
+              const rawKey = key.slice(2);
+              const value = localStorage.getItem(key);
+              if (value !== null) {
+                finalParams.set(rawKey, value);
+              }
+            }
+          } catch (e) {
+            // Ignore if localStorage can't be read
+          }
+
+          url.search = finalParams.toString();
+          link.href = url.toString();
+        });
+      })();
+    </script>
   </body>
 </html>
