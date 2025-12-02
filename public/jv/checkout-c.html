@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- 🔒 Keep your tracking + param passing scripts -->
+    <script src="/jv/page-loader.js"></script>
+    <script src="/jv/jvzoo-tracking.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        const script = document.createElement("script");
+        script.src = "/js/main.js?_=" + new Date().getTime();
+        script.defer = true;
+        document.head.appendChild(script);
+    </script>
+
+    <link href="/css/styles.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Access — Unicorn</title>
+
+
+    <style>
+        body {
+            margin: 0;
+            background: #ffffff;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .warning-bar {
+            background: #CC0000;
+            color: #fff;
+            width: 100%;
+            padding: 14px 10px;
+            font-size: 16.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1.3;
+            letter-spacing: 0.4px;
+            text-align: center;
+        }
+        .warning-bar span { color: #FFEB3B; }
+    
+        .spots {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+        .spots .blink {
+            color: red;
+            animation: blinkText 0.8s infinite;
+        }
+        @keyframes blinkText {
+            0% { opacity: 1; }
+            50% { opacity: 0.25; }
+            100% { opacity: 1; }
+        }
+    
+        .checkout-frame {
+            width: 88%;
+            max-width: 480px;
+            height: 300px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 14px;
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(201, 106, 185, 0.55);
+            box-shadow: 0 0 28px rgba(201, 106, 188, 0.28);
+            margin-top: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: framePulse 2.2s infinite ease-in-out;
+        }
+        @keyframes framePulse {
+            0%,100% { box-shadow: 0 0 22px rgba(201,167,106,0.22); }
+            50%     { box-shadow: 0 0 34px rgba(201,167,106,0.32); }
+        }
+    
+        .checkout-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 120%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+            animation: shimmer 2.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
+    
+        .loader {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            border: 6px solid rgba(0,0,0,0.15);
+            border-top: 6px solid #f06292;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    
+        .percent {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f06292;
+            margin-top: 12px;
+        }
+    
+        #status {
+            font-size: 13.5px;
+            margin-top: 5px;
+            color: #666;
+            height: 18px;
+        }
+    
+        .redirect-text {
+            margin-top: 22px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+
+
+    <!-- AUTO-REDIRECT SCRIPT -->
+    <script>
+    setTimeout(() => {
+        const btn = document.getElementById("jvlink");
+        if (btn) {
+            window.location.href = btn.href;  // Uses rewritten link WITH dr + params
+        }
+    }, 3000);
+    </script>
+
+</head>
+
+<body class="font-sans m-0 p-0 h-screen flex items-center justify-center text-center">
+
+<!-- WARNING BAR -->
+<div class="warning-bar">
+    🚨 <span>IMPORTANT!</span> Do NOT Close This Window Or Click “Back”.<br>
+    Doing So May Cause You To Lose Your Spot.
+</div>
+
+<div class="spots">
+    <span class="blink">1</span>/100 spots remaining
+</div>
+
+<!-- PREMIUM CHECKOUT LOADING FRAME -->
+<div class="checkout-frame">
+    <div class="loader"></div>
+    <div class="percent" id="pct">0%</div>
+    <div id="status"></div>
+</div>
+
+<script>
+    /* 🔥 Status messages */
+    const messages = [
+    "Initializing secure session...",
+    "Encrypting access...",
+    "Verifying gateway...",
+    "Establishing secure tunnel...",
+    "Preparing access portal..."
+    ];
+    
+    let pct = 0;
+    let msgIndex = 0;
+    
+    const pctEl = document.getElementById("pct");
+    const statusEl = document.getElementById("status");
+    const btn = document.getElementById("jvlink");
+    
+    let redirected = false;
+    
+    /* 🧠 CHECK EVERY 200 ms IF JVZoo LINK IS READY */
+    const readyCheck = setInterval(() => {
+        if (!btn) return;
+    
+        // If page-loader.js already rewrote the link (contains ?dr or parameters)
+        if (!redirected && btn.href.includes("?")) {
+            redirected = true;
+            window.location.href = btn.href;
+        }
+    }, 200);
+    
+    /* 🎬 Smooth loading animation */
+    const interval = setInterval(() => {
+        pct += 1;
+        pctEl.textContent = pct + "%";
+    
+        if (pct % 10 === 0 && msgIndex < messages.length) {
+            statusEl.textContent = messages[msgIndex];
+            msgIndex++;
+        }
+    
+        /* ⏳ Fallback redirect at 100% if not already redirected */
+        if (pct >= 100) {
+            clearInterval(interval);
+            clearInterval(readyCheck);
+    
+            if (!redirected) {
+                redirected = true;
+                window.location.href = btn.href;
+            }
+        }
+    }, 45);
+    </script>
+    
+    <div class="redirect-text">
+        Redirecting You To Our Secure Access Page...
+    </div>
+    
+
+
+    <!-- 👉 ADD THIS (hidden JVZoo link for page-loader.js to rewrite) -->
+    <a id="jvlink" href="https://www.jvzoo.com/b/114393/423669/99" style="display:none;"></a>
+
+    <script>
+        // Make the manual link clickable with params included
+        const params = new URLSearchParams(window.location.search);
+        const manualTarget = params.toString()
+            ? "https://www.jvzoo.com/b/114393/423669/99?" + params.toString()
+            : "https://www.jvzoo.com/b/114393/423669/99";
+
+        document.getElementById("manual").href = manualTarget;
+    </script>
+
+    <!-- JVZoo pixel -->
+    <img src="https://i.jvzoo.com/114393/423669/99" alt="Unicorn" border="0" width="1" height="1"/>
+
+</body>
+</html>
