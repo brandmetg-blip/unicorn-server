@@ -1057,69 +1057,93 @@
         });
       })();
     </script>
+
 <script>
   const CHECKOUT_URL = "https://www.jvzoo.com/b/114393/423669/99";
-
   let checkoutPreloaded = false;
 
   function preloadCheckout() {
     if (checkoutPreloaded) return;
     checkoutPreloaded = true;
 
-    setTimeout(() => {
-      const iframe = document.createElement("iframe");
-      iframe.src = CHECKOUT_URL;
-      iframe.style.position = "absolute";
-      iframe.style.width = "1px";
-      iframe.style.height = "1px";
-      iframe.style.opacity = "0";
-      iframe.style.pointerEvents = "none";
-      iframe.style.left = "-9999px";
-      document.body.appendChild(iframe);
-
-      const img = new Image();
-      img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
-    }, 150);
+    // ONLY network warm-up — no DOM changes
+    const img = new Image();
+    img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
   }
-
+</script>
+<script>
   function showCheckoutOverlay() {
     if (document.getElementById("checkoutOverlay")) return;
 
     const overlay = document.createElement("div");
     overlay.id = "checkoutOverlay";
+
     overlay.innerHTML = `
+      <style>
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%   { opacity: 0.6; }
+          50%  { opacity: 1; }
+          100% { opacity: 0.6; }
+        }
+      </style>
+
       <div style="
         position:fixed;
         inset:0;
-        background:#fff;
+        background:rgba(255,255,255,0.75);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
         z-index:9999;
         display:flex;
         align-items:center;
         justify-content:center;
-        font-family:Arial,sans-serif;
-        font-size:16px;
-        color:#111;">
-        🔒 Securing checkout…
+        pointer-events:none;
+      ">
+        <div style="
+          background:#ffffff;
+          padding:24px 28px;
+          border-radius:14px;
+          box-shadow:0 10px 30px rgba(0,0,0,0.12);
+          display:flex;
+          align-items:center;
+          gap:14px;
+          font-family:Arial,sans-serif;
+          color:#111;
+          animation:pulse 1.5s ease-in-out infinite;
+        ">
+          <div style="
+            width:22px;
+            height:22px;
+            border:3px solid #ddd;
+            border-top-color:#111;
+            border-radius:50%;
+            animation:spin 0.8s linear infinite;
+          "></div>
+
+          <span style="font-size:15px; font-weight:500;">
+            Securing checkout…
+          </span>
+        </div>
       </div>
     `;
+
     document.body.appendChild(overlay);
   }
 
-  // 🔴 DEFINE buyBtn ONLY ONCE
   const buyBtn = document.getElementById("buyBtn");
 
   if (buyBtn) {
-    buyBtn.addEventListener("touchstart", () => {
-      preloadCheckout();
-      showCheckoutOverlay();
-    }, { passive: true, once: true });
-
     buyBtn.addEventListener("click", () => {
-      preloadCheckout();
       showCheckoutOverlay();
     });
   }
 </script>
+
+
 
 
 <script>
