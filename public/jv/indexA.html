@@ -20,10 +20,6 @@
       //   window.location.href = redirectUrl;
       // }
     </script>
-    <!-- JVZoo checkout domain warm-up -->
-    <link rel="dns-prefetch" href="//www.jvzoo.com">
-    <link rel="preconnect" href="https://www.jvzoo.com" crossorigin>
-
     <link href="css/styles.css" rel="stylesheet" />
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -655,7 +651,7 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-center px-2 lg:px-0">
-                    <a id="buyBtn" href="https://www.jvzoo.com/b/114393/423669/99">
+                    <a href="checkout-c.html">
                       <img
                         alt="order now button"
                         src="images/order-now-button.webp"
@@ -1057,113 +1053,5 @@
         });
       })();
     </script>
-<script>
-  const CHECKOUT_URL = "https://www.jvzoo.com/b/114393/423669/99";
-  let checkoutPreloaded = false;
-
-  function preloadCheckout() {
-    if (checkoutPreloaded) return;
-    checkoutPreloaded = true;
-
-    // Delay slightly to survive mobile throttling
-    setTimeout(() => {
-
-      // 1️⃣ Hidden iframe (best case)
-      const iframe = document.createElement("iframe");
-      iframe.src = CHECKOUT_URL;
-      iframe.setAttribute("aria-hidden", "true");
-      iframe.tabIndex = -1;
-
-      iframe.style.position = "absolute";
-      iframe.style.width = "1px";
-      iframe.style.height = "1px";
-      iframe.style.opacity = "0";
-      iframe.style.pointerEvents = "none";
-      iframe.style.left = "-9999px";
-
-      document.body.appendChild(iframe);
-
-      // 2️⃣ Mobile fallback warm-up (very important)
-      const img = new Image();
-      img.referrerPolicy = "no-referrer-when-downgrade";
-      img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
-
-    }, 150); // small delay helps on iOS
-  }
-</script>
-
-<script>
-  window._wq = window._wq || [];
-  _wq.push({
-    id: "_all",
-    onReady: function(video) {
-      let triggered = false;
-
-      video.bind("timechange", function(t) {
-        if (!triggered && t >= 900) { // 15 min
-          triggered = true;
-          preloadCheckout();
-        }
-      });
-    }
-  });
-</script>
-
-<script>
-  const buyBtn = document.querySelector("#buyBtn"); // update selector
-
-  if (buyBtn) {
-    buyBtn.addEventListener("touchstart", () => {
-      preloadCheckout();
-    }, { once: true, passive: true });
-
-    // Desktop hover still useful
-    buyBtn.addEventListener("mouseenter", preloadCheckout, { once: true });
-  }
-</script>
-
-<script>
-  function showCheckoutOverlay() {
-    // Prevent duplicates
-    if (document.getElementById("checkoutOverlay")) return;
-
-    const overlay = document.createElement("div");
-    overlay.id = "checkoutOverlay";
-
-    overlay.innerHTML = `
-      <div style="
-        position:fixed;
-        inset:0;
-        background:#ffffff;
-        z-index:9999;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-family:Arial, sans-serif;
-        font-size:16px;
-        color:#111;
-      ">
-        🔒 Securing checkout…
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  const buyBtn = document.getElementById("buyBtn");
-
-  if (buyBtn) {
-    // Mobile: fires instantly
-    buyBtn.addEventListener("touchstart", showCheckoutOverlay, {
-      passive: true,
-      once: true
-    });
-
-    // Desktop
-    buyBtn.addEventListener("click", showCheckoutOverlay);
-  }
-</script>
-
-
   </body>
 </html>
