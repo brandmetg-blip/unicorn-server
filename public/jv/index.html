@@ -1075,6 +1075,14 @@
   function showCheckoutOverlay() {
     if (document.getElementById("checkoutOverlay")) return;
 
+    const messages = [
+      "Initializing secure session...",
+      "Encrypting access...",
+      "Verifying gateway...",
+      "Establishing secure tunnel...",
+      "Preparing access portal..."
+    ];
+
     const overlay = document.createElement("div");
     overlay.id = "checkoutOverlay";
 
@@ -1082,7 +1090,7 @@
       <style>
         @keyframes spin {
           from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
+          to { transform: rotate(360deg); }
         }
       </style>
 
@@ -1110,7 +1118,7 @@
           ⚠️ IMPORTANT! DO NOT CLOSE THIS WINDOW OR CLICK BACK
         </div>
 
-        <!-- Center content -->
+        <!-- Center card -->
         <div style="
           height:calc(100% - 42px);
           display:flex;
@@ -1122,41 +1130,49 @@
             width:90%;
             max-width:420px;
             border-radius:16px;
-            padding:30px 26px;
+            padding:32px 26px;
             text-align:center;
             box-shadow:0 20px 50px rgba(0,0,0,0.15);
           ">
 
-            <div style="
-              font-size:15px;
-              margin-bottom:14px;
-            ">
-              <strong style="color:#c40000;">1</strong>/100 places available
+            <div style="font-size:15px; margin-bottom:16px;">
+              <strong style="color:#e91e63;">1</strong>/100 places available
             </div>
 
-            <!-- Spinner -->
+            <!-- Pink spinner -->
             <div style="
-              width:70px;
-              height:70px;
+              width:72px;
+              height:72px;
               border-radius:50%;
-              border:6px solid #eee;
-              border-top-color:#caa35c;
+              border:6px solid #f3f3f3;
+              border-top-color:#e91e63;
               margin:0 auto 16px;
               animation:spin 1s linear infinite;
             "></div>
 
-            <div style="
-              font-size:14px;
-              color:#555;
+            <!-- Percentage -->
+            <div id="checkoutPercent" style="
+              font-size:22px;
+              font-weight:600;
+              color:#e91e63;
               margin-bottom:8px;
             ">
-              Transferring session…
+              0%
+            </div>
+
+            <!-- Status text -->
+            <div id="checkoutStatus" style="
+              font-size:14px;
+              color:#555;
+              min-height:20px;
+            ">
+              Initializing secure session...
             </div>
 
             <div style="
               font-size:20px;
               font-weight:600;
-              margin-top:6px;
+              margin-top:12px;
             ">
               One moment please…
             </div>
@@ -1167,12 +1183,38 @@
     `;
 
     document.body.appendChild(overlay);
+
+    /* ---- Progress + text animation (visual only) ---- */
+    let percent = 0;
+    let msgIndex = 0;
+
+    const percentEl = document.getElementById("checkoutPercent");
+    const statusEl = document.getElementById("checkoutStatus");
+
+    const percentTimer = setInterval(() => {
+      percent += Math.floor(Math.random() * 4) + 1;
+      if (percent > 100) percent = 100;
+      percentEl.textContent = percent + "%";
+      if (percent === 100) clearInterval(percentTimer);
+    }, 80);
+
+    const textTimer = setInterval(() => {
+      msgIndex = (msgIndex + 1) % messages.length;
+      statusEl.textContent = messages[msgIndex];
+    }, 700);
   }
 
   const buyBtn = document.getElementById("buyBtn");
   if (buyBtn) {
     buyBtn.addEventListener("click", showCheckoutOverlay);
   }
+</script>
+
+<script>
+  window.addEventListener("pageshow", function () {
+    const overlay = document.getElementById("checkoutOverlay");
+    if (overlay) overlay.remove();
+  });
 </script>
 
 
