@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <script
+      defer=""
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="page-loader.js"></script>
+    <script>
+      // if (Math.random() < 0.1) {
+      //   const currentUrl = new URL(window.location);
+      //   const params = currentUrl.searchParams;
+      //
+      //   // Redirect to index-b.html with current parameters
+      //   const redirectUrl = '/cb/index-b.html' + (params.toString() ? '?' + params.toString() : '');
+      //   window.location.href = redirectUrl;
+      // }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-W9MQSWJK88');
+    </script>
+    <link href="css/styles.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>(1) Unicorn</title>
+    <link crossorigin="" href="https://fast.wistia.com/" rel="preconnect" />
+    <link
+      crossorigin=""
+      href="https://embed-cloudfront.wistia.com"
+      rel="preconnect"
+    />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.googleapis.com" rel="preconnect" />
+    <script
+      async=""
+      src="https://fast.wistia.com/assets/external/E-v1.js"
+    ></script>
+    <link as="image" href="images/loading-video.gif" rel="preload" />
+    <link
+      href="images/favicon_uni.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
+    <link
+      href="images/favicon_uni.png"
+      rel="icon"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      href="images/favicon_uni.png"
+      rel="icon"
+      sizes="16x16"
+      type="image/png"
+    />
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      fbq("init", "1380954990411421");
+      fbq("track", "PageView");
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=2038763323591150&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+  </head>
+
+  <body class="relative font-sans h-100 m-0 p-0 min-h-screen flex flex-col">
+
+    <div class="xmas-banner">
+      <div class="xmas-content">
+        <span>🎁 Christmas Special: <span class="xmas-discount">98% OFF</span> -</span>
+        <div class="countdown-inline">
+          <div class="time-group">
+            <span class="time-unit" id="days">00</span>
+            <span class="time-label">DAYS</span>
+          </div>
+          <span class="time-separator">:</span>
+          <div class="time-group">
+            <span class="time-unit" id="hours">00</span>
+            <span class="time-label">HRS</span>
+          </div>
+          <span class="time-separator">:</span>
+          <div class="time-group">
+            <span class="time-unit" id="minutes">00</span>
+            <span class="time-label">MIN</span>
+          </div>
+          <span class="time-separator">:</span>
+          <div class="time-group">
+            <span class="time-unit" id="seconds">00</span>
+            <span class="time-label">SEC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <style>
+      .xmas-banner {
+        background: linear-gradient(135deg, #0d3d23 0%, #165B33 100%);
+        padding: 12px 16px;
+        text-align: center;
+        border-bottom: 3px solid #1a7a42;
+      }
+      
+      .xmas-content {
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      
+      .xmas-discount {
+        color: #FFD700;
+        font-weight: 800;
+        font-size: 16px;
+      }
+      
+      .countdown-inline {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        background: rgba(139, 0, 0, 0.4);
+        padding: 6px 12px 4px 12px;
+        border-radius: 4px;
+        border: 1px solid rgba(139, 0, 0, 0.6);
+      }
+      
+      .time-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1px;
+      }
+      
+      .time-unit {
+        font-family: 'Arial Black', monospace;
+        font-weight: 900;
+        font-size: 15px;
+        color: #ffffff;
+        line-height: 1;
+      }
+      
+      .time-label {
+        font-size: 8px;
+        color: rgba(255,255,255,0.7);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .time-separator {
+        color: rgba(255,255,255,0.6);
+        font-weight: 700;
+        padding: 0 2px;
+        margin-bottom: 10px;
+      }
+      
+      @media (max-width: 640px) {
+        .xmas-banner {
+          padding: 10px 12px;
+        }
+        
+        .xmas-content {
+          font-size: 13px;
+        }
+        
+        .xmas-discount {
+          font-size: 14px;
+        }
+        
+        .countdown-inline {
+          padding: 5px 10px 3px 10px;
+          gap: 4px;
+        }
+        
+        .time-unit {
+          font-size: 13px;
+        }
+        
+        .time-label {
+          font-size: 7px;
+        }
+        
+        .time-separator {
+          padding: 0 1px;
+          margin-bottom: 8px;
+        }
+      }
+    </style>
+
+    <main class="flex-grow">
+      <!-- Modal -->
+      <div
+        x-data="{ showModal: false }"
+        x-init="
+        document.addEventListener('mouseleave', (event) =&gt; {
+            if (event.clientY &lt;= 0) {
+                showModal = true;
+            }
+        });
+    "
+      >
+        <!-- Backdrop -->
+        <div
+          class="bg-opacity-80 fixed inset-0 z-[2000] flex items-center justify-center bg-black"
+          x-cloak=""
+          x-show="showModal"
+        >
+          <div
+            @click.away="showModal = false"
+            class="relative w-full max-w-2xl rounded-lg border-4 border-red-500 bg-white p-6 shadow-xl"
+          >
+            <!-- Close Button -->
+            <button
+              @click="showModal = false"
+              aria-label="Close modal"
+              class="absolute top-2 right-2 text-gray-700 hover:text-gray-900"
+              type="button"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewbox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 12"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                ></path>
+              </svg>
+            </button>
+            <!-- Modal Header -->
+            <h2 class="text-center font-serif text-4xl font-bold text-red-500">
+              WAIT!
+              <span class="text-cyan-700">In Just 1:47...</span>
+            </h2>
+            <h3
+              class="mt-2 px-10 text-center font-serif text-3xl font-semibold text-cyan-700"
+            >
+              I'll Reveal The 5 Min A Day System That Makes Me More Than Most
+              CEO's, Doctors &amp; Lawyers Combined!
+            </h3>
+            <!-- Content -->
+            <div class="mt-4 flex items-center gap-4">
+              <img
+                alt="Man in a chair"
+                class="h-48 w-56 rounded-lg shadow"
+                src="images/popup-image.webp"
+              />
+              <p class="font-serif text-lg text-gray-700">
+                As a divorced mom of three, I never thought my life would turn
+                around. This system gave me back my confidence and finally let
+                me provide my kids the life I’d always dreamed of. And it only
+                takes 5 minutes a day!
+              </p>
+            </div>
+            <!-- Button -->
+            <button
+              @click="showModal = false"
+              class="pulsing mt-6 w-full rounded-lg border-4 border-blue-500 bg-[#FFFF00] px-4 py-2 font-serif font-bold text-black underline hover:bg-cyan-200"
+              type="button"
+            >
+              Keep Watching To Discover This 5 Min/Day System &gt;&gt;
+            </button>
+          </div>
+        </div>
+        <div class="flex items-start justify-center">
+          <div class="w-full lg:w-[910px] lg:max-w-[910px]">
+            <header class="pb-4">
+              <h1
+                class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-0 text-center text-4xl leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 lg:text-6xl text-black"
+              >
+                "This Money Button<br />
+                Makes Me
+                <span class="text-header-pink">$528/Day</span><br />
+                On Autopilot"
+              </h1>
+              <div class="flex items-start justify-center lg:mt-10">
+                <div class="hidden md:block">
+                  <div
+                    class="relative flex h-[578px] w-[330px] items-center justify-center border-4 bg-black lg:h-[515px] lg:w-[910px]"
+                  >
+                    <div class="flex items-center justify-center">
+                      <img
+                        alt="Loading Video"
+                        class="absolute w-100 lg:w-[500px]"
+                        loading="lazy"
+                        src="images/loading-video.gif"
+                      />
+                      <!-- Wistia Video Container -->
+                      <div
+                        :class="fullscreen ? 'fixed top-0 left-0 w-screen h-screen bg-black z-50 flex items-center justify-center' : 'relative w-full lg:w-[910px] lg:h-[515px] aspect-w-910 aspect-h-515 border-4 border-white shadow-lg shadow-gray-500'"
+                        class="wistia-video-container"
+                        x-data="{ fullscreen: false, hasToggledFullScreen: false }"
+                        x-on:videopause.window="fullscreen = false"
+                        x-on:videoplay.window="fullscreen = true; hasToggledFullScreen = true"
+                      >
+                        <div
+                          class="flex h-full w-full items-center justify-center"
+                        >
+                          <img
+                            @click.stop="fullscreen = true; globalVideo.play();"
+                            alt="play"
+                            class="pulsing-video-button z-[1000] w-[180px] lg:w-[360px]"
+                            src="images/click-to-play-video.png"
+                            x-cloak=""
+                            x-show="!fullscreen &amp;&amp; hasToggledFullScreen"
+                          />
+                        </div>
+                        <!-- Wistia Video -->
+                        <div
+                          :class="fullscreen ? 'fullscreen-video' : ''"
+                          class="absolute inset-0 h-full w-full"
+                          id="wistia-video"
+                        ></div>
+                      </div>
+                    </div>
+                    <!-- Placeholder Image to Reserve Space -->
+                  </div>
+                </div>
+                <div class="block md:hidden">
+                  <!-- Black placeholder container for mobile video -->
+                  <div class="relative w-full" style="height: 480px">
+                    <div
+                      class="absolute bg-black w-full text-white flex items-center justify-center text-4xl font-bold text-center"
+                      style="height: 480px"
+                    >
+                      <div class="text-center">
+                        <img
+                          src="images/loading-video.gif"
+                          alt="Loading"
+                          class="mx-auto mb-4 w-16 h-16"
+                          loading="eager"
+                          fetchpriority="high"
+                        />
+                        <div>Your Video<br />Is Loading...</div>
+                      </div>
+                    </div>
+                    <div
+                      class="relative h-auto w-screen"
+                      x-data="{ mfullscreen: false, mhasToggledFullScreen: false } "
+                      x-on:mobilevideopause.window="mfullscreen = false"
+                      x-on:mobilevideoplay.window="mfullscreen = true; mhasToggledFullScreen = true"
+                    >
+                      <div
+                        class="inset-0 h-full w-full"
+                        id="wistia-video-mobile"
+                      ></div>
+                    </div>
+
+                    <div
+                      class="pointer-events-none absolute inset-0 flex h-full w-full items-center justify-center"
+                    >
+                      <img
+                        @click.stop="mfullscreen = true; globalVideo.play();"
+                        alt="play"
+                        class="pulsing-video-button w-[180px] lg:w-[360px]"
+                        src="images/click-to-play-video.png"
+                        x-cloak=""
+                        x-show="!mfullscreen &amp;&amp; mhasToggledFullScreen"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </header>
+          </div>
+        </div>
+        <div class="w-full bg-white">
+          <div
+            class="py-4 text-center font-serif text-sm font-thin tracking-wide lg:text-base text-black"
+          >
+            <div class="flex items-start justify-center gap-2 mb-0">
+              <img
+                alt="sound on"
+                class="sound-on-icon h-5 w-5"
+                height="96"
+                src="images/sound_on.png"
+                width="96"
+              />
+              <div>
+                <strong class="font-serif font-semibold text-pink-500"
+                  >IMPORTANT:</strong
+                >
+                Make sure your sound is on.
+              </div>
+            </div>
+            <div>Please allow the video up to 10 seconds to load.</div>
+          </div>
+        </div>
+        <div class="w-full bg-white">
+          <div class="flex items-start justify-center">
+            <div class="w-full lg:w-[910px] lg:max-w-[910px]">
+              <section
+                class="mx-4 mt-12 rounded-xl border-2 border-pink pb-6 lg:mx-0 bg-white"
+                id="offer"
+                x-cloak=""
+                x-data="{ show: false }"
+                x-init="
+                                const params = new URLSearchParams(window.location.search);
+                                if (params.get('showoffer') === '1') {
+                                    show = true;
+                                } else {
+                                    setTimeout(() =&gt; show = true, 1130000);
+                                }
+                        "
+                x-show="show"
+              >
+                <div>
+                  <div
+                    class="bg-pink py-4 text-center font-serif text-2xl leading-tight font-semibold tracking-wide lg:text-5xl lg:leading-relaxed"
+                    style="color: #fff"
+                  >
+                    <h1>
+                      Unlock Your Copy Of
+                      <br />
+                      Unicorn
+                    </h1>
+                  </div>
+                  <div
+                    class="relative h-[18px] w-[360px] overflow-hidden bg-transparent lg:h-[42px] lg:w-[908px]"
+                  >
+                    <div
+                      class="absolute bottom-0 left-0 h-0 w-0 border-t-[18px] border-r-[180px] border-l-[180px] border-black border-t-pink border-r-transparent border-l-transparent lg:border-t-[42px] lg:border-r-[452px] lg:border-l-[452px]"
+                    ></div>
+                  </div>
+                </div>
+                <div class="mx-5 mt-4">
+                  <img
+                    alt="Product Image"
+                    class="lg:h-auto lg:w-[870px]"
+                    src="images/new-mockup.png"
+                  />
+                </div>
+                <div class="">
+                  <div
+                    class="mx-6 mt-4 grid h-24 grid-cols-3 rounded-xl text-lg font-medium text-white lg:text-3xl"
+                  >
+                    <!-- First Icon -->
+                    <div
+                      class="flex items-center justify-center gap-4 rounded-l-xl bg-[#8d5cc7] text-center lg:text-left"
+                    >
+                      <img
+                        alt="special discount icon"
+                        class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
+                        src="images/special_discount.webp"
+                      />
+                      <span class="font-roboto-condensed leading-tight">
+                        Special
+                        <br />
+                        Discount
+                      </span>
+                    </div>
+                    <!-- Second Icon -->
+                    <div
+                      class="flex items-center justify-center gap-4 bg-[#5590d8] text-center lg:text-left"
+                    >
+                      <img
+                        alt="instant access icon"
+                        class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
+                        src="images/instant_access.webp"
+                      />
+                      <span class="font-roboto-condensed leading-tight">
+                        Instant
+                        <br />
+                        Access
+                      </span>
+                    </div>
+                    <!-- Third Icon -->
+                    <div
+                      class="flex items-center justify-center gap-4 rounded-r-xl bg-[#249e24] text-center lg:text-left"
+                    >
+                      <img
+                        alt="quick start icon"
+                        class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
+                        src="images/quick_start.webp"
+                      />
+                      <span class="font-roboto-condensed leading-tight">
+                        Quick Start
+                        <br />
+                        Bonuses
+                      </span>
+                    </div>
+                  </div>
+                  <div class="mt-6 flex items-center justify-center">
+                    <div>
+                      <img
+                        alt="left call out arrow"
+                        class="mb-6"
+                        src="images/left_arrow.png"
+                      />
+                    </div>
+                    <div>
+                      <div class="text-center font-serif text-2xl font-bold">
+                        Today Just For
+                      </div>
+                      <div
+                        class="-mt-3 text-center font-serif text-[54px] font-bold text-blue-950 lg:text-[71px]"
+                      >
+                        $47
+                      </div>
+                    </div>
+                    <div>
+                      <img
+                        alt="right call out arrow"
+                        class="mb-6"
+                        src="images/right_arrow.png"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-center px-2 lg:px-0">
+                    <a href="https://www.digistore24.com/product/631598">
+                      <img
+                        alt="order now button"
+                        src="images/order-now-button.webp"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </section>
+              <!-- Fake Facebook Comments Section (styled like screenshot) -->
+              <div class="fb-comments-fake">
+                <h3 class="fb-comments-header">13 Comments</h3>
+                <!-- 1 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment1.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 14</div>
+                    <div class="fb-name-line">
+                      <span class="fb-name">Emily Johnson</span>
+                      <span class="fb-pinned">
+                        <svg
+                          class="pin-ico"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M17 4a1 1 0 0 1 0 2h-1v5.59l2.7 2.7a1 1 0 0 1-.7 1.71H13v5.59a1 1 0 0 1-2 0V16H6a1 1 0 0 1-.7-1.71l2.7-2.7V6H7a1 1 0 0 1 0-2h10z"
+                          />
+                        </svg>
+                        Pinned
+                      </span>
+                    </div>
+
+                    <p>Hey did anyone try this already??</p>
+                    <div class="fb-meta">Like · Reply · 5d</div>
+                  </div>
+                </div>
+                <!-- reply thread -->
+                <div class="fb-reply">
+                  <img
+                    class="fb-avatar small"
+                    src="images/comms/comment1.webp"
+                  />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 36</div>
+                    <span class="fb-name">Emily Johnson</span>
+                    <p>
+                      <span class="fb-tag">Emily Johnson</span> Update: Ended up
+                      trying it, took me 25 minutes to setup, already made my
+                      first $318, Thanks girlss ♥️
+                    </p>
+                    <div class="fb-meta">Like · Reply · 1h</div>
+                  </div>
+                </div>
+                <div class="fb-reply">
+                  <img
+                    class="fb-avatar small"
+                    src="images/comms/comment2.webp"
+                  />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 19</div>
+                    <span class="fb-name">Jennifer Taylor</span>
+                    <p>
+                      <span class="fb-tag">Emily Johnson</span> I finally pulled
+                      a trigger couple days ago and already made $210, so
+                      grateful I did it, all thanks to Ema and Ana, Thankss 🙏❤️
+                    </p>
+                    <div class="fb-meta">Like · Reply · 37 min</div>
+                  </div>
+                </div>
+                <!-- 2 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment4.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 34</div>
+                    <span class="fb-name">Ashley Davis</span>
+                    <p>Will it work on my old samsung as well?</p>
+                    <div class="fb-meta">Like · Reply · 1h</div>
+                  </div>
+                </div>
+                <!-- replies -->
+                <div class="fb-reply">
+                  <img
+                    class="fb-avatar small"
+                    src="images/comms/comment5.webp"
+                  />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 18</div>
+                    <span class="fb-name">Morgan Rose</span>
+                    <p>
+                      <span class="fb-tag">Ashley Davis</span> Yeah, i am using
+                      an old samsung from 2015 and it works amazing, I made $982
+                      last week 🤑🥳
+                    </p>
+                    <div class="fb-meta">Like · Reply · 1h</div>
+                  </div>
+                </div>
+                <!-- 3 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment6.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 21</div>
+                    <span class="fb-name">Hannah Lee</span>
+                    <p>
+                      The “moneybutton” is a complete gamechanger… Before this I
+                      was pulling long shifts at the hospital, and my kids
+                      barely got to see me. Now, we spend most our time on
+                      vacations – feet buried in the sand, thanks girls!
+                    </p>
+                    <div class="fb-meta">Like · Reply · 2h</div>
+                  </div>
+                </div>
+                <!-- 4 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment7.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 19</div>
+                    <span class="fb-name">Ava Mitchell</span>
+                    <p>
+                      Just finished watching, it’s been since I activated the
+                      moneybutton and money is already starting to flow in –
+                      I’ve never witnessed anything like this ever before.
+                    </p>
+                    <div class="fb-meta">Like · Reply · 3h</div>
+                  </div>
+                </div>
+                <!-- 5 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment8.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 27</div>
+                    <span class="fb-name">Lauren Brooks</span>
+                    <p>
+                      Honestly this video is a must watch for any single mom out
+                      there, after my divorce I struggled with keeping up, every
+                      time I got ahead, something came up that would push me
+                      back… Now, I never even worry about money or look at the
+                      price, my kids get to live the life they deserve, and my
+                      ex is jealous (which is a BIG PLUS) – thx girls.
+                    </p>
+                    <div class="fb-meta">Like · Reply · 3h</div>
+                  </div>
+                </div>
+                <!-- 6 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment9.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 14</div>
+                    <span class="fb-name">Sophia Nguyen</span>
+                    <p>
+                      If you’re tired of being paid less than you deserve,
+                      working long hours while never being treated right – then
+                      do your future self a favour and watch this.
+                    </p>
+                    <div class="fb-meta">Like · Reply · 4h</div>
+                  </div>
+                </div>
+                <!-- 7 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment10.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 22</div>
+                    <span class="fb-name">Rachel Green</span>
+                    <p>
+                      I’ve tried all kinds of methods to make money online, and
+                      nothing has ever come close to this… Ana, Emma, you girls
+                      are actual geniuses – no wonder they said you’re the
+                      “Einstein of This Generation”. They’re soooo right!
+                    </p>
+                    <div class="fb-meta">Like · Reply · 4h</div>
+                  </div>
+                </div>
+                <!-- 8 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment11.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 11</div>
+                    <span class="fb-name">Grace Thompson</span>
+                    <p>
+                      I’ve always known the rich know something we don’t. This
+                      confirmed it. But me trying this system and actually
+                      making money solidified it. So glad I found your video!
+                    </p>
+                    <div class="fb-meta">Like · Reply · 5h</div>
+                  </div>
+                </div>
+                <!-- 9 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment12.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 26</div>
+                    <span class="fb-name">Olivia Carter</span>
+                    <p>
+                      This is honestly insane… within my first week, I was
+                      already pulling in more than I did in a month at my old
+                      job.
+                    </p>
+                    <div class="fb-meta">Like · Reply · 6h</div>
+                  </div>
+                </div>
+                <!-- 10 -->
+                <div class="fb-comment">
+                  <img class="fb-avatar" src="images/comms/comment13.webp" />
+                  <div class="fb-comment-body">
+                    <div class="fb-reactions">👍 ❤️ 9</div>
+                    <span class="fb-name">Samantha Lopez</span>
+                    <p>
+                      Thank you thank you thank you 🙏❤️ this mama of 2 can
+                      finally breathe… I’m literally crying right now 😭😭
+                    </p>
+                    <div class="fb-meta">Like · Reply · 6h</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div
+      class="w-full bg-white flex-shrink-0 flex flex-col justify-end min-h-0"
+      style="min-height: 40vh"
+    >
+      <footer class="py-10">
+        <div class="hidden-on-play-mobile flex items-center justify-center">
+          <div>
+            <hr class="hidden-on-play-mobile" />
+            <div
+              class="mt-12 flex items-center justify-center gap-4 font-serif text-sm font-light tracking-wide lg:text-xl text-black"
+            >
+              <div>
+                <a
+                  class="text-black hover:text-pink-400"
+                  href="https://getunicornofficial.com/tos/"
+                  >Privacy Policy &amp; Terms Of Service</a
+                >
+              </div>
+              <div>|</div>
+              <div>
+                <a
+                  class="text-black hover:text-pink-400"
+                  href="mailto:support@getunicornofficial.com"
+                  >Contact Us</a
+                >
+              </div>
+            </div>
+            <div
+              class="mt-2 gap-2 px-4 text-center font-serif text-sm leading-loose font-light tracking-wide lg:flex lg:items-center lg:justify-center lg:px-0 lg:text-xl lg:leading-normal text-black"
+            >
+              <div>Copyright © 2025 Unicorn.</div>
+              <div>All Rights Reserved.</div>
+            </div>
+            <p
+              class="mt-12 flex items-center justify-center px-4 font-serif text-xs font-thin lg:px-0 lg:text-sm text-black"
+            >
+              This site is not a part of the Facebook Inc. Additionally, this
+              site is NOT endorsed by Facebook in any way. FACEBOOK is a
+              trademark of FACEBOOK, Inc.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      let globalVideo;
+      let mobileGlobalVideo;
+
+      function loadWistiaVideo() {
+        const videoContainer = document.getElementById("wistia-video");
+        const mobileVideoContainer = document.getElementById(
+          "wistia-video-mobile"
+        );
+        videoContainer.innerHTML = "";
+        mobileVideoContainer.innerHTML = "";
+
+        videoId = "mlh2g7vbpw";
+        mobileVideoId = "ricao1cgk4";
+
+        const wistiaDiv = document.createElement("div");
+        const mobileWistiaDiv = document.createElement("div");
+        wistiaDiv.className = `wistia_embed wistia_async_${videoId}`;
+        mobileWistiaDiv.className = `wistia_embed wistia_async_${mobileVideoId}`;
+        videoContainer.appendChild(wistiaDiv);
+        mobileVideoContainer.appendChild(mobileWistiaDiv);
+
+        if (!window._wistiaInitialized) {
+          const wistiaScript = document.createElement("script");
+          wistiaScript.src = "https://fast.wistia.com/assets/external/E-v1.js";
+          wistiaScript.async = true;
+          document.head.appendChild(wistiaScript);
+          const mobileWistiaScript = document.createElement("script");
+          mobileWistiaScript.src =
+            "https://fast.wistia.com/assets/external/E-v1.js";
+          mobileWistiaScript.async = true;
+          document.head.appendChild(mobileWistiaScript);
+          window._wistiaInitialized = true;
+        }
+
+        window._wq = window._wq || [];
+        _wq.push({
+          id: videoId,
+          options: {
+            videoFoam: true,
+          },
+          onReady: function (video) {
+            globalVideo = video;
+
+            video.bind("play", function () {
+              window.dispatchEvent(new Event("videoplay"));
+            });
+
+            video.bind("pause", function () {
+              window.dispatchEvent(new Event("videopause"));
+            });
+          },
+        });
+        _wq.push({
+          id: mobileVideoId,
+          options: {
+            videoFoam: true,
+          },
+          onReady: function (video) {
+            let globalMobileVideo = video;
+            let hiddenOnPlayElements = document.getElementsByClassName(
+              "hidden-on-play-mobile"
+            );
+
+            video.bind("play", function () {
+              for (let hd of hiddenOnPlayElements) {
+                hd.classList.add("hidden");
+              }
+
+              window.dispatchEvent(new Event("mobilevideoplay"));
+            });
+
+            video.bind("pause", function () {
+              for (let hd of hiddenOnPlayElements) {
+                hd.classList.remove("hidden");
+              }
+              window.dispatchEvent(new Event("mobilevideopause"));
+            });
+          },
+        });
+      }
+
+      loadWistiaVideo();
+    </script>
+    <script>
+      fetch(
+        "/cb/ipc.php?pg=" +
+          encodeURIComponent(location.pathname + location.search)
+      ).catch(() => {});
+    </script>
+    <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
+    <script type="text/javascript">
+      digistorePromocode({ product_id: 631598, adjust_domain: true });
+    </script>
+        <script>
+      function updateCountdown() {
+        const endDate = new Date('2025-12-25T23:59:59').getTime();
+        const now = new Date().getTime();
+        const distance = endDate - now;
+        
+        if (distance < 0) {
+          document.getElementById('days').textContent = '00';
+          document.getElementById('hours').textContent = '00';
+          document.getElementById('minutes').textContent = '00';
+          document.getElementById('seconds').textContent = '00';
+          return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      }
+      
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
