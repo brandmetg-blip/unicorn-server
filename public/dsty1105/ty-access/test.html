@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="../../ds/images/favico1.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="../../ds/images/favico1.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="../../ds/images/favico1.png" rel="icon" sizes="16x16" type="image/png" />
+  <title>Unicorn • Members Area</title>
+  <style>
+    :root {
+      --bg: #0b0a0a;
+      --panel: #151313;
+      --text: #f5f4f2;
+      --muted: #cfc7be;
+      --line: rgba(255, 255, 255, .08);
+      --pink: #f06292;
+      --shadow: 0 12px 28px rgba(0, 0, 0, .45);
+      --radius: 16px;
+      --pink-1: #ffa3c0;
+      /* light end */
+      --pink-2: #f06292;
+      /* deep end */
+      --tab-ink: #1b1330;
+      /* text on pink */
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font: 500 16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button {
+      font: inherit
+    }
+
+    .wrap {
+      width: min(980px, 100%);
+      margin-inline: auto;
+      padding: 0 20px
+    }
+
+    header {
+      position: relative;
+      background: linear-gradient(180deg, rgba(15, 13, 13, .95), rgba(11, 10, 10, .7));
+      border-bottom: 1px solid var(--line)
+    }
+
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 62px
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--pink);
+      border: 1px solid var(--line)
+    }
+
+    .support {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: var(--pink);
+      color: #fff;
+      font-weight: 800
+    }
+
+    main {
+      flex: 1;
+      display: block
+    }
+
+    /* Red blinking dot for LIVE SALES tab */
+    #tabs .tab[data-sales] {
+      position: relative;
+      padding-left: 30px;
+      /* more space for the dot */
+    }
+
+    #tabs .tab[data-sales]::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      /* distance from the button’s left edge */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: red;
+      box-shadow: 0 0 0 0 rgba(255, 0, 0, .45);
+      animation: pulse-red 1.8s ease-out infinite;
+    }
+
+    @keyframes pulse-red {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, .45);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+      }
+    }
+
+    /* Glowing animation for FREE TRAINING tab */
+    #tabs .tab[data-free].glow {
+      position: relative;
+      padding-left: 35px;
+    }
+
+    /* Gift icon animation for FREE TRAINING */
+    #tabs .tab[data-free].glow::before {
+      content: "🎁";
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      animation: bounce-gift 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce-gift {
+      0%, 100% {
+        transform: translateY(-50%) scale(1);
+      }
+      50% {
+        transform: translateY(-50%) scale(1.15);
+      }
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px auto 8px;
+    }
+
+    .tab {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--line);
+      color: #efe6dc;
+      font-weight: 900;
+      letter-spacing: .25px
+    }
+
+    #tabs .tab {
+      background: #111;
+      color: #d9d9d9;
+      border: 1px solid #262626;
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+
+    /* selected tab gets gradient pink button */
+    #tabs .tab.active {
+      background-image: linear-gradient(135deg, var(--pink-1) 0%, var(--pink-2) 100%);
+      color: var(--tab-ink);
+      border-color: transparent;
+      box-shadow: 0 10px 22px rgba(240, 98, 146, .35);
+    }
+
+    /* polish */
+    #tabs .tab.active:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    #tabs .tab:focus-visible {
+      outline: 2px solid var(--pink-2);
+      outline-offset: 2px;
+    }
+
+    .tab.active {
+      background: var(--pink);
+      border-color: rgba(255, 255, 255, .18);
+      box-shadow: 0 8px 20px rgba(240, 98, 146, .25);
+      color: #1b0f14
+    }
+
+    /* Module info */
+    .module-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 6px auto 10px;
+      font-size: 14px;
+      color: #dcd5cf;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .module-info .label {
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #bfb7af;
+      font-weight: 700;
+      font-size: 12px
+    }
+
+    .module-info .value {
+      font-weight: 800;
+      color: #f5f4f2
+    }
+
+    .module-info .sep {
+      opacity: .35
+    }
+
+    .module-info .now {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #f5f4f2
+    }
+
+    .module-info .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pink);
+      box-shadow: 0 0 0 0 rgba(240, 98, 146, .45);
+      animation: pulse 1.8s ease-out infinite
+    }
+
+    .module-info .fraction {
+      font-weight: 900;
+      color: #f5f4f2;
+      font-variant-numeric: tabular-nums
+    }
+
+    .module-info .fraction .cur {
+      color: var(--pink)
+    }
+
+    .module-info .slash {
+      opacity: .5;
+      padding: 0 2px
+    }
+
+    .module-info .now .tag {
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #e8dee1;
+      background-image: linear-gradient(var(--pink), var(--pink));
+      background-size: 100% 2px;
+      background-repeat: no-repeat;
+      background-position: 0 105%;
+      padding-bottom: 2px
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(240, 98, 146, .45)
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(240, 98, 146, 0)
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(240, 98, 146, 0)
+      }
+    }
+
+    .progress {
+      position: relative;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      width: min(680px, 92%);
+      margin: 8px auto 0
+    }
+
+    .progress .bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, rgba(240, 98, 146, .2), var(--pink));
+      transition: width .35s ease
+    }
+
+    /* Player card */
+    .player-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000
+    }
+
+    .frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity .28s ease
+    }
+
+    .frame iframe.loaded {
+      opacity: 1
+    }
+
+    .content {
+      padding: 16px
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-weight: 900;
+      font-size: 22px
+    }
+
+    .desc {
+      margin: 0;
+      color: #e9e0d5;
+      font-size: 15px
+    }
+
+    .meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 10px;
+      color: #d7cfc6;
+      font-size: 13px
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--pink);
+      border: 1px solid var(--line);
+
+      /* center the emoji */
+      display: grid;
+      place-items: center;
+
+      /* make it crisp */
+      font-size: 18px;
+      line-height: 1;
+      color: #1a0d13;
+      /* or #fff if you prefer */
+      text-shadow: 0 1px 0 rgba(0, 0, 0, .15);
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      margin: 16px 0 26px
+    }
+
+    .pill {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid var(--line);
+      color: #efe6dc;
+      font-weight: 800
+    }
+/* --- Controls: robust highlight + disabled states --- */
+.pill.primary {
+  background-image: linear-gradient(135deg, var(--pink-1) 0%, var(--pink-2) 100%);
+  color: var(--tab-ink);
+  border-color: transparent;
+  box-shadow: 0 10px 22px rgba(240, 98, 146, .35);
+}
+.pill:disabled {
+  opacity: .45;
+  pointer-events: none;
+}
+
+
+    .pill:hover {
+      transform: translateY(-1px)
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .module-info .dot {
+        animation: none
+      }
+    }
+
+    @media (max-width:720px) {
+      .module-info {
+        gap: 10px;
+        font-size: 13px
+      }
+
+      .title {
+        font-size: 20px
+      }
+    }
+
+    /* Live Sales */
+    .sales-panel {
+      display: none;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    .sales-head {
+      display: grid;
+      grid-template-columns: 60px 1.2fr 1.3fr 140px 140px;
+      gap: 0;
+      background: #b04569;
+      color: #eef5ff;
+      font-weight: 900;
+      letter-spacing: .2px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .sales-body {
+      display: block;
+      max-height: 520px;
+      overflow: auto;
+      scrollbar-width: thin;
+    }
+
+    .sales-row {
+      display: grid;
+      grid-template-columns: 60px 1.2fr 1.3fr 140px 140px;
+      gap: 0;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      color: #f5f4f2;
+    }
+
+    .sales-row:nth-child(odd) {
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .sales-rank {
+      font-weight: 900;
+      color: #f06292;
+    }
+
+    .sales-amount {
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+    }
+
+    .sales-time {
+      color: #d7cfc6;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sales-ping {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+    }
+
+    .sales-ping .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pink);
+      box-shadow: 0 0 0 0 rgba(240, 98, 146, .45);
+      animation: pulse 1.8s ease-out infinite;
+    }
+
+    .sales-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0 4px;
+      font-weight: 900;
+      font-size: 22px;
+    }
+
+    .sales-muted {
+      color: #cfc7be;
+    }
+
+    .sales-legend {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+      padding: 0 2px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sales-actions {
+      display: none;
+    }
+
+    .sales-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .06);
+      color: #efe6dc;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+
+
+    /* Live Sales background banner under header (behind main content area) */
+    /* Full-width banner only on Live Sales page */
+    /* Live Sales background */
+    body.sales-mode {
+      background: none;
+      /* remove default gradient */
+      position: relative;
+    }
+
+    /* Background + white fade only on Live Sales */
+    body.sales-mode::before {
+      content: "";
+      position: absolute;
+      top: 63px;
+      /* just under header */
+      left: 0;
+      width: 101%;
+      height: 350px;
+      background:
+        linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 200px),
+        url('../../ds/images/bga20.png') no-repeat center top;
+      background-size: cover;
+      z-index: -1;
+      /* behind the dashboard */
+    }
+
+    /* Make all monetary amounts on Live Sales green */
+    .sales-panel .sales-amount,
+    .sales-panel [data-col="amount"],
+    .sales-panel .amount {
+      color: #22c55e !important;
+      /* green */
+      font-weight: 800;
+    }
+
+    /* Hover effect for non-active tabs */
+    /* Shine hover for non-active tabs */
+    #tabs .tab:not(.active) {
+      position: relative;
+      overflow: hidden;
+    }
+
+    #tabs .tab:not(.active)::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.6) 50%,
+          rgba(255, 255, 255, 0) 100%);
+      transform: skewX(-25deg);
+    }
+
+    #tabs .tab:not(.active):hover::after {
+      left: 125%;
+      transition: left 0.6s ease;
+    }
+  
+/* --- Added: Resources, Tip, Teaser, Badges --- */
+.resources{ margin-top:16px; padding:12px 12px 6px; border-top:1px solid var(--line); background:rgba(255,255,255,.02); border-radius:12px; }
+.resources h3{ margin:0 0 8px; font-size:16px; font-weight:900; color:var(--pink); }
+.resources ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.resources .pill-link{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--text); font-weight:800; text-decoration:none; }
+.resources .pill-link:hover{ transform: translateY(-1px); }
+.resources .kind{ opacity:.8; font-weight:700; letter-spacing:.04em; font-size:12px; text-transform:uppercase; }
+
+.tip{ margin-top:12px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(255,255,255,.03); color:#e9e0d5; font-size:14px; }
+.tip b{ color:var(--pink); }
+
+.teaser{ margin-top:12px; padding:12px; border:1px dashed var(--line); border-radius:12px; background:rgba(255,255,255,.03); color:#e9e0d5; }
+.teaser b{ color:var(--pink); }
+
+.badges{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; }
+.badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); font-weight:800; }
+.badge i{ color:#ffd166; }
+
+  
+/* ---- Lesson completion toggle ---- */
+.complete-toggle{
+  display:inline-flex; align-items:center; gap:10px;
+  margin-top:10px; padding:8px 12px; border-radius:10px;
+  border:1px solid var(--line); background:rgba(255,255,255,.03);
+  font-weight:800; color:#e9e0d5; cursor:pointer;
+}
+.complete-toggle input{ width:18px; height:18px; accent-color: var(--pink); }
+
+/* blue/violet */
+.badge[data-b="m3"]{ background: linear-gradient(135deg, rgba(190,242,100,.18), rgba(34,197,94,.12)); } /* green */
+.badge[data-b="m4"]{ background: linear-gradient(135deg, rgba(253,186,116,.18), rgba(245,158,11,.12)); } /* orange */
+.badge[data-b="m5"]{ background: linear-gradient(135deg, rgba(196,181,253,.18), rgba(168,85,247,.12)); } /* purple */
+.badge i{ opacity:.9; }
+
+  
+/* ---- Badges: compact pastel gradient redesign ---- */
+.badges {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,.1);
+  background: linear-gradient(135deg, rgba(255,163,192,.15), rgba(240,98,146,.08));
+  color: #f8e9f0;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,.05),
+              0 1px 2px rgba(0,0,0,.2);
+  transition: all 0.2s ease;
+}
+.badge:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 3px rgba(255,255,255,.08),
+              0 3px 6px rgba(0,0,0,.25);
+}
+.badge i {
+  font-size: 12px;
+  opacity: 0.5; /* blend icon into tone */
+  color: currentColor; /* same tone as text */
+}
+/* Pastel variations by module */
+.badge[data-b="m2"] {
+  background: linear-gradient(135deg, rgba(147,197,253,.15), rgba(99,102,241,.08));
+}
+.badge[data-b="m3"] {
+  background: linear-gradient(135deg, rgba(190,242,100,.15), rgba(34,197,94,.08));
+}
+.badge[data-b="m4"] {
+  background: linear-gradient(135deg, rgba(253,186,116,.15), rgba(245,158,11,.08));
+}
+.badge[data-b="m5"] {
+  background: linear-gradient(135deg, rgba(196,181,253,.15), rgba(168,85,247,.08));
+}
+
+  
+/* ---- Center badges + spacing from progress ---- */
+.badges {
+  margin-top: 24px; /* more space above */
+  display: flex;
+  justify-content: center; /* center align */
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+  
+/* --- Badges: show only in Modules (hidden by default) --- */
+#badgesRow{
+  display:none;               /* hidden until course view */
+  margin-top:24px;            /* space from progress */
+  justify-content:center;     /* centered row */
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+/* Free Training Page Styles - MOBILE FIRST */
+.free-training-page {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+.free-training-header {
+  text-align: center;
+  margin-bottom: 24px;
+  padding-top: 10px;
+}
+
+.free-training-header h1 {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink-1), #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.free-training-header .rocket {
+  font-size: 30px;
+  margin-bottom: 8px;
+  animation: rocket-float 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes rocket-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Free Training - Image container */
+.free-training-video-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.free-training-image-section {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  background-image: url('https://scontent.fbeg2-1.fna.fbcdn.net/v/t39.30808-6/481773496_1359452582155118_7880969148085335674_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=aMmFayFaFoIQ7kNvwF5X9br&_nc_oc=Adml6GovMCH2DNUmZV3J6K1Gqco7RsWqIFJ9ZbOloRPRaV-ismNNE-WPdCgYvdGkhuQ&_nc_zt=23&_nc_ht=scontent.fbeg2-1.fna&_nc_gid=YUoWzbCM2A1OR-QoOoS_ag&oh=00_AfkEzRbXDeyOoeLXUnK_jaDWo2H0tMah9DkoGRxpakLWKg&oe=694CC7A0');
+  background-size: cover;
+  background-position: center;
+}
+
+.free-training-image-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, 
+    rgba(21, 19, 19, 1) 0%, 
+    rgba(21, 19, 19, 0.95) 10%, 
+    rgba(40, 25, 30, 0.85) 25%, 
+    rgba(80, 40, 55, 0.7) 45%, 
+    rgba(120, 55, 75, 0.55) 65%, 
+    rgba(180, 75, 100, 0.4) 85%, 
+    rgba(240, 98, 146, 0.25) 100%
+  );
+  z-index: 1;
+}
+
+.free-training-video-overlay {
+  position: relative;
+  padding: 28px 20px 28px;
+  text-align: center;
+  color: #fff;
+  background: var(--panel);
+}
+
+@media (min-width: 768px) {
+  .free-training-image-section {
+    min-height: 280px;
+  }
+  
+  .free-training-video-overlay {
+    padding: 32px 24px 32px;
+  }
+}
+
+/* Gift Opening Animation Overlay */
+.gift-celebration-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.gift-box-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 80px;
+  animation: gift-box-shake 0.6s ease-in-out, gift-box-open 0.4s ease-out 0.6s forwards;
+}
+
+@keyframes gift-box-shake {
+  0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+  25% { transform: translate(-50%, -50%) rotate(-5deg); }
+  75% { transform: translate(-50%, -50%) rotate(5deg); }
+}
+
+@keyframes gift-box-open {
+  0% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.8;
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+.falling-emoji {
+  position: absolute;
+  font-size: 30px;
+  animation: fall linear forwards;
+  opacity: 0;
+}
+
+@keyframes fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+.confetti-burst {
+  position: absolute;
+  font-size: 24px;
+  animation: burst-out 0.8s ease-out forwards;
+}
+
+@keyframes burst-out {
+  0% {
+    transform: translate(0, 0) scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.free-training-video-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+  margin-bottom: 20px;
+}
+
+.free-training-video-overlay h2 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.free-training-video-overlay .emoji-sparkle {
+  font-size: 24px;
+  margin: 0 4px;
+}
+
+.free-training-video-overlay .highlight {
+  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+  font-size: 22px;
+  display: block;
+  margin: 4px 0;
+}
+
+.free-training-video-overlay .subtext {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.free-training-content {
+  padding: 20px 16px 24px;
+}
+
+.free-training-benefit {
+  background: linear-gradient(135deg, rgba(240, 98, 146, 0.12), rgba(255, 163, 192, 0.06));
+  border: 2px solid rgba(240, 98, 146, 0.25);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Social Proof Stats Section */
+.social-proof-stats {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+}
+
+.stats-label {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(240, 98, 146, 0.7);
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.stat-label-text {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.free-training-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.free-training-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--text);
+  margin: 0 auto 20px;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+}
+
+.unlock-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+  color: #fff;
+  font-weight: 900;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(240, 98, 146, 0.4);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  width: 100%;
+  max-width: 320px;
+}
+
+.unlock-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(240, 98, 146, 0.5);
+  filter: brightness(1.08);
+}
+
+.unlock-button:active {
+  transform: translateY(0);
+}
+
+/* TABLET AND UP (768px+) */
+@media (min-width: 768px) {
+  .free-training-page {
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  
+  .free-training-header {
+    margin-bottom: 32px;
+  }
+  
+  .free-training-header h1 {
+    font-size: 38px;
+  }
+  
+  .free-training-header .rocket {
+    font-size: 50px;
+  }
+  
+  .gift-box-container {
+    font-size: 120px;
+  }
+  
+  .falling-emoji {
+    font-size: 40px;
+  }
+  
+  .confetti-burst {
+    font-size: 30px;
+  }
+  
+  .free-training-video-card {
+    border-radius: 16px;
+    margin-bottom: 28px;
+  }
+  
+  .free-training-video-overlay {
+    padding: 32px 24px;
+  }
+  
+  .free-training-video-overlay h2 {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+  
+  .free-training-video-overlay .emoji-sparkle {
+    font-size: 28px;
+  }
+  
+  .free-training-video-overlay .highlight {
+    font-size: 28px;
+  }
+  
+  .free-training-video-overlay .subtext {
+    font-size: 15px;
+  }
+  
+  .free-training-content {
+    padding: 28px 24px 32px;
+  }
+  
+  .free-training-benefit {
+    padding: 18px 24px;
+    font-size: 17px;
+  }
+  
+  .social-proof-stats {
+    padding: 24px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .stats-label {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .stats-grid {
+    gap: 20px;
+  }
+  
+  .stat-number {
+    font-size: 28px;
+  }
+  
+  .stat-label-text {
+    font-size: 13px;
+  }
+  
+  .free-training-description {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .free-training-badge {
+    font-size: 14px;
+    padding: 11px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .unlock-button {
+    font-size: 17px;
+    padding: 15px 32px;
+    max-width: 360px;
+  }
+}
+
+/* DESKTOP (1024px+) */
+@media (min-width: 1024px) {
+  .free-training-page {
+    margin: 40px auto;
+  }
+  
+  .free-training-header h1 {
+    font-size: 42px;
+  }
+  
+  .free-training-video-overlay h2 {
+    font-size: 26px;
+  }
+  
+  .free-training-video-overlay .highlight {
+    font-size: 32px;
+  }
+  
+  .free-training-video-overlay .subtext {
+    font-size: 16px;
+  }
+  
+  .free-training-benefit {
+    font-size: 18px;
+  }
+  
+  .stat-number {
+    font-size: 32px;
+  }
+  
+  .stat-label-text {
+    font-size: 14px;
+  }
+  
+  .unlock-button {
+    font-size: 18px;
+    padding: 16px 36px;
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES - PRIORITY
+   ======================================== */
+
+/* MOBILE FIRST - Base styles above are mobile optimized */
+
+/* Small Mobile Adjustments (max 420px) */
+@media (max-width: 420px) {
+  body {
+    font-size: 15px;
+  }
+  
+  .wrap {
+    padding: 0 14px;
+  }
+  
+  .bar {
+    min-height: 56px;
+  }
+  
+  .brand {
+    font-size: 15px;
+  }
+  
+  .logo {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .support {
+    padding: 8px 10px;
+    font-size: 13px;
+    gap: 6px;
+  }
+  
+  .tabs {
+    gap: 8px;
+    margin: 16px auto 6px;
+  }
+  
+  .tab {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  #tabs .tab[data-free].glow {
+    padding-left: 32px;
+  }
+  
+  #tabs .tab[data-free].glow::before {
+    font-size: 18px;
+    left: 7px;
+  }
+  
+  .module-info {
+    font-size: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .module-info .label {
+    font-size: 11px;
+  }
+  
+  .module-info .sep {
+    display: none;
+  }
+  
+  .player-card {
+    margin: 16px 0;
+    border-radius: 12px;
+  }
+  
+  .frame {
+    border-radius: 12px;
+  }
+  
+  .content {
+    padding: 18px 16px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .desc {
+    font-size: 14px;
+  }
+  
+  .meta {
+    font-size: 13px;
+  }
+  
+  .complete-toggle {
+    font-size: 13px;
+    padding: 10px;
+  }
+  
+  .badge {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+}
+
+/* Standard Mobile (421px - 767px) */
+@media (min-width: 421px) and (max-width: 767px) {
+  .wrap {
+    padding: 0 16px;
+  }
+  
+  .tabs {
+    gap: 10px;
+  }
+  
+  .tab {
+    padding: 9px 13px;
+    font-size: 14px;
+  }
+  
+  #tabs .tab[data-free].glow {
+    padding-left: 34px;
+  }
+  
+  #tabs .tab[data-free].glow::before {
+    font-size: 19px;
+    left: 8px;
+  }
+  
+  .module-info {
+    font-size: 13px;
+  }
+  
+  .player-card {
+    margin: 18px 0;
+  }
+  
+  .content {
+    padding: 20px 18px;
+  }
+  
+  .title {
+    font-size: 22px;
+  }
+  
+  .desc {
+    font-size: 15px;
+  }
+}
+
+/* Landscape Mobile Orientation */
+@media (max-width: 767px) and (orientation: landscape) {
+  .bar {
+    min-height: 50px;
+  }
+  
+  .tabs {
+    margin: 12px auto 6px;
+  }
+  
+  .player-card {
+    margin: 12px 0;
+  }
+  
+  .module-info {
+    margin: 4px auto 8px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .tab {
+    min-height: 44px; /* Better touch target */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .support {
+    min-height: 44px;
+  }
+  
+  .complete-toggle {
+    min-height: 44px;
+  }
+  
+  .unlock-button {
+    min-height: 50px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  #tabs .tab.active:hover {
+    transform: none;
+    filter: none;
+  }
+  
+  .unlock-button:hover {
+    transform: none;
+  }
+}
+
+/* Hide elements that shouldn't wrap on very small screens */
+@media (max-width: 360px) {
+  .module-info .now {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .free-training-video-overlay .subtext br {
+    display: none;
+  }
+}
+
+  </style>
+
+<style id="mobile-live-fixes">
+/* Hide next/prev controls globally */
+.controls{ display:none !important; }
+
+/* Mobile fixes for Live Sales dashboard */
+@media (max-width: 720px){
+  body.sales-mode::before{ height:260px; }
+  .sales-title{ font-size:20px; }
+  .sales-head, .sales-row{
+    grid-template-columns:44px 1fr 96px 88px; /* # | Name | Amount | Time */
+  }
+  /* Hide Location column (3rd child) on mobile */
+  .sales-head > :nth-child(3),
+  .sales-row > :nth-child(3){ display:none; }
+  .sales-head{ padding:10px 12px; }
+  .sales-row{ padding:10px 12px; }
+  .sales-amount, .sales-time{ font-size:14px; }
+}
+@media (max-width: 420px){
+  .sales-head, .sales-row{
+    grid-template-columns:36px 1fr 84px 74px;
+  }
+  .sales-amount, .sales-time{ font-size:13px; }
+}
+</style>
+
+<style>
+/* --- Progress & "More lessons" additions --- */
+.coming-soon{
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px dashed var(--line, rgba(255,255,255,.1));
+  border-radius:12px;
+  background:rgba(255,255,255,.03);
+  color:#e9e0d5;
+  font-size:14px;
+}
+.coming-soon b{ color: var(--pink, #f06292); }
+.status-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 10px;border-radius:999px;
+  border:1px solid var(--line, rgba(255,255,255,.12));
+  background:rgba(255,255,255,.05);font-weight:800;font-size:12px;
+}
+.status-chip .dot{ width:8px;height:8px;border-radius:50%;background:#888; }
+.status-chip.done .dot{ background:#22c55e; }
+</style>
+<style>
+/* Pulse animations for status chip */
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,.45); }
+  70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+@keyframes pulse-gray {
+  0% { box-shadow: 0 0 0 0 rgba(136,136,136,.45); }
+  70% { box-shadow: 0 0 0 8px rgba(136,136,136,0); }
+  100% { box-shadow: 0 0 0 0 rgba(136,136,136,0); }
+}
+
+.status-chip .dot{
+  animation: pulse-gray 1.8s ease-out infinite;
+}
+.status-chip.done .dot{
+  animation: pulse-green 1.8s ease-out infinite;
+}
+</style>
+
+<style id="center-fix-final">
+/* Keep the player card perfectly centered within .wrap */
+.player-card{
+  margin-left:auto !important;
+  margin-right:auto !important;
+  width:100%;
+  max-width: 940px; /* visually centered inside 980px wrap */
+}
+.frame{ width:100%; }
+</style>
+
+</head>
+
+<body>
+  <header>
+    <div class="wrap bar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🦄</div><b>Unicorn</b>
+      </div>
+      <a class="support" href="/cdn-cgi/l/email-protection#681b1d1818071a1c280f0d1c1d06010b071a06070e0e010b010904460b0705">
+        <i class="fa-solid fa-headset"></i> Support
+      </a>
+
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="tabs" id="tabs"></nav>
+
+    <!-- Text-style module info -->
+    <div class="module-info" id="moduleInfo"></div>
+    <div class="progress">
+      <div class="bar" id="progressBar"></div>
+    </div>
+    <div class="badges" id="badgesRow" style="display:none"></div>
+
+    <section class="player-card">
+      <div class="frame" id="frame"></div>
+      <div class="content">
+        <h2 class="title" id="title"></h2>
+        <p class="desc" id="desc"></p>
+        <div class="meta" id="meta"></div>
+        <label class="complete-toggle"><input type="checkbox" id="completeToggle"> Mark this lesson complete</label>
+        <div class="resources" id="resources" style="display:none"></div>
+        <div class="tip" id="studentTip" style="display:none"></div>
+        <div class="teaser" id="nextTeaser" style="display:none"></div>
+        <div class="coming-soon" id="comingSoonNotice"><b>More lessons are coming.</b> New lessons will be added automatically here as they release.</div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button class="pill" id="prevBtn">‹ Previous</button>
+      <button class="pill" id="nextBtn">Next ›</button>
+    </div>
+  </main>
+  <footer>
+    <p style="text-align: center;">Payments are being processed by Digistore24</p>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const modules = [
+      {
+        id: 'm1', title: 'MODULE 1', lessons: [
+          { title: 'Welcome & Course Overview', desc: 'Get started with your transformation journey. Learn what to expect and set your intentions for the course.', time: '5:35', vimeo: 'https://player.vimeo.com/video/1114710875' }
+        ]
+      },
+      {
+        id: 'm2', title: 'MODULE 2', lessons: [
+          { title: 'Unicorn System Setup', desc: 'Create assets that drive action.', time: '10:32', vimeo: 'https://player.vimeo.com/video/1115797164' }
+        ]
+      },
+      {
+        id: 'm3', title: 'MODULE 3', lessons: [
+          { title: 'Unicorn System Setup', desc: 'Signals that matter.', time: '9:22', vimeo: 'https://player.vimeo.com/video/1115814149' }
+        ]
+      },
+      {
+        id: 'm4', title: 'MODULE 4', lessons: [
+          { title: 'Growing Your Page!', desc: 'Measure what matters.', time: '28:06', vimeo: 'https://player.vimeo.com/video/1114711039' }
+        ]
+      },
+      {
+        id: 'm5', title: 'MODULE 5', lessons: [
+          { title: 'Making Money!', desc: 'Systems do the heavy lifting.', time: '9:05', vimeo: 'https://player.vimeo.com/video/1114711623' }
+        ]
+      },
+      {
+        id: 'free', title: 'FREE TRAINING', lessons: [
+          { title: 'Bonus Training', desc: 'Exclusive bonus content for Unicorn members.', time: '0:00', vimeo: '', isFreeTraining: true }
+        ]
+      }
+    ];
+
+    let currentModule = 0;
+    let currentSlide = 0;
+    let salesMode = false;
+
+    // --- Show badges only on course view ---
+    function updateBadgesVisibility(tab){
+      const row = document.getElementById('badgesRow');
+      if(!row) return;
+      row.style.display = (tab === 'course') ? 'flex' : 'none';
+    }
+
+
+    // ---- Lesson completion storage ----
+    function getCompleted(){
+      try{ return JSON.parse(localStorage.getItem('unicorn_completed')||'{}'); }catch(e){ return {}; }
+    }
+    function setCompleted(obj){
+      try{ localStorage.setItem('unicorn_completed', JSON.stringify(obj)); }catch(e){}
+    }
+    function setLessonCompleted(modIdx, slideIdx, done){
+      const key = modules[modIdx].id;
+      const st = getCompleted();
+      const arr = Array.isArray(st[key]) ? st[key] : Array(modules[modIdx].lessons.length).fill(false);
+      arr[slideIdx] = !!done;
+      st[key] = arr;
+      setCompleted(st);
+    }
+    function isLessonCompleted(modIdx, slideIdx){
+      const st = getCompleted();
+      const key = modules[modIdx].id;
+      const arr = Array.isArray(st[key]) ? st[key] : [];
+      return !!arr[slideIdx];
+    }
+    function isModuleComplete(modIdx){
+      const st = getCompleted();
+      const key = modules[modIdx].id;
+      const arr = Array.isArray(st[key]) ? st[key] : [];
+      return arr.length === modules[modIdx].lessons.length && arr.every(Boolean);
+    }
+
+    // ---- Override: unlock badge only when module complete ----
+    function checkModuleBadge(modId){
+      const idx = modules.findIndex(m => m.id === modId);
+      if (idx < 0) return;
+      if (isModuleComplete(idx)) unlockBadge(modId);
+      else {
+        // if not complete, don't add badge (leave existing badges as-is)
+      }
+    }
+
+
+    // --- Student Tips per module ---
+    const tipsByModule = {
+      m1: '💡 <b>Tip:</b> Discipline creates freedom, not restriction',
+      m2: '💡 <b>Prompt (Click to copy):</b> Generate me a unique instagram username for my quote page for female/woman. You can use following words and give me good username: "manifest", "empower", "wealth", "female", "woman", "mom","girl","queen","success" and other similar words… Here’s few examples of existing usernames: manifestqueens femalesuccess.co girl.yougotthisqueen innerwomanrising she.empowerswelth feamlealphaclub NOTE: Most simple usernames like 2-3 simple words are already taken, make them super unique and they can have like dots or something but no numbers or anything like that. Generate me 15 examples.',
+      m3: '💡 <b>Instagram Bio:</b> <a style="text-decoration: underline;" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1ZzWMJFaZQ4udzwBP22Tqrj5YLgdtOL7AoUZu5IxgeGw/edit?usp=sharing">Tap here to open list of Instagram Bios</a>',
+      m4: '💡 <b>Tip:</b> Money follows clarity, not confusion',
+      m5: '💡 <b>Tip:</b> Simplify the process, multiply results fast'
+    };
+
+    // --- Next Module Teasers ---
+    const teasers = {
+      m1: '<b>Next up:</b> Module 2 shows you how to setup the Unicorn System',
+      m2: '<b>Next up:</b> Module 3 shows you how to finish your Unicorn Setup',
+      m3: '<b>Next up:</b> Module 4 tells you exactly how to grow your page',
+      m4: '<b>Next up:</b> Module 5 teaches you how to start making money from your page',
+      m5: '<b>Next up:</b> You finished the core! Revisit high-impact lessons and implement.'
+    };
+
+    // --- Badges ---
+    function getBadges(){
+      try{ return JSON.parse(localStorage.getItem('unicorn_badges')||'[]'); }catch(e){ return []; }
+    }
+    function setBadges(arr){
+      try{ localStorage.setItem('unicorn_badges', JSON.stringify(arr)); }catch(e){}
+    }
+    function unlockBadge(modId){
+      const cur = getBadges();
+      if(!cur.includes(modId)){ cur.push(modId); setBadges(cur); }
+      renderBadges();
+      updateNav();
+    }
+    function renderBadges(){
+      const row = document.getElementById('badgesRow'); if(!row) return;
+      const cur = getBadges();
+      if(!cur.length){ row.style.display='none'; row.innerHTML=''; return; }
+      const names = { m1:'Starter', m2:'Content Pro', m3:'Traffic Ace', m4:'Optimizer', m5:'Automator' };
+      row.innerHTML = cur.map(id => `<span class="badge" data-b="${id}"><i class="fa-solid fa-award"></i>${names[id]||id}</span>`).join('');
+      row.style.display='flex';
+    }
+
+
+    const tabs = document.getElementById('tabs');
+    const frame = document.getElementById('frame');
+    const titleEl = document.getElementById('title');
+    const descEl = document.getElementById('desc');
+    const metaEl = document.getElementById('meta');
+    const moduleInfo = document.getElementById('moduleInfo');
+    const progressBar = document.getElementById('progressBar');
+    
+    function triggerGiftCelebration() {
+      // Create overlay container
+      const overlay = document.createElement('div');
+      overlay.className = 'gift-celebration-overlay';
+      document.body.appendChild(overlay);
+      
+      // Create gift box
+      const giftBox = document.createElement('div');
+      giftBox.className = 'gift-box-container';
+      giftBox.textContent = '🎁';
+      overlay.appendChild(giftBox);
+      
+      // After gift box shakes and opens, create burst effect
+      setTimeout(() => {
+        // Create burst of emojis from center
+        const burstEmojis = ['🎉', '✨', '💝', '🎊', '⭐', '💫', '🌟', '🎈'];
+        const burstCount = 20;
+        
+        for (let i = 0; i < burstCount; i++) {
+          const emoji = document.createElement('div');
+          emoji.className = 'confetti-burst';
+          emoji.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+          
+          // Random direction for burst
+          const angle = (360 / burstCount) * i;
+          const distance = 200 + Math.random() * 100;
+          const tx = Math.cos(angle * Math.PI / 180) * distance;
+          const ty = Math.sin(angle * Math.PI / 180) * distance;
+          
+          emoji.style.setProperty('--tx', `${tx}px`);
+          emoji.style.setProperty('--ty', `${ty}px`);
+          emoji.style.left = '50%';
+          emoji.style.top = '50%';
+          
+          overlay.appendChild(emoji);
+        }
+      }, 600);
+      
+      // Create falling emojis
+      setTimeout(() => {
+        const emojis = ['🎁', '🎉', '✨', '💝', '🎊', '⭐', '💫', '🌟', '🎈', '🎀', '💖', '🌸'];
+        const emojiCount = 30;
+        
+        for (let i = 0; i < emojiCount; i++) {
+          setTimeout(() => {
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.animationDuration = (2 + Math.random() * 2) + 's';
+            emoji.style.animationDelay = (Math.random() * 0.5) + 's';
+            emoji.style.fontSize = (30 + Math.random() * 30) + 'px';
+            overlay.appendChild(emoji);
+          }, i * 80);
+        }
+      }, 800);
+      
+      // Remove overlay after animation completes
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => overlay.remove(), 500);
+      }, 4500);
+    }
+    
+    function showFreeTrainingPage() {
+      // Check if animation has already been shown
+      const animationShown = localStorage.getItem('unicorn_free_training_animation_shown') === '1';
+      
+      // Trigger gift celebration animation only on first visit
+      if (!animationShown) {
+        triggerGiftCelebration();
+        localStorage.setItem('unicorn_free_training_animation_shown', '1');
+      }
+      
+      // Hide normal player elements
+      document.querySelector('.player-card').style.display = 'none';
+      document.querySelector('.controls').style.display = 'none';
+      document.getElementById('moduleInfo').style.display = 'none';
+      document.querySelector('.progress').style.display = 'none';
+      document.getElementById('badgesRow').style.display = 'none';
+      
+      // Define 3 different product pages
+      const productPages = [
+        {
+          // PRODUCT 1 - Pink Theme (default)
+          title: "FREE TRAINING SESSION",
+          headline: "How To Wake Up With An",
+          amount: "Additional $1,000-$5,000",
+          subtitle: "In Your Bank Account<br><em>Every Single Day...</em>",
+          benefit: "💰 Multiply Your Earnings To $1,000-$3,000 A Day",
+          description: "Scale to <strong>life-changing income</strong> with this bonus training.",
+          stats: {
+            users: "12,400+",
+            rating: "4.8⭐",
+            daily: "$528"
+          },
+          buttonUrl: "https://jvz7.com/c/3222981/415009/",
+          buttonText: "🔓 Unlock The Training",
+          theme: {
+            primaryColor: "#f06292",
+            secondaryColor: "#ffa3c0",
+            buttonGradient: "linear-gradient(135deg, #f06292, #ffa3c0)",
+            amountColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+            statsColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+            backgroundImage: "https://scontent.fbeg2-1.fna.fbcdn.net/v/t39.30808-6/481773496_1359452582155118_7880969148085335674_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=aMmFayFaFoIQ7kNvwF5X9br&_nc_oc=Adml6GovMCH2DNUmZV3J6K1Gqco7RsWqIFJ9ZbOloRPRaV-ismNNE-WPdCgYvdGkhuQ&_nc_zt=23&_nc_ht=scontent.fbeg2-1.fna&_nc_gid=YUoWzbCM2A1OR-QoOoS_ag&oh=00_AfkEzRbXDeyOoeLXUnK_jaDWo2H0tMah9DkoGRxpakLWKg&oe=694CC7A0"
+          }
+        },
+        {
+          // PRODUCT 2 - Blue Theme
+          title: "FREE TRAINING SESSION",
+          headline: "Your Personal Income Dashboard",
+          amount: "HAS JUST BEEN ACTIVATED",
+          subtitle: "The System Pays Weekly<br><em>And Runs On Auto-Pilot!</em>",
+          benefit: "💎 Start making $300-$500/Day",
+          description: "Scale to life-changing income with this bonus training.",
+          stats: {
+            users: "6,539+",
+            rating: "4.9⭐",
+            daily: "$417"
+          },
+          buttonUrl: "https://www.o1dnf9trk.com/R5BJD5/N5213C/?sub1=xxx",
+          buttonText: "🔓 Unlock The Training",
+          theme: {
+            primaryColor: "#4A90E2",
+            secondaryColor: "#7CB8FF",
+            buttonGradient: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
+            amountColor: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
+            statsColor: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
+            backgroundImage: "https://i.pinimg.com/736x/d3/bf/06/d3bf060f5a4cc5372b98cf3bc3210ad2.jpg"
+          }
+        },
+        {
+          // PRODUCT 3 - Red/Peach Theme
+          title: "FREE TRAINING SESSION",
+          headline: "These People Followed One Step",
+          amount: "And Made $24,197.84",
+          subtitle: "All From Pushing<em>A Few Buttons!</em>",
+          benefit: "🔥 Push One Button And Make $1,000/Day",
+          description: "Scale to life-changing income with this bonus training.",
+          stats: {
+            users: "3,720+",
+            rating: "4.8⭐",
+            daily: "$1,534"
+          },
+          buttonUrl: "https://www.o1dnf9trk.com/R5BJD5/HS752J/?__efq=188wkespE78KfeBRcFrB8Q",
+          buttonText: "🔓 Unlock The Training",
+          theme: {
+            primaryColor: "#FF6B6B",
+            secondaryColor: "#FFB088",
+            buttonGradient: "linear-gradient(135deg, #FF6B6B, #FFB088)",
+            amountColor: "linear-gradient(135deg, #FF6B6B, #FFB088)",
+            statsColor: "linear-gradient(135deg, #FF6B6B, #FFB088)",
+            backgroundImage: "https://i.pinimg.com/736x/98/76/9f/98769fb93b4650717aca2f3c92c01857.jpg"
+          }
+        }
+      ];
+      
+      // Sequential rotation: 1, 2, 3, 1, 2, 3...
+      // Get the last shown product index from localStorage
+      let lastProductIndex = parseInt(localStorage.getItem('unicorn_last_product_index') || '-1');
+      
+      // Increment to next product (循环: 0 → 1 → 2 → 0)
+      const currentProductIndex = (lastProductIndex + 1) % 3;
+      
+      // Save for next time
+      localStorage.setItem('unicorn_last_product_index', currentProductIndex.toString());
+      
+      // Select the product
+      const product = productPages[currentProductIndex];
+      
+      // Create free training page content
+      const mainEl = document.querySelector('main');
+      let freeTrainingContainer = document.getElementById('freeTrainingContainer');
+      
+      if (!freeTrainingContainer) {
+        freeTrainingContainer = document.createElement('div');
+        freeTrainingContainer.id = 'freeTrainingContainer';
+        freeTrainingContainer.className = 'free-training-page';
+        mainEl.appendChild(freeTrainingContainer);
+      }
+      
+      freeTrainingContainer.style.display = 'block';
+      freeTrainingContainer.innerHTML = `
+        <style>
+          /* Dynamic theme colors for current product */
+          .free-training-page .highlight {
+            background: ${product.theme.amountColor} !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .free-training-page .stat-number {
+            background: ${product.theme.statsColor} !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .free-training-page .unlock-button {
+            background: ${product.theme.buttonGradient} !important;
+            box-shadow: 0 8px 24px ${product.theme.primaryColor}66 !important;
+          }
+          .free-training-page .unlock-button:hover {
+            box-shadow: 0 12px 32px ${product.theme.primaryColor}80 !important;
+          }
+          .free-training-page .stats-label {
+            color: ${product.theme.primaryColor}B3 !important;
+          }
+          .free-training-page .free-training-benefit {
+            border-color: ${product.theme.primaryColor}40 !important;
+            background: linear-gradient(135deg, ${product.theme.primaryColor}1F, ${product.theme.secondaryColor}0F) !important;
+          }
+          /* Themed gradient overlay on image */
+          .free-training-page .free-training-image-section {
+            background-image: url('${product.theme.backgroundImage}') !important;
+          }
+          .free-training-page .free-training-image-section::before {
+            background: linear-gradient(to top, 
+              #151313 0%, 
+              rgba(21, 19, 19, 0.9) 20%, 
+              ${product.theme.primaryColor}30 70%, 
+              ${product.theme.secondaryColor}26 100%
+            ) !important;
+          }
+        </style>
+        <div class="free-training-header">
+          <div class="rocket">🎁</div>
+          <h1><span style="color: #FFA500;"> <b>LIMITED GIFT</b> </span></h1>
+        </div>
+        <div class="free-training-video-card">
+          <div class="free-training-video-wrapper">
+            <div class="free-training-image-section"></div>
+            <div class="free-training-video-overlay">
+              <h2>
+                <span class="emoji-sparkle">🌟</span> <span style="color: #ffff00;"> ${product.title} </span> <span class="emoji-sparkle">🌟</span>
+              </h2>
+              <h2>
+                ${product.headline}<br>
+                <span class="highlight">${product.amount}</span>
+                ${product.subtitle}
+              </h2>
+            </div>
+          </div>
+          
+          <div class="free-training-content">
+            <div class="free-training-benefit">
+              ${product.benefit}
+            </div>
+            
+            <div class="social-proof-stats">
+              <p class="stats-label">REAL RESULTS FROM PEOPLE LIKE YOU</p>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <div class="stat-number">${product.stats.users}</div>
+                  <div class="stat-label-text">Active Users</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">${product.stats.rating}</div>
+                  <div class="stat-label-text">Avg Rating</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">${product.stats.daily}</div>
+                  <div class="stat-label-text">Avg Daily</div>
+                </div>
+              </div>
+            </div>
+            
+            <p class="free-training-description">
+              ${product.description}
+            </p>
+            
+            <div class="free-training-badge">
+              🎁 100% FREE
+            </div>
+            
+            <div style="text-align: center;">
+              <a href="${product.buttonUrl}" class="unlock-button">
+                ${product.buttonText}
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Update tabs to show FREE TRAINING as active
+      const allTabs = document.querySelectorAll('#tabs .tab');
+      allTabs.forEach(tab => {
+        if (tab.hasAttribute('data-free')) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+    }
+    
+    function showCourseView() {
+      salesMode = false;
+      /* sales-mode removed */
+      
+      // Hide free training page if it exists
+      const freeTrainingContainer = document.getElementById('freeTrainingContainer');
+      if (freeTrainingContainer) {
+        freeTrainingContainer.style.display = 'none';
+      }
+      
+      document.querySelector('.player-card').style.display = '';
+      document.querySelector('.controls').style.display = '';
+      document.getElementById('moduleInfo').style.display = '';
+      document.querySelector('.progress').style.display = '';
+      renderTabs(); renderSlide(); updateBadgesVisibility("course");
+      updateNav();
+    ; updateBadgesVisibility("course"); }
+    function renderTabs() {
+      const freeClicked = localStorage.getItem('unicorn_free_training_clicked') === '1';
+      const modTabs = modules
+        .map((m, i) => {
+          const isActive = i === currentModule && !salesMode ? 'active' : '';
+          const isFree = m.id === 'free';
+          const glowClass = (isFree && !freeClicked) ? 'glow' : '';
+          const dataAttr = isFree ? 'data-free' : '';
+          return `<button class="tab ${isActive} ${glowClass}" data-i="${i}" ${dataAttr}>${m.title}</button>`;
+        })
+        .join('');
+      tabs.innerHTML = modTabs;
+    }
+
+
+
+
+    function setPlayer(url) {
+      frame.innerHTML = `<iframe src="${url}?title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+      const ifr = frame.querySelector('iframe');
+      ifr.addEventListener('load', () => ifr.classList.add('loaded'), { once: true });
+    }
+
+    function updateModuleInfo() {
+      const mod = modules[currentModule];
+      const total = mod.lessons.length;
+      const idx = currentSlide + 1;
+      moduleInfo.innerHTML = `
+      <span class="label">Module</span> <span class="value">${mod.title.replace('MODULE ', '')}</span>
+      <span class="sep">•</span>
+      <span class="label">Lessons</span> <span class="value">${total}</span>
+      <span class="sep">•</span>
+      <span class="now"><span class="dot"></span> <span class="tag">Now playing</span> <span class="fraction"><span class="cur">${idx}</span><span class="slash">/</span>${total}</span></span>
+    `;
+      const pct = (idx / total) * 100;
+      progressBar.style.width = pct + '%';
+    }
+
+    
+    function renderSlide() {
+      const mod = modules[currentModule];
+      const lesson = mod.lessons[currentSlide];
+      
+      // Skip rendering for free training - it has its own page
+      if (lesson.isFreeTraining) {
+        return;
+      }
+      
+      setPlayer(lesson.vimeo);
+      titleEl.textContent = lesson.title;
+      descEl.textContent = lesson.desc || "";
+      metaEl.textContent = lesson.time ? `⏱ ${lesson.time}` : "";
+
+      // Resources per lesson
+      const resEl = document.getElementById('resources');
+      if (lesson.resources && lesson.resources.length) {
+        const list = lesson.resources.map(r => {
+          const kind = (r.type || 'LINK').toUpperCase();
+          return `<li><a class="pill-link" href="${r.url}" target="_blank" rel="noopener">
+                    <span class="kind">${kind}</span><span>${r.label}</span>
+                  </a></li>`;
+        }).join('');
+        resEl.innerHTML = `<h3>Resources</h3><ul>${list}</ul>`;
+        resEl.style.display = 'block';
+      } else {
+        resEl.innerHTML = '';
+        resEl.style.display = 'none';
+      }
+
+      // Student tip (per module)
+      const tipEl = document.getElementById('studentTip');
+      const tip = tipsByModule[mod.id];
+      if (tip) { 
+        tipEl.innerHTML = tip; 
+        tipEl.style.display = 'block';
+        
+        // Add copy functionality for Module 2 prompt
+        if (mod.id === 'm2') {
+          const promptText = 'Generate me a unique instagram username for my quote page for female/woman. You can use following words and give me good username: "manifest", "empower", "wealth", "female", "woman", "mom","girl","queen","success" and other similar words… Here\'s few examples of existing usernames: manifestqueens femalesuccess.co girl.yougotthisqueen innerwomanrising she.empowerswelth feamlealphaclub NOTE: Most simple usernames like 2-3 simple words are already taken, make them super unique and they can have like dots or something but no numbers or anything like that. Generate me 15 examples.';
+          
+          tipEl.style.cursor = 'pointer';
+          tipEl.style.userSelect = 'none';
+          
+          tipEl.onclick = async function() {
+            try {
+              await navigator.clipboard.writeText(promptText);
+            } catch (err) {
+              const textArea = document.createElement('textarea');
+              textArea.value = promptText;
+              textArea.style.position = 'fixed';
+              textArea.style.left = '-999999px';
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+            }
+            
+            // Show copied notification
+            const notification = document.createElement('div');
+            notification.textContent = '✅ Copied to clipboard!';
+            notification.style.cssText = 'position:fixed;top:20px;right:20px;background:linear-gradient(135deg,#ffa3c0,#f06292);color:#1b1330;padding:14px 24px;border-radius:12px;font-weight:800;font-size:15px;box-shadow:0 8px 24px rgba(240,98,146,0.5);z-index:10000;animation:slideIn 0.3s ease';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+              notification.style.opacity = '0';
+              notification.style.transition = 'opacity 0.3s ease';
+              setTimeout(() => notification.remove(), 300);
+            }, 3000);
+          };
+        }
+      }
+      else { tipEl.style.display = 'none'; }
+
+      // Teaser (if on last lesson)
+      const isLast = currentSlide === mod.lessons.length - 1;
+      const tzEl = document.getElementById('nextTeaser');
+      if (isLast) {
+        tzEl.innerHTML = teasers[mod.id] || '';
+        tzEl.style.display = tzEl.innerHTML ? 'block' : 'none';
+        // Badge unlock moved to completion check
+        checkModuleBadge(mod.id);
+      } else {
+        tzEl.style.display = 'none';
+        tzEl.innerHTML = '';
+      }
+
+      updateModuleInfo();
+
+      // Sync completion toggle
+      const toggle = document.getElementById('completeToggle');
+      if (toggle){
+        toggle.checked = isLessonCompleted(currentModule, currentSlide);
+        if (toggle.checked) { try { unlockBadge(mod.id); } catch(e){} }
+        toggle.onchange = function(){
+          setLessonCompleted(currentModule, currentSlide, this.checked);
+          if (this.checked) unlockBadge(mod.id);
+          renderBadges();
+        };
+      }
+
+      renderBadges();
+    }
+
+
+    
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function updateNav() {
+  if (!prevBtn || !nextBtn) return;
+  const L = modules[currentModule].lessons.length;
+  const lastAllowed = Math.min(2, L - 1); // allow up to 3rd lesson (index 2)
+
+  const canPrev = currentSlide > 0;
+  const canNext = currentSlide < lastAllowed;
+
+  prevBtn.disabled = !canPrev;
+  nextBtn.disabled = !canNext;
+
+  prevBtn.classList.remove('primary');
+  nextBtn.classList.remove('primary');
+
+  if (currentSlide === 0 && canNext) {
+    // Lesson 1 → Next only
+    nextBtn.classList.add('primary');
+  } else if (currentSlide === 1 && canPrev && canNext) {
+    // Lesson 2 → both
+    prevBtn.classList.add('primary');
+    nextBtn.classList.add('primary');
+  } else if (currentSlide >= lastAllowed && canPrev) {
+    // Lesson 3 → Prev only
+    prevBtn.classList.add('primary');
+  }
+}
+
+prevBtn.addEventListener('click', () => {
+  if (currentSlide > 0) {
+    currentSlide -= 1;
+    renderSlide();
+    updateNav();
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  const L = modules[currentModule].lessons.length;
+  const lastAllowed = Math.min(2, L - 1);
+  if (currentSlide < lastAllowed) {
+    currentSlide += 1;
+    renderSlide();
+    updateNav();
+  }
+});
+
+tabs.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+
+  // Check if it's the FREE TRAINING tab
+  if (btn.hasAttribute('data-free')) {
+    // Mark as clicked to stop glow animation
+    localStorage.setItem('unicorn_free_training_clicked', '1');
+    // Re-render tabs to remove glow
+    renderTabs();
+    // Show free training page
+    showFreeTrainingPage();
+    return;
+  }
+
+  const attr = btn.getAttribute('data-i');
+  if (attr !== null) {
+    const idx = parseInt(attr, 10);
+    if (!Number.isNaN(idx)) {
+      currentModule = idx;
+      currentSlide = 0;
+      showCourseView();
+    }
+  }
+});
+
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+      if (e.key === 'ArrowRight') document.getElementById('nextBtn').click();
+    });
+
+    // Init
+    renderTabs(); renderSlide(); updateBadgesVisibility("course"); renderBadges();
+    updateNav();
+    </script>
+<!-- One-time welcome (localStorage + optional server check) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    // Optional: set this globally after login to tie the flag to a user
+    // window.UNICORN_USER_ID = "user-uuid-or-email-hash";
+    (function () {
+      const KEY = "unicorn_seen_welcome";
+      const COOKIE = "unicorn_seen_welcome=1; Max-Age=31536000; Path=/; SameSite=Lax";
+      const userId = window.UNICORN_USER_ID || null;
+
+      function prefersReducedMotion() {
+        return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      }
+
+      function getCookie(name) {
+        const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.$?*|{}()\[\]\\/+^]/g, '\\$&') + '=([^;]*)'));
+        return m ? decodeURIComponent(m[1]) : null;
+      }
+
+      function launchConfetti() {
+        if (prefersReducedMotion()) return;
+        const duration = 2000;
+        const end = Date.now() + duration;
+        (function frame() {
+          confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+          confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        })();
+      }
+
+      function injectStyles() {
+        if (document.getElementById("u-welcome-styles")) return;
+        const css = `
+        .u-welcome-overlay{
+          position:fixed; inset:0; display:grid; place-items:center;
+          background:rgba(0,0,0,.55); backdrop-filter:saturate(120%) blur(3px);
+          z-index:10000; opacity:1; transition:opacity .2s ease;
+        }
+        .u-welcome-overlay.hide{ opacity:0; }
+        .u-welcome-modal{
+          width:min(520px,92vw);
+          background: var(--panel, #151313);
+          color: var(--text, #f5f4f2);
+          border:1px solid var(--line, rgba(255,255,255,.08));
+          border-radius: var(--radius, 16px);
+          box-shadow: var(--shadow, 0 12px 28px rgba(0,0,0,.45));
+          padding: 26px 22px;
+          text-align:center;
+        }
+        .u-welcome-icon{ font-size:34px; margin-bottom:6px; }
+        .u-welcome-title{
+          margin:8px 0 6px; font-size:24px; line-height:1.15;
+          color: var(--pink, #f06292); font-weight:900; letter-spacing:.2px;
+        }
+        .u-welcome-text{ margin:0 0 14px; color:#e9e0d5; }
+        .u-welcome-btn{
+          padding:10px 18px; border-radius:12px; border:1px solid var(--line, rgba(255,255,255,.08));
+          background: var(--pink, #f06292); color:#1a0d13; font-weight:800; cursor:pointer;
+        }
+        @media (max-width: 520px){ .u-welcome-title{ font-size:22px; } }
+      `;
+        const style = document.createElement("style");
+        style.id = "u-welcome-styles";
+        style.textContent = css;
+        document.head.appendChild(style);
+      }
+
+      function showPopup() {
+        const overlay = document.createElement("div");
+        overlay.className = "u-welcome-overlay";
+        overlay.setAttribute("role", "dialog");
+        overlay.setAttribute("aria-modal", "true");
+        overlay.innerHTML = `
+        <div class="u-welcome-modal">
+          <div class="u-welcome-icon">🎉</div>
+          <h2 class="u-welcome-title">Congratulations!</h2>
+          <p class="u-welcome-text">You've unlocked your copy of Unicorn.<br><b>Select any module below</b> to get started.</p>
+          <button class="u-welcome-btn" id="uWelcomeBtn">Let's goo!</button>
+        </div>
+      `;
+        document.body.appendChild(overlay);
+        function close() {
+          overlay.classList.add("hide");
+          setTimeout(() => overlay.remove(), 200);
+        }
+        overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+        document.getElementById("uWelcomeBtn").addEventListener("click", close);
+      }
+
+      async function apiGetSeen() {
+        if (!userId) return false;
+        try {
+          const r = await fetch(`/api/welcome-status?user=${encodeURIComponent(userId)}`, { credentials: "include" });
+          if (!r.ok) return false;
+          const j = await r.json();
+          return !!j.seen;
+        } catch { return false; }
+      }
+
+      async function apiSetSeen() {
+        if (!userId) return;
+        try {
+          await fetch(`/api/welcome-status`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ user: userId, seen: true }),
+          });
+        } catch { }
+      }
+
+      function markSeenClient() {
+        try {
+          localStorage.setItem(KEY, "1");
+        } catch { }
+        document.cookie = COOKIE;
+      }
+
+      async function initWelcome() {
+        const localSeen = !!(function () { try { return localStorage.getItem(KEY); } catch (e) { return null; } })();
+        const cookieSeen = !!getCookie("unicorn_seen_welcome");
+        const serverSeen = await apiGetSeen();
+        const shouldShow = !(localSeen || cookieSeen || serverSeen);
+
+        if (shouldShow) {
+          injectStyles();
+          launchConfetti();
+          setTimeout(showPopup, 500);
+          markSeenClient();
+          apiSetSeen();
+        }
+      }
+
+      // Kick off after DOM is ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initWelcome);
+      } else {
+        initWelcome();
+      }
+    })();
+  </script>
+
+
+<script id="enforce-single-lesson">
+(function(){
+  try{
+    // Force 1 lesson per module
+    if (window.modules && Array.isArray(window.modules)){
+      window.modules.forEach(function(m){
+        if (m && Array.isArray(m.lessons) && m.lessons.length) m.lessons = [m.lessons[0]];
+      });
+    }
+    // Block keyboard nav if any code listens for it
+    window.addEventListener('keydown', function(e){
+      if (['ArrowRight','ArrowLeft','PageDown','PageUp'].includes(e.key)) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
+    // Neutralize typical nav functions if present
+    if (typeof window.nextSlide === 'function') window.nextSlide = function(){};
+    if (typeof window.prevSlide === 'function') window.prevSlide = function(){};
+
+    // Clamp common globals
+    try { if ('currentSlide' in window) window.currentSlide = 0; } catch(e){}
+  }catch(e){}
+})();
+</script>
+
+
+<script id="progress-fix">
+(function(){
+  function $(id){ return document.getElementById(id); }
+
+  function inferModuleNumber(){
+    // Try to read the active tab text "MODULE X"
+    var tabs = document.querySelectorAll('#tabs .tab');
+    for (var i=0;i<tabs.length;i++){
+      var t = tabs[i];
+      if (t.classList && t.classList.contains('active') && !t.hasAttribute('data-sales')){
+        var m = (t.textContent||'').match(/MODULE\s+(\d+)/i);
+        return m ? m[1] : null;
+      }
+    }
+    return null;
+  }
+
+  function updateProgressUI(){
+    try{
+      var info = $('moduleInfo');
+      var bar = $('progressBar');
+      var chk = $('completeToggle');
+      var completed = !!(chk && chk.checked);
+      var total = 1;
+      var current = 1; // single lesson view always on lesson 1
+
+      // Update fraction + labels
+      if (info){
+        var modNo = inferModuleNumber();
+        var modLabel = modNo ? modNo : "";
+        var status = completed ? 'Completed' : 'Not completed';
+        var statusChip = '<span class="status-chip '+(completed?'done':'')+'"><span class="dot"></span>'+status+'</span>';
+        info.innerHTML =
+          '<span class="label">Module</span> <span class="value">'+(modLabel||'')+'</span>' +
+          '<span class="sep">•</span>' +
+          '<span class="label">Lessons</span> <span class="value">'+ total +'</span>' +
+          '<span class="sep">•</span>' +
+          '<span class="now"><span class="dot"></span> <span class="tag">Now playing</span> ' +
+          '<span class="fraction"><span class="cur">'+ current +'</span><span class="slash">/</span>'+ total +'</span></span>' +
+          '<span class="sep">•</span>' + statusChip;
+      }
+
+      // Progress is 100% only when lesson is marked complete
+      if (bar){
+        bar.style.width = completed ? '100%' : '0%';
+        bar.setAttribute('aria-valuenow', completed ? '100' : '0');
+      }
+    }catch(e){}
+  }
+
+  function attach(){
+    var chk = $('completeToggle');
+    if (chk && !chk.__bound){
+      chk.addEventListener('change', updateProgressUI);
+      chk.__bound = true;
+    }
+  }
+
+  // Recompute when tabs change (delegate clicks)
+  var tabs = document.getElementById('tabs');
+  if (tabs && !tabs.__bound){
+    tabs.addEventListener('click', function(ev){
+      setTimeout(function(){ attach(); updateProgressUI(); }, 80);
+    });
+    tabs.__bound = true;
+  }
+
+  // Observe changes to the title/frame to catch slide swaps
+  var frame = document.getElementById('frame') || document.querySelector('.frame');
+  if (frame && window.MutationObserver){
+    var mo = new MutationObserver(function(){ setTimeout(function(){ attach(); updateProgressUI(); }, 50); });
+    mo.observe(frame, { childList:true, subtree:false });
+  }
+
+  // Initial run
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ attach(); updateProgressUI(); });
+  }else{
+    attach(); updateProgressUI();
+  }
+})();
+</script>
+
+<!-- Begin of Digistore24 Trusted Badge Code -->
+<script type="text/javascript" s
