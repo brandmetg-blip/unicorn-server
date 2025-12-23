@@ -1769,6 +1769,95 @@
       document.querySelector('.progress').style.display = 'none';
       document.getElementById('badgesRow').style.display = 'none';
       
+      // Define 3 different product pages
+      const productPages = [
+        {
+          // PRODUCT 1 - Pink Theme (default)
+          title: "FREE TRAINING SESSION",
+          headline: "How To Wake Up With An",
+          amount: "Additional $1,000-$5,000",
+          subtitle: "In Your Bank Account<br><em>Every Single Day...</em>",
+          benefit: "💰 Multiply Your Earnings To $1,000-$3,000 A Day",
+          description: "Scale to <strong>life-changing income</strong> with this bonus training.",
+          stats: {
+            users: "12,400+",
+            rating: "4.8⭐",
+            daily: "$528"
+          },
+          buttonUrl: "https://jvz7.com/c/3222981/415009/",
+          buttonText: "🔓 Unlock The Training",
+          theme: {
+            primaryColor: "#f06292",
+            secondaryColor: "#ffa3c0",
+            buttonGradient: "linear-gradient(135deg, #f06292, #ffa3c0)",
+            amountColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+            statsColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+            backgroundImage: "https://scontent.fbeg2-1.fna.fbcdn.net/v/t39.30808-6/481773496_1359452582155118_7880969148085335674_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=aMmFayFaFoIQ7kNvwF5X9br&_nc_oc=Adml6GovMCH2DNUmZV3J6K1Gqco7RsWqIFJ9ZbOloRPRaV-ismNNE-WPdCgYvdGkhuQ&_nc_zt=23&_nc_ht=scontent.fbeg2-1.fna&_nc_gid=YUoWzbCM2A1OR-QoOoS_ag&oh=00_AfkEzRbXDeyOoeLXUnK_jaDWo2H0tMah9DkoGRxpakLWKg&oe=694CC7A0"
+          }
+        },
+        {
+          // PRODUCT 2 - Blue Theme
+          title: "FREE TRAINING SESSION",
+          headline: "Your Personal Income Dashboard",
+          amount: "HAS JUST BEEN ACTIVATED",
+          subtitle: "The System Pays Weekly<br><em>And Runs On Auto-Pilot!</em>",
+          benefit: "💎 Start making $300-$500/Day",
+          description: "Scale to life-changing income with this bonus training.",
+          stats: {
+            users: "6,539+",
+            rating: "4.9⭐",
+            daily: "$417"
+          },
+          buttonUrl: "https://www.o1dnf9trk.com/R5BJD5/N5213C/?sub1=xxx",
+          buttonText: "🔓 Unlock The Training",
+          theme: {
+            primaryColor: "#4A90E2",
+            secondaryColor: "#7CB8FF",
+            buttonGradient: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
+            amountColor: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
+            statsColor: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
+            backgroundImage: "https://i.pinimg.com/736x/d3/bf/06/d3bf060f5a4cc5372b98cf3bc3210ad2.jpg"
+          }
+        },
+        {
+          // PRODUCT 3 - Red/Peach Theme
+          title: "FREE TRAINING SESSION",
+          headline: "These People Followed One Step",
+          amount: "And Made $24,197.84",
+          subtitle: "All From Pushing<em>A Few Buttons!</em>",
+          benefit: "🔥 Push One Button And Make $1,000/Day",
+          description: "Scale to life-changing income with this bonus training.",
+          stats: {
+            users: "3,720+",
+            rating: "4.8⭐",
+            daily: "$1,534"
+          },
+          buttonUrl: "https://www.o1dnf9trk.com/R5BJD5/HS752J/?__efq=188wkespE78KfeBRcFrB8Q",
+          buttonText: "🔓 Unlock The Training",
+          theme: {
+            primaryColor: "#FF6B6B",
+            secondaryColor: "#FFB088",
+            buttonGradient: "linear-gradient(135deg, #FF6B6B, #FFB088)",
+            amountColor: "linear-gradient(135deg, #FF6B6B, #FFB088)",
+            statsColor: "linear-gradient(135deg, #FF6B6B, #FFB088)",
+            backgroundImage: "https://i.pinimg.com/736x/98/76/9f/98769fb93b4650717aca2f3c92c01857.jpg"
+          }
+        }
+      ];
+      
+      // Sequential rotation: 1, 2, 3, 1, 2, 3...
+      // Get the last shown product index from localStorage
+      let lastProductIndex = parseInt(localStorage.getItem('unicorn_last_product_index') || '-1');
+      
+      // Increment to next product (循环: 0 → 1 → 2 → 0)
+      const currentProductIndex = (lastProductIndex + 1) % 3;
+      
+      // Save for next time
+      localStorage.setItem('unicorn_last_product_index', currentProductIndex.toString());
+      
+      // Select the product
+      const product = productPages[currentProductIndex];
+      
       // Create free training page content
       const mainEl = document.querySelector('main');
       let freeTrainingContainer = document.getElementById('freeTrainingContainer');
@@ -1782,6 +1871,47 @@
       
       freeTrainingContainer.style.display = 'block';
       freeTrainingContainer.innerHTML = `
+        <style>
+          /* Dynamic theme colors for current product */
+          .free-training-page .highlight {
+            background: ${product.theme.amountColor} !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .free-training-page .stat-number {
+            background: ${product.theme.statsColor} !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .free-training-page .unlock-button {
+            background: ${product.theme.buttonGradient} !important;
+            box-shadow: 0 8px 24px ${product.theme.primaryColor}66 !important;
+          }
+          .free-training-page .unlock-button:hover {
+            box-shadow: 0 12px 32px ${product.theme.primaryColor}80 !important;
+          }
+          .free-training-page .stats-label {
+            color: ${product.theme.primaryColor}B3 !important;
+          }
+          .free-training-page .free-training-benefit {
+            border-color: ${product.theme.primaryColor}40 !important;
+            background: linear-gradient(135deg, ${product.theme.primaryColor}1F, ${product.theme.secondaryColor}0F) !important;
+          }
+          /* Themed gradient overlay on image */
+          .free-training-page .free-training-image-section {
+            background-image: url('${product.theme.backgroundImage}') !important;
+          }
+          .free-training-page .free-training-image-section::before {
+            background: linear-gradient(to top, 
+              #151313 0%, 
+              rgba(21, 19, 19, 0.9) 20%, 
+              ${product.theme.primaryColor}30 70%, 
+              ${product.theme.secondaryColor}26 100%
+            ) !important;
+          }
+        </style>
         <div class="free-training-header">
           <div class="rocket">🎁</div>
           <h1><span style="color: #FFA500;"> <b>LIMITED GIFT</b> </span></h1>
@@ -1791,42 +1921,41 @@
             <div class="free-training-image-section"></div>
             <div class="free-training-video-overlay">
               <h2>
-                <span class="emoji-sparkle"></span> <span style="color: #ffff00;"> FREE TRAINING SESSION </span> <span class="emoji-sparkle"></span>
+                <span class="emoji-sparkle">🌟</span> <span style="color: #ffff00;"> ${product.title} </span> <span class="emoji-sparkle">🌟</span>
               </h2>
               <h2>
-                How To Wake Up With An<br>
-                <span class="highlight">Additional $1,000-$5,000</span>
-                In Your Bank Account<br>
-                <em>Every Single Day...</em>
+                ${product.headline}<br>
+                <span class="highlight">${product.amount}</span>
+                ${product.subtitle}
               </h2>
             </div>
           </div>
           
           <div class="free-training-content">
             <div class="free-training-benefit">
-              💰 Multiply Your Earnings To $1,000-$3,000 A Day
+              ${product.benefit}
             </div>
             
             <div class="social-proof-stats">
               <p class="stats-label">REAL RESULTS FROM PEOPLE LIKE YOU</p>
               <div class="stats-grid">
                 <div class="stat-item">
-                  <div class="stat-number">12,400+</div>
+                  <div class="stat-number">${product.stats.users}</div>
                   <div class="stat-label-text">Active Users</div>
                 </div>
                 <div class="stat-item">
-                  <div class="stat-number">4.8⭐</div>
+                  <div class="stat-number">${product.stats.rating}</div>
                   <div class="stat-label-text">Avg Rating</div>
                 </div>
                 <div class="stat-item">
-                  <div class="stat-number">$528</div>
+                  <div class="stat-number">${product.stats.daily}</div>
                   <div class="stat-label-text">Avg Daily</div>
                 </div>
               </div>
             </div>
             
             <p class="free-training-description">
-              Scale to <strong>life-changing income</strong> with this bonus training.
+              ${product.description}
             </p>
             
             <div class="free-training-badge">
@@ -1834,8 +1963,8 @@
             </div>
             
             <div style="text-align: center;">
-              <a href="https://jvz7.com/c/3222981/415009/" class="unlock-button">
-                🔓 Unlock The Training
+              <a href="${product.buttonUrl}" class="unlock-button">
+                ${product.buttonText}
               </a>
             </div>
           </div>
@@ -2354,5 +2483,6 @@ tabs.addEventListener('click', (e) => {
 })();
 </script>
 
-<!-- Begin of Digistore24 Trusted Badge Code -->
-<script type="text/javascript" s
+  <!-- Begin of Digistore24 Trusted Badge Code -->
+<script type="text/javascript" src="https://www.digistore24.com/trusted-badge/40760/uJLlry4tzjpD7ns/thankyoupage"></script>
+<!-- End of Digistore24 Trusted Badge Code -->
