@@ -1,155 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Thank You For Your Purchase</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank You For Your Purchase</title>
 
- <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-W9MQSWJK88');
+      gtag("config", "G-W9MQSWJK88");
     </script>
 
-<style>
-body{font-family:Arial,Helvetica,sans-serif;background:#f6f0f4;margin:0;padding:30px 12px}
-.card{max-width:920px;margin:auto;background:#fff;border-radius:20px;padding:40px}
-.center{text-align:center}
-.check{width:52px;margin:0 auto 8px;display:block}
-.order-pill{background:#ffe3f0;color:#c2185b;display:inline-block;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:bold;margin-top:6px}
-.video-box{margin:28px 0;cursor:pointer}
-.video-box img{width:100%;border-radius:14px}
-.flex{display:flex;justify-content:space-between;gap:18px}
-.info-box{width:48%;font-size:14px;color:#444}
-.section-title{font-weight:bold;margin:28px 0 10px;color:#c2185b;font-size:17px}
-.summary-box{border:1px solid #ffd1e8;border-radius:16px;padding:20px;background:#fff6fb}
-.order-item{display:flex;align-items:flex-start;padding:14px 0;border-bottom:1px solid #ffd1e8}
-.order-item:last-child{border-bottom:none}
-.order-item img{width:54px;margin-right:14px}
-.order-name{flex:1;font-size:14px;line-height:1.4}
-.order-price{font-weight:bold;font-size:14px}
-.access-btn{display:inline-block;margin-top:6px;padding:8px 14px;background:#ff4fa1;color:#fff;border-radius:8px;font-weight:bold;text-decoration:none;font-size:13px}
-.total{text-align:right;font-size:18px;font-weight:bold;margin-top:16px}
-.support{display:block;max-width:220px;margin:22px auto 0;padding:12px;background:#ff4fa1;color:#fff;text-align:center;border-radius:10px;font-weight:bold;cursor:pointer}
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f6f0f4;
+        margin: 0;
+        padding: 30px 12px;
+      }
+      .card {
+        max-width: 920px;
+        margin: auto;
+        background: #fff;
+        border-radius: 20px;
+        padding: 40px;
+      }
+      .center {
+        text-align: center;
+      }
+      .check {
+        width: 52px;
+        margin: 0 auto 8px;
+        display: block;
+      }
+      .order-pill {
+        background: #ffe3f0;
+        color: #c2185b;
+        display: inline-block;
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-top: 6px;
+      }
+      .video-box {
+        margin: 28px 0;
+        cursor: pointer;
+      }
+      .video-box img {
+        width: 100%;
+        border-radius: 14px;
+      }
+      .flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+      }
+      .info-box {
+        width: 48%;
+        font-size: 14px;
+        color: #444;
+      }
+      .section-title {
+        font-weight: bold;
+        margin: 28px 0 10px;
+        color: #c2185b;
+        font-size: 17px;
+      }
+      .summary-box {
+        border: 1px solid #ffd1e8;
+        border-radius: 16px;
+        padding: 20px;
+        background: #fff6fb;
+      }
+      .order-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 14px 0;
+        border-bottom: 1px solid #ffd1e8;
+      }
+      .order-item:last-child {
+        border-bottom: none;
+      }
+      .order-item img {
+        width: 54px;
+        margin-right: 14px;
+      }
+      .order-name {
+        flex: 1;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      .order-price {
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .access-btn {
+        display: inline-block;
+        margin-top: 6px;
+        padding: 8px 14px;
+        background: #ff4fa1;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .total {
+        text-align: right;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 16px;
+      }
+      .support {
+        display: block;
+        max-width: 220px;
+        margin: 22px auto 0;
+        padding: 12px;
+        background: #ff4fa1;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+      }
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;padding:16px}
-.modal-inner{background:#000;border-radius:18px;width:100%;max-width:1100px;margin:auto;position:relative}
-.video-wrap{position:relative;padding-top:56.25%}
-.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%}
-.close{position:absolute;top:12px;right:12px;z-index:100000;width:36px;height:36px;background:rgba(0,0,0,.75);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;cursor:pointer}
+      .modal{
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.7);
+        z-index:99999;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:16px;
+      }
 
-.modal-inner.support{background:#fff;padding:30px 24px;max-width:480px}
-.modal-inner.support .close{background:#eee;color:#000}
-.support-btn{display:block;margin:10px auto;padding:13px;background:#ff4fa1;color:#fff;text-decoration:none;text-align:center;border-radius:10px;font-weight:bold;font-size:14px}
+      .modal-inner {
+        background: #000;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 1100px;
+        margin: auto;
+        position: relative;
+      }
+      .video-wrap {
+        position: relative;
+        padding-top: 56.25%;
+      }
+      .video-wrap iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 100000;
+        width: 36px;
+        height: 36px;
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+      }
 
-@media (max-width:768px){
-  .card{padding:26px 18px}
-  .flex{flex-direction:column}
-  .info-box{width:100%}
-}
-</style>
-</head>
-<body>
+      .modal-inner.support {
+        background: #fff;
+        padding: 30px 24px;
+        max-width: 480px;
+      }
+      .modal-inner.support .close {
+        background: #eee;
+        color: #000;
+      }
+      .support-btn {
+        display: block;
+        margin: 10px auto;
+        padding: 13px;
+        background: #ff4fa1;
+        color: #fff;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 14px;
+      }
 
-<div class="card">
-<img src="../../../ds/images/checkmark.jpg" class="check">
+      @media (max-width: 768px) {
+        .card {
+          padding: 26px 18px;
+        }
+        .flex {
+          flex-direction: column;
+        }
+        .info-box {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <img src="../../../ds/images/checkmark.jpg" class="check" />
 
-<div class="center">
-<h2>Hello <span id="first-name"></span>, thank you for your purchase!</h2>
-<div class="order-pill">ORDER NO: <span id="order-id"></span></div>
-</div>
+      <div class="center">
+        <h2>
+          Hello <span id="first-name"></span>, thank you for your purchase!
+        </h2>
+        <div class="order-pill">ORDER NO: <span id="order-id"></span></div>
+      </div>
 
-<div class="video-box" onclick="openVideo()">
-<img src="../../../ds/images/thumbnail_order_confirmed.png">
-</div>
+      <div class="video-box" onclick="openVideo()">
+        <img src="../../../ds/images/thumbnail_order_confirmed.png" />
+      </div>
 
-<div class="flex">
-<div class="info-box">
-<div class="section-title">Customer</div>
-<div id="cname"></div>
-<div id="cemail"></div>
-</div>
-<div class="info-box">
-<div class="section-title">Shipping</div>
-<div id="ship"></div>
-</div>
-</div>
+      <div class="flex">
+        <div class="info-box">
+          <div class="section-title">Customer</div>
+          <div id="cname"></div>
+          <div id="cemail"></div>
+        </div>
+        <div class="info-box">
+          <div class="section-title">Shipping</div>
+          <div id="ship"></div>
+        </div>
+      </div>
 
-<div class="section-title">Order Summary</div>
-<div class="summary-box">
-<div id="summary"></div>
-<div class="total" id="total"></div>
-<div class="support" onclick="openSupport()">Contact Support</div>
-</div>
-</div>
-
-<div class="modal" id="videoModal">
-  <div class="modal-inner">
-    <div class="close" onclick="closeVideo()">✕</div>
-    <div class="video-wrap">
-      <iframe id="vid" frameborder="0" allow="autoplay; fullscreen"></iframe>
+      <div class="section-title">Order Summary</div>
+      <div class="summary-box">
+        <div id="summary"></div>
+        <div class="total" id="total"></div>
+        <div class="support" onclick="openSupport()">Contact Support</div>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="modal" id="supportModal">
-  <div class="modal-inner support">
-    <div class="close" onclick="closeSupport()">✕</div>
-    <h3 style="text-align:center;margin-bottom:18px;">How can we help?</h3>
-    <a class="support-btn" id="q1">I have a question about my order</a>
-    <a class="support-btn" id="q2">I have a billing question</a>
-    <a class="support-btn" id="q3">I need help with setup</a>
-    <a class="support-btn" id="q4">My upgrades / bonuses</a>
-    <a class="support-btn" id="q5">Something else</a>
-  </div>
-</div>
+    <div class="modal" id="videoModal">
+      <div class="modal-inner">
+        <div class="close" onclick="closeVideo()">✕</div>
+        <div class="video-wrap">
+          <iframe
+            id="vid"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+          ></iframe>
+        </div>
+      </div>
+    </div>
 
+    <div class="modal" id="supportModal">
+      <div class="modal-inner support">
+        <div class="close" onclick="closeSupport()">✕</div>
+        <h3 style="text-align: center; margin-bottom: 18px">
+          How can we help?
+        </h3>
+        <a class="support-btn" id="q1">I have a question about my order</a>
+        <a class="support-btn" id="q2">I have a billing question</a>
+        <a class="support-btn" id="q3">I need help with setup</a>
+        <a class="support-btn" id="q4">My upgrades / bonuses</a>
+        <a class="support-btn" id="q5">Something else</a>
+      </div>
+    </div>
 
-<script>
-const p=new URLSearchParams(location.search);
+    <script>
+      const p = new URLSearchParams(location.search);
 
-// ORDER
-const orderId=p.get("order_id")||"UNKNOWN";
-document.getElementById("order-id").textContent=orderId;
+      // ORDER
+      const orderId = p.get("order_id") || "UNKNOWN";
+      document.getElementById("order-id").textContent = orderId;
 
-// CUSTOMER
-document.getElementById("cname").textContent=(p.get("buyer_first_name")||"")+" "+(p.get("buyer_last_name")||"");
-document.getElementById("first-name").textContent =p.get("buyer_first_name") || "";
-document.getElementById("cemail").textContent=p.get("buyer_email")||"";
-document.getElementById("ship").textContent=p.get("country")||"";
+      // CUSTOMER
+      document.getElementById("cname").textContent =
+        (p.get("buyer_first_name") || "") +
+        " " +
+        (p.get("buyer_last_name") || "");
+      document.getElementById("first-name").textContent =
+        p.get("buyer_first_name") || "";
+      document.getElementById("cemail").textContent =
+        p.get("buyer_email") || "";
+      document.getElementById("ship").textContent = p.get("country") || "";
 
-// PRODUCT MAP WITH FINAL ACCESS LINKS
-const productMap={
- "631598":{n:"Unicorn",p:47,i:"../../../ds/images/new-mockup.png",u:"https://getunicornofficial.com/dsty1105/ty-access/"},
- "631605":{n:"The Unicode",p:97,i:"../../../ds/images/theunicode_mockup.png",u:"https://getunicornofficial.com/dsty1105/ty-access/the-unicode-access"},
- "631607":{n:"The Unipay",p:67,i:"../../../ds/images/unipay_mockup_a.png",u:"https://getunicornofficial.com/dsty1105/ty-access/the-unipay-access"},
- "631608":{n:"The Uniglobe",p:29,i:"../../../ds/images/uniglobe_mockup.png",u:"https://getunicornofficial.com/dsty1105/ty-access/the-uniglobe-access"}
-};
+      // PRODUCT MAP WITH FINAL ACCESS LINKS
+      const productMap = {
+        631598: {
+          n: "Unicorn",
+          p: 47,
+          i: "../../../ds/images/new-mockup.png",
+          u: "https://getunicornofficial.com/dsty1105/ty-access/",
+        },
+        631605: {
+          n: "The Unicode",
+          p: 97,
+          i: "../../../ds/images/theunicode_mockup.png",
+          u: "https://getunicornofficial.com/dsty1105/ty-access/the-unicode-access",
+        },
+        631607: {
+          n: "The Unipay",
+          p: 67,
+          i: "../../../ds/images/unipay_mockup_a.png",
+          u: "https://getunicornofficial.com/dsty1105/ty-access/the-unipay-access",
+        },
+        631608: {
+          n: "The Uniglobe",
+          p: 29,
+          i: "../../../ds/images/uniglobe_mockup.png",
+          u: "https://getunicornofficial.com/dsty1105/ty-access/the-uniglobe-access",
+        },
+      };
 
-let items=[];
+      let items = [];
 
-// FE
-if(p.get("product_id")){
- const pr=productMap[p.get("product_id")];
- if(pr) items.push(pr);
-}
+      // FE
+      if (p.get("product_id")) {
+        const pr = productMap[p.get("product_id")];
+        if (pr) items.push(pr);
+      }
 
-// UPSELLS
-for(let i=1;i<=10;i++){
- const pid=p.get(`upsell_${i}_product_id`);
- if(!pid) continue;
- const pr=productMap[pid];
- if(pr) items.push(pr);
-}
+      // UPSELLS
+      for (let i = 1; i <= 10; i++) {
+        const pid = p.get(`upsell_${i}_product_id`);
+        if (!pid) continue;
+        const pr = productMap[pid];
+        if (pr) items.push(pr);
+      }
 
-// RENDER
-let sum=0,html2="";
-items.forEach(pr=>{
- sum+=pr.p;
- html2+=`
+      // RENDER
+      let sum = 0,
+        html2 = "";
+      items.forEach((pr) => {
+        sum += pr.p;
+        html2 += `
  <div class="order-item">
    <img src="${pr.i}">
    <div class="order-name">
@@ -158,23 +354,34 @@ items.forEach(pr=>{
    </div>
    <div class="order-price">$${pr.p}.00</div>
  </div>`;
-});
+      });
 
-document.getElementById("summary").innerHTML=html2;
-document.getElementById("total").textContent="Total: $"+sum.toFixed(2);
+      document.getElementById("summary").innerHTML = html2;
+      document.getElementById("total").textContent =
+        "Total: $" + sum.toFixed(2);
 
-// GA4
-gtag("event","purchase",{
- transaction_id:orderId,
- value:parseFloat(p.get("amount")||sum),
- currency:p.get("currency")||"USD"
-});
+      // GA4
+      gtag("event", "purchase", {
+        transaction_id: orderId,
+        value: parseFloat(p.get("amount") || sum),
+        currency: p.get("currency") || "USD",
+      });
 
-function openVideo(){document.getElementById("videoModal").style.display="block";document.getElementById("vid").src="https://player.vimeo.com/video/1114710875?autoplay=1";}
-function closeVideo(){document.getElementById("videoModal").style.display="none";document.getElementById("vid").src="";}
-function openSupport(){document.getElementById("supportModal").style.display="block";}
-function closeSupport(){document.getElementById("supportModal").style.display="none";}
-</script>
-
-</body>
+      function openVideo() {
+        document.getElementById("videoModal").style.display = "block";
+        document.getElementById("vid").src =
+          "https://player.vimeo.com/video/1114710875?autoplay=1";
+      }
+      function closeVideo() {
+        document.getElementById("videoModal").style.display = "none";
+        document.getElementById("vid").src = "";
+      }
+      function openSupport() {
+        document.getElementById("supportModal").style.display = "block";
+      }
+      function closeSupport() {
+        document.getElementById("supportModal").style.display = "none";
+      }
+    </script>
+  </body>
 </html>
