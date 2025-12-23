@@ -58,7 +58,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f6f0f4;margin:0;padding:
 <img src="../../../ds/images/checkmark.jpg" class="check">
 
 <div class="center">
-<h2>Hello — thank you for your purchase!</h2>
+<h2>Hello <span id="first-name"></span> thank you for your purchase!</h2>
 <div class="order-pill">ORDER NO: <span id="order-id"></span></div>
 </div>
 
@@ -117,6 +117,7 @@ document.getElementById("order-id").textContent=orderId;
 
 // CUSTOMER
 document.getElementById("cname").textContent=(p.get("buyer_first_name")||"")+" "+(p.get("buyer_last_name")||"");
+document.getElementById("first-name").textContent =p.get("buyer_first_name") || "";
 document.getElementById("cemail").textContent=p.get("buyer_email")||"";
 document.getElementById("ship").textContent=p.get("country")||"";
 
