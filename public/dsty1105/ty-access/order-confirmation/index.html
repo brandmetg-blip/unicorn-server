@@ -288,6 +288,53 @@
 
       // ORDER
       const orderId = p.get("order_id") || "UNKNOWN";
+      /* ================= DEFAULT SUPPORT MAIL LINKS ================= */
+
+      const detailsBlock =
+        `\n\n-----------------------------\n` +
+        `[ENTER DETAILS HERE]\n\n` +
+        `Please provide the following so we can help you faster:\n` +
+        `- What issue are you facing?\n` +
+        `- Which product does this relate to?\n` +
+        `- Any screenshots or details?\n` +
+        `-----------------------------\n`;
+
+      function mailto(subject, body) {
+        return `mailto:support@getpegasusofficial.com?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(body)}`;
+      }
+
+      // Wait until DOM is ready (extra safety)
+      document.addEventListener("DOMContentLoaded", () => {
+        const map = {
+          q1: ["Question about my order", "I have a question about my order."],
+          q2: [
+            "Billing question",
+            "I have a billing question regarding my order.",
+          ],
+          q3: ["Setup help needed", "I need help setting up my purchase."],
+          q4: [
+            "Bonuses / upgrades",
+            "I have a question about my bonuses or upgrades.",
+          ],
+          q5: [
+            "Other question",
+            "I have another question regarding my purchase.",
+          ],
+        };
+
+        Object.entries(map).forEach(([id, [subject, text]]) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+
+          el.href = mailto(
+            `${subject} — order #${orderId}`,
+            `Hello,\n\n${text}\n\nOrder Number: ${orderId}\n` + detailsBlock
+          );
+        });
+      });
+
       document.getElementById("order-id").textContent = orderId;
 
       // CUSTOMER
