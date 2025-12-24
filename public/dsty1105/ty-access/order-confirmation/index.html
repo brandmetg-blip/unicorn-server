@@ -140,9 +140,10 @@
         background:rgba(0,0,0,.7);
         z-index:99999;
 
-        display:none;
+        display:flex;
         align-items:center;
         justify-content:center;
+        
         padding:16px;
       }
 
@@ -184,8 +185,12 @@
 
       .modal-inner.support {
         background: #fff;
-        padding: 30px 24px;
+        padding: 24px 20px;
         max-width: 480px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 16px;
       }
       .modal-inner.support .close {
         background: #eee;
