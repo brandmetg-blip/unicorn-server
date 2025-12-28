@@ -35,98 +35,82 @@
 
       gtag("config", "G-W9MQSWJK88");
     </script>
-    <!-- DIGISTORE24 GA4 PURCHASE TRACKING -->
-    <script>
-      window.addEventListener("DOMContentLoaded", function () {
-        const params = new URLSearchParams(window.location.search);
+<!-- DIGISTORE24 GA4 PURCHASE TRACKING (SAFE FOR INJECTED PAGES) -->
+<script>
+(function () {
 
-        /* ===============================
-     BASIC ORDER DATA
-  =============================== */
+  // Prevent duplicate fires
+  if (sessionStorage.getItem("ds_purchase_sent")) return;
+  sessionStorage.setItem("ds_purchase_sent", "1");
 
-        const transactionId =
-          params.get("transaction_id") || params.get("order_id") || "unknown";
+  const params = new URLSearchParams(window.location.search);
+  if (!params.get("transaction_id") && !params.get("order_id")) return;
 
-        const currency = params.get("currency") || "USD";
+  const transactionId =
+    params.get("transaction_id") ||
+    params.get("order_id");
 
-        const totalValue = parseFloat(params.get("amount") || "0");
+  const currency = params.get("currency") || "USD";
 
-        /* ===============================
-     FRONT-END PRODUCT
-  =============================== */
+  const items = [];
+  let totalValue = 0;
 
-        const items = [];
+  /* FRONT-END */
+  const feId = params.get("product_id");
+  const feName = params.get("product_name");
+  const fePrice = parseFloat(params.get("amount") || "0");
+  const feQty = parseInt(params.get("quantity") || "1");
 
-        const feProductId = params.get("product_id");
-        const feProductName = params.get("product_name");
-        const feQuantity = parseInt(params.get("quantity") || "1");
-        const fePrice = parseFloat(params.get("amount") || "0");
+  if (feId && feName) {
+    items.push({
+      item_id: feId,
+      item_name: decodeURIComponent(feName.replace(/\+/g, " ")),
+      price: fePrice,
+      quantity: feQty,
+      item_category: "Front-End"
+    });
+    totalValue += fePrice;
+  }
 
-        if (feProductId && feProductName) {
-          items.push({
-            item_id: feProductId,
-            item_name: decodeURIComponent(feProductName.replace(/\+/g, " ")),
-            price: fePrice,
-            quantity: feQuantity,
-            item_category: "Front-End",
-          });
-        }
+  /* UPSELLS */
+  let i = 1;
+  while (params.get(`upsell_${i}_product_id`)) {
+    const upId = params.get(`upsell_${i}_product_id`);
+    const upName = params.get(`upsell_${i}_product_name`);
+    const upPrice = parseFloat(params.get(`upsell_${i}_amount`) || "0");
+    const upQty = parseInt(params.get(`upsell_${i}_quantity`) || "1");
 
-        /* ===============================
-     UPSELLS (DYNAMIC PARSING)
-  =============================== */
+    items.push({
+      item_id: upId,
+      item_name: decodeURIComponent(upName.replace(/\+/g, " ")),
+      price: upPrice,
+      quantity: upQty,
+      item_category: "Upsell"
+    });
 
-        let upsellIndex = 1;
-        let upsellTotal = 0;
+    totalValue += upPrice;
 
-        while (params.get(`upsell_${upsellIndex}_product_id`)) {
-          const upProductId = params.get(`upsell_${upsellIndex}_product_id`);
-          const upProductName = params.get(
-            `upsell_${upsellIndex}_product_name`
-          );
-          const upQuantity = parseInt(
-            params.get(`upsell_${upsellIndex}_quantity`) || "1"
-          );
-          const upAmount = parseFloat(
-            params.get(`upsell_${upsellIndex}_amount`) || "0"
-          );
+    gtag("event", "upsell_purchase", {
+      transaction_id: transactionId,
+      item_id: upId,
+      item_name: decodeURIComponent(upName.replace(/\+/g, " ")),
+      value: upPrice,
+      currency: currency
+    });
 
-          upsellTotal += upAmount;
+    i++;
+  }
 
-          items.push({
-            item_id: upProductId,
-            item_name: decodeURIComponent(upProductName.replace(/\+/g, " ")),
-            price: upAmount,
-            quantity: upQuantity,
-            item_category: "Upsell",
-          });
+  /* MAIN PURCHASE */
+  gtag("event", "purchase", {
+    transaction_id: transactionId,
+    value: totalValue,
+    currency: currency,
+    items: items
+  });
 
-          // Optional: individual upsell events
-          gtag("event", "upsell_purchase", {
-            transaction_id: transactionId,
-            item_id: upProductId,
-            item_name: decodeURIComponent(upProductName.replace(/\+/g, " ")),
-            value: upAmount,
-            currency: currency,
-          });
-
-          upsellIndex++;
-        }
-
-        /* ===============================
-     MAIN PURCHASE EVENT (GA4)
-  =============================== */
-
-        gtag("event", "purchase", {
-          transaction_id: transactionId,
-          value: totalValue + upsellTotal,
-          currency: currency,
-          items: items,
-        });
-      });
-      console.log("DIGISTORE TRACKING FIRED");
-
-    </script>
+})();
+</script>
 
     <style>
       body {
