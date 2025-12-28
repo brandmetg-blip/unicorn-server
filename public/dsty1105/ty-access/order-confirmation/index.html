@@ -4,9 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thank You For Your Purchase</title>
-    <link href="../../../ds/images/favico1.png" rel="apple-touch-icon" sizes="180x180" />
-    <link href="../../../ds/images/favico1.png" rel="icon" sizes="32x32" type="image/png" />
-    <link href="../../../ds/images/favico1.png" rel="icon" sizes="16x16" type="image/png" />
+    <link
+      href="../../../ds/images/favico1.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
+    <link
+      href="../../../ds/images/favico1.png"
+      rel="icon"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      href="../../../ds/images/favico1.png"
+      rel="icon"
+      sizes="16x16"
+      type="image/png"
+    />
 
     <script
       async
@@ -20,6 +34,96 @@
       gtag("js", new Date());
 
       gtag("config", "G-W9MQSWJK88");
+    </script>
+    <!-- DIGISTORE24 GA4 PURCHASE TRACKING -->
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+
+        /* ===============================
+     BASIC ORDER DATA
+  =============================== */
+
+        const transactionId =
+          params.get("transaction_id") || params.get("order_id") || "unknown";
+
+        const currency = params.get("currency") || "USD";
+
+        const totalValue = parseFloat(params.get("amount") || "0");
+
+        /* ===============================
+     FRONT-END PRODUCT
+  =============================== */
+
+        const items = [];
+
+        const feProductId = params.get("product_id");
+        const feProductName = params.get("product_name");
+        const feQuantity = parseInt(params.get("quantity") || "1");
+        const fePrice = parseFloat(params.get("amount") || "0");
+
+        if (feProductId && feProductName) {
+          items.push({
+            item_id: feProductId,
+            item_name: decodeURIComponent(feProductName.replace(/\+/g, " ")),
+            price: fePrice,
+            quantity: feQuantity,
+            item_category: "Front-End",
+          });
+        }
+
+        /* ===============================
+     UPSELLS (DYNAMIC PARSING)
+  =============================== */
+
+        let upsellIndex = 1;
+        let upsellTotal = 0;
+
+        while (params.get(`upsell_${upsellIndex}_product_id`)) {
+          const upProductId = params.get(`upsell_${upsellIndex}_product_id`);
+          const upProductName = params.get(
+            `upsell_${upsellIndex}_product_name`
+          );
+          const upQuantity = parseInt(
+            params.get(`upsell_${upsellIndex}_quantity`) || "1"
+          );
+          const upAmount = parseFloat(
+            params.get(`upsell_${upsellIndex}_amount`) || "0"
+          );
+
+          upsellTotal += upAmount;
+
+          items.push({
+            item_id: upProductId,
+            item_name: decodeURIComponent(upProductName.replace(/\+/g, " ")),
+            price: upAmount,
+            quantity: upQuantity,
+            item_category: "Upsell",
+          });
+
+          // Optional: individual upsell events
+          gtag("event", "upsell_purchase", {
+            transaction_id: transactionId,
+            item_id: upProductId,
+            item_name: decodeURIComponent(upProductName.replace(/\+/g, " ")),
+            value: upAmount,
+            currency: currency,
+          });
+
+          upsellIndex++;
+        }
+
+        /* ===============================
+     MAIN PURCHASE EVENT (GA4)
+  =============================== */
+
+        gtag("event", "purchase", {
+          transaction_id: transactionId,
+          value: totalValue + upsellTotal,
+          currency: currency,
+          items: items,
+        });
+      });
     </script>
 
     <style>
