@@ -39,12 +39,11 @@
 <script>
 (function () {
 
-  // Prevent duplicate fires
-  if (sessionStorage.getItem("ds_purchase_sent")) return;
-  sessionStorage.setItem("ds_purchase_sent", "1");
-
   const params = new URLSearchParams(window.location.search);
   if (!params.get("transaction_id") && !params.get("order_id")) return;
+
+  if (sessionStorage.getItem("ds_purchase_sent")) return;
+  sessionStorage.setItem("ds_purchase_sent", "1");
 
   const transactionId =
     params.get("transaction_id") ||
@@ -55,7 +54,7 @@
   const items = [];
   let totalValue = 0;
 
-  /* FRONT-END */
+  // FRONT-END
   const feId = params.get("product_id");
   const feName = params.get("product_name");
   const fePrice = parseFloat(params.get("amount") || "0");
@@ -66,42 +65,29 @@
       item_id: feId,
       item_name: decodeURIComponent(feName.replace(/\+/g, " ")),
       price: fePrice,
-      quantity: feQty,
-      item_category: "Front-End"
+      quantity: feQty
     });
     totalValue += fePrice;
   }
 
-  /* UPSELLS */
+  // UPSELLS
   let i = 1;
   while (params.get(`upsell_${i}_product_id`)) {
     const upId = params.get(`upsell_${i}_product_id`);
     const upName = params.get(`upsell_${i}_product_name`);
     const upPrice = parseFloat(params.get(`upsell_${i}_amount`) || "0");
-    const upQty = parseInt(params.get(`upsell_${i}_quantity`) || "1");
 
     items.push({
       item_id: upId,
       item_name: decodeURIComponent(upName.replace(/\+/g, " ")),
       price: upPrice,
-      quantity: upQty,
-      item_category: "Upsell"
+      quantity: 1
     });
 
     totalValue += upPrice;
-
-    gtag("event", "upsell_purchase", {
-      transaction_id: transactionId,
-      item_id: upId,
-      item_name: decodeURIComponent(upName.replace(/\+/g, " ")),
-      value: upPrice,
-      currency: currency
-    });
-
     i++;
   }
 
-  /* MAIN PURCHASE */
   gtag("event", "purchase", {
     transaction_id: transactionId,
     value: totalValue,
@@ -111,6 +97,7 @@
 
 })();
 </script>
+
 
     <style>
       body {
