@@ -666,10 +666,6 @@
 .teaser{ margin-top:12px; padding:12px; border:1px dashed var(--line); border-radius:12px; background:rgba(255,255,255,.03); color:#e9e0d5; }
 .teaser b{ color:var(--pink); }
 
-.badges{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; }
-.badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); font-weight:800; }
-.badge i{ color:#ffd166; }
-
   
 /* ---- Lesson completion toggle ---- */
 .complete-toggle{
@@ -679,69 +675,6 @@
   font-weight:800; color:#e9e0d5; cursor:pointer;
 }
 .complete-toggle input{ width:18px; height:18px; accent-color: var(--pink); }
-
-/* blue/violet */
-.badge[data-b="m3"]{ background: linear-gradient(135deg, rgba(190,242,100,.18), rgba(34,197,94,.12)); } /* green */
-.badge[data-b="m4"]{ background: linear-gradient(135deg, rgba(253,186,116,.18), rgba(245,158,11,.12)); } /* orange */
-.badge[data-b="m5"]{ background: linear-gradient(135deg, rgba(196,181,253,.18), rgba(168,85,247,.12)); } /* purple */
-.badge i{ opacity:.9; }
-
-  
-/* ---- Badges: compact pastel gradient redesign ---- */
-.badges {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  border: 1px solid rgba(255,255,255,.1);
-  background: linear-gradient(135deg, rgba(255,163,192,.15), rgba(240,98,146,.08));
-  color: #f8e9f0;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.05),
-              0 1px 2px rgba(0,0,0,.2);
-  transition: all 0.2s ease;
-}
-.badge:hover {
-  transform: translateY(-1px);
-  box-shadow: inset 0 1px 3px rgba(255,255,255,.08),
-              0 3px 6px rgba(0,0,0,.25);
-}
-.badge i {
-  font-size: 12px;
-  opacity: 0.5; /* blend icon into tone */
-  color: currentColor; /* same tone as text */
-}
-/* Pastel variations by module */
-.badge[data-b="m2"] {
-  background: linear-gradient(135deg, rgba(147,197,253,.15), rgba(99,102,241,.08));
-}
-.badge[data-b="m3"] {
-  background: linear-gradient(135deg, rgba(190,242,100,.15), rgba(34,197,94,.08));
-}
-.badge[data-b="m4"] {
-  background: linear-gradient(135deg, rgba(253,186,116,.15), rgba(245,158,11,.08));
-}
-.badge[data-b="m5"] {
-  background: linear-gradient(135deg, rgba(196,181,253,.15), rgba(168,85,247,.08));
-}
-
-  
-/* ---- Center badges + spacing from progress ---- */
-.badges {
-  margin-top: 24px; /* more space above */
-  display: flex;
-  justify-content: center; /* center align */
-  flex-wrap: wrap;
-  gap: 8px;
-}
 
 /* Promotional Banner Below Video (Module 2 & 5) */
 .promo-banner {
@@ -924,14 +857,6 @@
 
 
   
-/* --- Badges: show only in Modules (hidden by default) --- */
-#badgesRow{
-  display:none;               /* hidden until course view */
-  margin-top:24px;            /* space from progress */
-  justify-content:center;     /* centered row */
-  flex-wrap:wrap;
-  gap:8px;
-}
 
 /* Free Training Page Styles - MOBILE FIRST */
 .free-training-page {
@@ -1516,11 +1441,6 @@
     font-size: 13px;
     padding: 10px;
   }
-  
-  .badge {
-    padding: 8px 14px;
-    font-size: 11px;
-  }
 }
 
 /* Standard Mobile (421px - 767px) */
@@ -1735,7 +1655,6 @@
     <div class="progress">
       <div class="bar" id="progressBar"></div>
     </div>
-    <div class="badges" id="badgesRow" style="display:none"></div>
 
     <section class="player-card">
       <div class="frame" id="frame"></div>
@@ -1801,14 +1720,6 @@
     let currentSlide = 0;
     let salesMode = false;
 
-    // --- Show badges only on course view ---
-    function updateBadgesVisibility(tab){
-      const row = document.getElementById('badgesRow');
-      if(!row) return;
-      row.style.display = (tab === 'course') ? 'flex' : 'none';
-    }
-
-
     // ---- Lesson completion storage ----
     function getCompleted(){
       try{ return JSON.parse(localStorage.getItem('unicorn_completed')||'{}'); }catch(e){ return {}; }
@@ -1837,16 +1748,6 @@
       return arr.length === modules[modIdx].lessons.length && arr.every(Boolean);
     }
 
-    // ---- Override: unlock badge only when module complete ----
-    function checkModuleBadge(modId){
-      const idx = modules.findIndex(m => m.id === modId);
-      if (idx < 0) return;
-      if (isModuleComplete(idx)) unlockBadge(modId);
-      else {
-        // if not complete, don't add badge (leave existing badges as-is)
-      }
-    }
-
 
     // --- Student Tips per module ---
     const tipsByModule = {
@@ -1865,28 +1766,6 @@
       m4: '<b>Next up:</b> Module 5 teaches you how to start making money from your page',
       m5: '<b>Next up:</b> You finished the core! Revisit high-impact lessons and implement.'
     };
-
-    // --- Badges ---
-    function getBadges(){
-      try{ return JSON.parse(localStorage.getItem('unicorn_badges')||'[]'); }catch(e){ return []; }
-    }
-    function setBadges(arr){
-      try{ localStorage.setItem('unicorn_badges', JSON.stringify(arr)); }catch(e){}
-    }
-    function unlockBadge(modId){
-      const cur = getBadges();
-      if(!cur.includes(modId)){ cur.push(modId); setBadges(cur); }
-      renderBadges();
-      updateNav();
-    }
-    function renderBadges(){
-      const row = document.getElementById('badgesRow'); if(!row) return;
-      const cur = getBadges();
-      if(!cur.length){ row.style.display='none'; row.innerHTML=''; return; }
-      const names = { m1:'Starter', m2:'Content Pro', m3:'Traffic Ace', m4:'Optimizer', m5:'Automator' };
-      row.innerHTML = cur.map(id => `<span class="badge" data-b="${id}"><i class="fa-solid fa-award"></i>${names[id]||id}</span>`).join('');
-      row.style.display='flex';
-    }
 
 
     const tabs = document.getElementById('tabs');
@@ -1977,101 +1856,44 @@
       document.querySelector('.controls').style.display = 'none';
       document.getElementById('moduleInfo').style.display = 'none';
       document.querySelector('.progress').style.display = 'none';
-      document.getElementById('badgesRow').style.display = 'none';
       
-      // Define 3 different product pages
-      const productPages = [
-        {
-          // PRODUCT 1 - Pink Theme (default)
-          title: "FREE TRAINING SESSION",
-          headline: "How To Wake Up With An",
-          amount: "Additional $1,000-$5,000",
-          subtitle: "In Your Bank Account<br><em>Every Single Day...</em>",
-          benefit: "💰 Multiply Your Earnings To $1,000-$3,000 A Day",
-          description: "Scale to <strong>life-changing income</strong> with this bonus training.",
-          stats: {
-            users: "12,400+",
-            rating: "4.8⭐",
-            daily: "$528"
-          },
-          buttonUrl: "https://jvz7.com/c/3222981/415009/",
-          buttonText: "🔓 Unlock The Training",
-          theme: {
-            primaryColor: "#f06292",
-            secondaryColor: "#ffa3c0",
-            buttonGradient: "linear-gradient(135deg, #f06292, #ffa3c0)",
-            amountColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
-            statsColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
-            backgroundImage: "https://i.pinimg.com/736x/34/e3/5d/34e35d13f2cc14134c6e59bb8d6d5230.jpg"
-          }
+      // Hide promo banner
+      const promoBanner = document.getElementById('promoBanner');
+      if (promoBanner) {
+        promoBanner.style.display = 'none';
+      }
+      
+      // Define the single product page (removed rotation)
+      const product = {
+        // Pink Theme
+        title: "FREE TRAINING SESSION",
+        headline: "How To Wake Up With An",
+        amount: "Additional $1,000-$5,000",
+        subtitle: "In Your Bank Account<br><em>Every Single Day...</em>",
+        benefit: "💰 Multiply Your Earnings To $1,000-$3,000 A Day",
+        description: "Scale to <strong>life-changing income</strong> with this bonus training.",
+        stats: {
+          users: "12,400+",
+          rating: "4.8⭐",
+          daily: "$528"
         },
-        {
-          // PRODUCT 2 - Blue Theme
-          title: "FREE TRAINING SESSION",
-          headline: "Your Personal Income Dashboard",
-          amount: "HAS JUST BEEN ACTIVATED",
-          subtitle: "The System Pays Weekly<br><em>And Runs On Auto-Pilot!</em>",
-          benefit: "💎 Start making $300-$500/Day",
-          description: "Scale to life-changing income with this bonus training.",
-          stats: {
-            users: "6,539+",
-            rating: "4.9⭐",
-            daily: "$417"
-          },
-          buttonUrl: "https://www.o1dnf9trk.com/R5BJD5/N5213C/?source_id=members_area&sub1=freetraining",
-          buttonText: "🔓 Unlock The Training",
-          theme: {
-            primaryColor: "#4A90E2",
-            secondaryColor: "#7CB8FF",
-            buttonGradient: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
-            amountColor: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
-            statsColor: "linear-gradient(135deg, #4A90E2, #7CB8FF)",
-            backgroundImage: "https://i.pinimg.com/736x/d3/bf/06/d3bf060f5a4cc5372b98cf3bc3210ad2.jpg"
-          }
-        },
-        {
-          // PRODUCT 3 - Red/Peach Theme
-          title: "FREE TRAINING SESSION",
-          headline: "These People Followed One Step",
-          amount: "And Made $24,197.84",
-          subtitle: "All From Pushing<em> A Few Buttons!</em>",
-          benefit: "🔥 Push One Button And Make $1,000/Day",
-          description: "Scale to life-changing income with this bonus training.",
-          stats: {
-            users: "3,720+",
-            rating: "4.8⭐",
-            daily: "$1,534"
-          },
-          buttonUrl: "https://www.o1dnf9trk.com/R5BJD5/HS752J/?source_id=members_area&sub1=freetraining",
-          buttonText: "🔓 Unlock The Training",
-          theme: {
-            primaryColor: "#FF6B6B",
-            secondaryColor: "#FFB088",
-            buttonGradient: "linear-gradient(135deg, #FF6B6B, #FFB088)",
-            amountColor: "linear-gradient(135deg, #FF6B6B, #FFB088)",
-            statsColor: "linear-gradient(135deg, #FF6B6B, #FFB088)",
-            backgroundImage: "https://i.pinimg.com/736x/98/76/9f/98769fb93b4650717aca2f3c92c01857.jpg"
-          }
+        buttonUrl: "https://jvz7.com/c/3222981/415009/",
+        buttonText: "🔓 Unlock The Training",
+        theme: {
+          primaryColor: "#f06292",
+          secondaryColor: "#ffa3c0",
+          buttonGradient: "linear-gradient(135deg, #f06292, #ffa3c0)",
+          amountColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+          statsColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+          backgroundImage: "https://i.pinimg.com/736x/34/e3/5d/34e35d13f2cc14134c6e59bb8d6d5230.jpg"
         }
-      ];
+      };
       
-      // Sequential rotation: 1, 2, 3, 1, 2, 3...
-      // Get the last shown product index from localStorage
-      let lastProductIndex = parseInt(localStorage.getItem('unicorn_last_product_index') || '-1');
-      
-      // Increment to next product (循环: 0 → 1 → 2 → 0)
-      const currentProductIndex = (lastProductIndex + 1) % 3;
-      
-      // Save for next time
-      localStorage.setItem('unicorn_last_product_index', currentProductIndex.toString());
-      
-      // Select the product
-      const product = productPages[currentProductIndex];
-      
-      // Create free training page content
+      // Get or create free training container
       const mainEl = document.querySelector('main');
       let freeTrainingContainer = document.getElementById('freeTrainingContainer');
       
+      // Only set innerHTML if container doesn't exist or is empty
       if (!freeTrainingContainer) {
         freeTrainingContainer = document.createElement('div');
         freeTrainingContainer.id = 'freeTrainingContainer';
@@ -2079,8 +1901,9 @@
         mainEl.appendChild(freeTrainingContainer);
       }
       
-      freeTrainingContainer.style.display = 'block';
-      freeTrainingContainer.innerHTML = `
+      // Only update content if container is empty (prevents re-rendering)
+      if (!freeTrainingContainer.innerHTML || freeTrainingContainer.style.display === 'none') {
+        freeTrainingContainer.innerHTML = `
         <style>
           /* Dynamic theme colors for current product */
           .free-training-page .highlight {
@@ -2180,6 +2003,10 @@
           </div>
         </div>
       `;
+      }
+      
+      // Always show the container
+      freeTrainingContainer.style.display = 'block';
       
       // Update tabs to show FREE TRAINING as active
       const allTabs = document.querySelectorAll('#tabs .tab');
@@ -2206,9 +2033,10 @@
       document.querySelector('.controls').style.display = '';
       document.getElementById('moduleInfo').style.display = '';
       document.querySelector('.progress').style.display = '';
-      renderTabs(); renderSlide(); updateBadgesVisibility("course");
+      renderTabs(); 
+      renderSlide(); 
       updateNav();
-    ; updateBadgesVisibility("course"); }
+    }
     function renderTabs() {
       const freeClicked = localStorage.getItem('unicorn_free_training_clicked') === '1';
       const modTabs = modules
@@ -2328,8 +2156,6 @@
       if (isLast) {
         tzEl.innerHTML = teasers[mod.id] || '';
         tzEl.style.display = tzEl.innerHTML ? 'block' : 'none';
-        // Badge unlock moved to completion check
-        checkModuleBadge(mod.id);
       } else {
         tzEl.style.display = 'none';
         tzEl.innerHTML = '';
@@ -2344,7 +2170,7 @@
           image: 'https://i.pinimg.com/736x/d3/bf/06/d3bf060f5a4cc5372b98cf3bc3210ad2.jpg',
           headline: 'Your Personal Income Dashboard',
           highlight: 'HAS JUST BEEN ACTIVATED',
-          subtitle: 'The System Pays Weekly<br><br>And Runs On <em>Auto-Pilot!</em>',
+          subtitle: 'The System Pays Weekly And Runs On <em>Auto-Pilot!</em>',
           benefit: '💎 Start making $300-$500/Day',
           description: 'Unicorn helped me earn hundreds of dollars a day.<br><br>But it was this training that helped me scale to $3,000 days, travel the world in style, and finally support my family and kids the way they deserve.<br><br>Now listen—don\'t just half-watch this while scrolling your phone.<br><br>Grab a pen. Take notes. Pay attention.<br><br>This is your chance to take what you\'re learning here and go <strong>10x further</strong>. But only if you\'re willing to put in the effort. No shortcuts. No excuses.',
           buttonUrl: 'https://www.o1dnf9trk.com/R5BJD5/N5213C/?source_id=members_area&sub1=module2',
@@ -2368,7 +2194,7 @@
           image: 'https://i.pinimg.com/736x/98/76/9f/98769fb93b4650717aca2f3c92c01857.jpg',
           headline: 'These People Followed One Step',
           highlight: 'And Made $24,197.84',
-          subtitle: 'All From Pushing<br><br><em>A Few Buttons!</em>',
+          subtitle: 'All From Pushing <em>A Few Buttons!</em>',
           benefit: '🔥 Push One Button And Make $1,000/Day',
           description: 'I started where you are right now. Watching videos. Taking notes. Learning the basics.<br><br>But this one system changed everything for me.<br><br>I went from hoping to make a few hundred dollars... to consistently hitting <strong>$1,000+ days</strong> like clockwork.<br><br>Stop overthinking it. Stop waiting for the "perfect time."<br><br>The people making serious money? They took action when everyone else was still watching tutorials.',
           buttonUrl: 'https://www.o1dnf9trk.com/R5BJD5/HS752J/?source_id=members_area&sub1=module5',
@@ -2465,15 +2291,10 @@
       const toggle = document.getElementById('completeToggle');
       if (toggle){
         toggle.checked = isLessonCompleted(currentModule, currentSlide);
-        if (toggle.checked) { try { unlockBadge(mod.id); } catch(e){} }
         toggle.onchange = function(){
           setLessonCompleted(currentModule, currentSlide, this.checked);
-          if (this.checked) unlockBadge(mod.id);
-          renderBadges();
         };
       }
-
-      renderBadges();
     }
 
 
@@ -2560,7 +2381,8 @@ tabs.addEventListener('click', (e) => {
     });
 
     // Init
-    renderTabs(); renderSlide(); updateBadgesVisibility("course"); renderBadges();
+    renderTabs(); 
+    renderSlide(); 
     updateNav();
     </script>
 <!-- One-time welcome (localStorage + optional server check) -->
