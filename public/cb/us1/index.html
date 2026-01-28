@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
+    <script>
+      digistoreUpsell();
+    </script>
+    <script type="text/javascript">
+      digistorePromocode({ product_id: 631605, adjust_domain: true });
+    </script>
     <script>
       // get the urlparam showoffer and set it to a variable
       // todo: move this to a global script
       var urlParams = new URLSearchParams(window.location.search);
       var showoffer = urlParams.get("showoffer");
     </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9MQSWJK88');
+</script>
 
     <link
       rel="apple-touch-icon"
@@ -51,8 +66,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 
-    <link rel="prefetch" href="https://fast.wistia.com/embed/medias/n51f0i7kh2.jsonp">
-    <link rel="prefetch" href="https://fast.wistia.com/embed/medias/b3xavjt2oe.jsonp">
     <script
       src="https://fast.wistia.com/assets/external/E-v1.js"
       async
@@ -73,6 +86,26 @@
       as="style"
       onload="this.rel='stylesheet'"
     />
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1380954990411421');
+      fbq("track", "PageView");
+      fbq("track", "Purchase", { currency: "USD", value: 47.0 });    
+      </script>
+      <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1380954990411421&ev=PageView&noscript=1"
+      /></noscript>
+      <!-- End Meta Pixel Code -->
+    
+  
   </head>
 
   <body
@@ -157,8 +190,8 @@
               >
                 <div>
                   Before I remove the code for the
-                  <span>UNICODE Update</span> permanently from your Unicorn system,
-                  I need you to confirm that
+                  <span>UNICODE Update</span> permanently from your Unicorn
+                  system, I need you to confirm that
                   <span class="underline">
                     you're 100% sure you don't want your copy of the Unicorn
                     activated.
@@ -176,7 +209,7 @@
                 class="bg-gradient-to-b from-upsell-green-2 to-upsell-green w-full text-center rounded-xl border-2 border-upsell-pink px-2 lg:px-8 py-3 mt-6"
               >
                 <a
-                  href="#"
+                  href="https://www.digistore24.com/answer/yes?pg=vdrd"
                   class="font-sans text-lg lg:text-3xl uppercase text-white font-bold oswald-font"
                 >
                   I changed my mind. Please Activate my copy of The UNICODE for
@@ -187,7 +220,7 @@
               <div
                 class="text:lg lg:text-xl font-serif underline text-center mt-6"
               >
-                <a href="#downsell"
+                <a href="https://www.digistore24.com/answer/no?pg=vdrd"
                   >Deactivate The UNICODE update, and remove it completley from
                   my Unicorn. Pass My $4561 Discount to Another&nbsp;Member.
                 </a>
@@ -397,8 +430,9 @@
                     />
                   </div>
                 </div>
+
                 <div class="flex items-center justify-center px-2 lg:px-28">
-                  <a href="#">
+                  <a href="https://www.digistore24.com/answer/yes">
                     <img
                       class="lg:w-[724px] w-[300px]"
                       alt="activate now button"

@@ -8,9 +8,6 @@
     ></script>
     <script src="page-loader.js"></script>
     <script>
-      // 10% traffic split to index-b.html
-
-      // @taha, uncomment lines 11-18 to start the split test
       // if (Math.random() < 0.1) {
       //   const currentUrl = new URL(window.location);
       //   const params = currentUrl.searchParams;
@@ -19,6 +16,15 @@
       //   const redirectUrl = '/cb/index-b.html' + (params.toString() ? '?' + params.toString() : '');
       //   window.location.href = redirectUrl;
       // }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-W9MQSWJK88');
     </script>
     <link href="css/styles.css" rel="stylesheet" />
     <meta charset="utf-8" />
@@ -54,6 +60,42 @@
       sizes="16x16"
       type="image/png"
     />
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      fbq("init", "1380954990411421");
+      fbq("track", "PageView");
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=2038763323591150&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
   </head>
 
   <body class="relative font-sans h-100 m-0 p-0 min-h-screen flex flex-col">
@@ -142,7 +184,7 @@
               <h1
                 class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-0 text-center text-4xl leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 lg:text-6xl text-black"
               >
-                "This MoneyButton<br />
+                "This Money Button<br />
                 Makes Me
                 <span class="text-header-pink">$528/Day</span><br />
                 On Autopilot"
@@ -381,7 +423,7 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-center px-2 lg:px-0">
-                    <a href="#">
+                    <a href="https://www.digistore24.com/product/631598">
                       <img
                         alt="order now button"
                         src="images/order-now-button.webp"
@@ -656,8 +698,8 @@
         videoContainer.innerHTML = "";
         mobileVideoContainer.innerHTML = "";
 
-        videoId = "mlh2g7vbpw";
-        mobileVideoId = "ricao1cgk4";
+        videoId = "dbjl61s8og";
+        mobileVideoId = "q14l8nriet";
 
         const wistiaDiv = document.createElement("div");
         const mobileWistiaDiv = document.createElement("div");
@@ -728,8 +770,15 @@
 
       loadWistiaVideo();
     </script>
-    <?php
-    include ("ipc.php");
-    ?>
+    <script>
+      fetch(
+        "/cb/ipc.php?pg=" +
+          encodeURIComponent(location.pathname + location.search)
+      ).catch(() => {});
+    </script>
+    <script src="https://www.digistore24-scripts.com/service/digistore.js"></script>
+    <script type="text/javascript">
+      digistorePromocode({ product_id: 631598, adjust_domain: true });
+    </script>
   </body>
 </html>
