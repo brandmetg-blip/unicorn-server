@@ -5,10 +5,18 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="../../jv/images/favico1.png" rel="apple-touch-icon" sizes="180x180" />
-  <link href="../../jv/images/favico1.png" rel="icon" sizes="32x32" type="image/png" />
-  <link href="../../jv/images/favico1.png" rel="icon" sizes="16x16" type="image/png" />
+  <link href="../../ds/images/favico1.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="../../ds/images/favico1.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="../../ds/images/favico1.png" rel="icon" sizes="16x16" type="image/png" />
   <title>Unicorn • Members Area</title>
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-W9MQSWJK88');
+    </script>
   <style>
     :root {
       --bg: #0b0a0a;
@@ -65,7 +73,8 @@
     header {
       position: relative;
       background: linear-gradient(180deg, rgba(15, 13, 13, .95), rgba(11, 10, 10, .7));
-      border-bottom: 1px solid var(--line)
+      border-bottom: 1px solid var(--line);
+      z-index: 1000;
     }
 
     .bar {
@@ -142,13 +151,39 @@
       }
     }
 
+    /* Glowing animation for FREE TRAINING tab */
+    #tabs .tab[data-free].glow {
+      position: relative;
+      padding-left: 35px;
+    }
+
+    /* Gift icon animation for FREE TRAINING */
+    #tabs .tab[data-free].glow::before {
+      content: "🎁";
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      animation: bounce-gift 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce-gift {
+      0%, 100% {
+        transform: translateY(-50%) scale(1);
+      }
+      50% {
+        transform: translateY(-50%) scale(1.15);
+      }
+    }
+
     /* Tabs */
     .tabs {
       display: flex;
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
-      margin: 20px auto 8px
+      margin: 20px auto 8px;
     }
 
     .tab {
@@ -558,7 +593,7 @@
       height: 350px;
       background:
         linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 200px),
-        url('../../jv/images/bga20.png') no-repeat center top;
+        url('../../ds/images/bga20.png') no-repeat center top;
       background-size: cover;
       z-index: -1;
       /* behind the dashboard */
@@ -613,10 +648,6 @@
 .teaser{ margin-top:12px; padding:12px; border:1px dashed var(--line); border-radius:12px; background:rgba(255,255,255,.03); color:#e9e0d5; }
 .teaser b{ color:var(--pink); }
 
-.badges{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; }
-.badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); font-weight:800; }
-.badge i{ color:#ffd166; }
-
   
 /* ---- Lesson completion toggle ---- */
 .complete-toggle{
@@ -627,77 +658,879 @@
 }
 .complete-toggle input{ width:18px; height:18px; accent-color: var(--pink); }
 
-/* blue/violet */
-.badge[data-b="m3"]{ background: linear-gradient(135deg, rgba(190,242,100,.18), rgba(34,197,94,.12)); } /* green */
-.badge[data-b="m4"]{ background: linear-gradient(135deg, rgba(253,186,116,.18), rgba(245,158,11,.12)); } /* orange */
-.badge[data-b="m5"]{ background: linear-gradient(135deg, rgba(196,181,253,.18), rgba(168,85,247,.12)); } /* purple */
-.badge i{ opacity:.9; }
-
-  
-/* ---- Badges: compact pastel gradient redesign ---- */
-.badges {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* Promotional Banner Below Video (Module 2 & 5) */
+.promo-banner {
+  margin: 24px auto 16px;
+  max-width: 900px;
+  background: linear-gradient(135deg, rgba(160, 120, 90, 0.15), rgba(120, 90, 70, 0.10));
+  border: 1px solid rgba(255, 200, 150, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
 }
-.badge {
+
+/* Blue variant for Module 2 */
+.promo-banner.blue-theme {
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(124, 184, 255, 0.10));
+  border: 1px solid rgba(74, 144, 226, 0.25);
+}
+
+.promo-image-section {
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.promo-image-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, 
+    rgba(21, 19, 19, 1) 0%, 
+    rgba(21, 19, 19, 0.95) 10%, 
+    rgba(60, 45, 35, 0.85) 30%, 
+    rgba(100, 75, 55, 0.7) 50%, 
+    rgba(140, 100, 70, 0.55) 70%, 
+    rgba(180, 130, 90, 0.4) 90%, 
+    rgba(220, 170, 120, 0.25) 100%
+  );
+  z-index: 1;
+}
+
+/* Blue gradient overlay for Module 2 */
+.promo-banner.blue-theme .promo-image-section::before {
+  background: linear-gradient(to top, 
+    rgba(21, 19, 19, 1) 0%, 
+    rgba(21, 19, 19, 0.95) 10%, 
+    rgba(35, 50, 75, 0.85) 30%, 
+    rgba(50, 80, 130, 0.7) 50%, 
+    rgba(65, 110, 170, 0.55) 70%, 
+    rgba(90, 140, 210, 0.4) 90%, 
+    rgba(124, 184, 255, 0.25) 100%
+  );
+}
+
+.promo-overlay {
+  position: relative;
+  padding: 32px 20px;
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+}
+
+.promo-overlay h3 {
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.promo-overlay .promo-highlight {
+  background: linear-gradient(135deg, #A88860, #D4A574);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+  font-size: 26px;
+  display: block;
+  margin: 8px 0;
+  letter-spacing: 0.5px;
+}
+
+/* Blue highlight for Module 2 */
+.promo-banner.blue-theme .promo-overlay .promo-highlight {
+  background: linear-gradient(135deg, #4A90E2, #7CB8FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.promo-content {
+  padding: 24px 20px;
+  background: var(--panel);
+}
+
+.promo-benefit {
+  background: linear-gradient(135deg, rgba(168, 136, 96, 0.12), rgba(212, 165, 116, 0.06));
+  border: 2px solid rgba(168, 136, 96, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Blue benefit box for Module 2 */
+.promo-banner.blue-theme .promo-benefit {
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.12), rgba(124, 184, 255, 0.06));
+  border: 2px solid rgba(74, 144, 226, 0.3);
+}
+
+.promo-description {
+  color: #e9e0d5;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.promo-button {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  border: 1px solid rgba(255,255,255,.1);
-  background: linear-gradient(135deg, rgba(255,163,192,.15), rgba(240,98,146,.08));
-  color: #f8e9f0;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,.05),
-              0 1px 2px rgba(0,0,0,.2);
-  transition: all 0.2s ease;
-}
-.badge:hover {
-  transform: translateY(-1px);
-  box-shadow: inset 0 1px 3px rgba(255,255,255,.08),
-              0 3px 6px rgba(0,0,0,.25);
-}
-.badge i {
-  font-size: 12px;
-  opacity: 0.5; /* blend icon into tone */
-  color: currentColor; /* same tone as text */
-}
-/* Pastel variations by module */
-.badge[data-b="m2"] {
-  background: linear-gradient(135deg, rgba(147,197,253,.15), rgba(99,102,241,.08));
-}
-.badge[data-b="m3"] {
-  background: linear-gradient(135deg, rgba(190,242,100,.15), rgba(34,197,94,.08));
-}
-.badge[data-b="m4"] {
-  background: linear-gradient(135deg, rgba(253,186,116,.15), rgba(245,158,11,.08));
-}
-.badge[data-b="m5"] {
-  background: linear-gradient(135deg, rgba(196,181,253,.15), rgba(168,85,247,.08));
-}
-
-  
-/* ---- Center badges + spacing from progress ---- */
-.badges {
-  margin-top: 24px; /* more space above */
-  display: flex;
-  justify-content: center; /* center align */
-  flex-wrap: wrap;
   gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #A88860, #D4A574);
+  color: #1a0d13;
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(168, 136, 96, 0.4);
 }
 
+/* Blue button for Module 2 */
+.promo-banner.blue-theme .promo-button {
+  background: linear-gradient(135deg, #4A90E2, #7CB8FF);
+  color: #0a1929;
+  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
+}
+
+.promo-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(168, 136, 96, 0.5);
+  filter: brightness(1.05);
+}
+
+.promo-banner.blue-theme .promo-button:hover {
+  box-shadow: 0 12px 32px rgba(74, 144, 226, 0.5);
+}
+
+@media (min-width: 768px) {
+  .promo-image-section {
+    min-height: 300px;
+  }
   
-/* --- Badges: show only in Modules (hidden by default) --- */
-#badgesRow{
-  display:none;               /* hidden until course view */
-  margin-top:24px;            /* space from progress */
-  justify-content:center;     /* centered row */
-  flex-wrap:wrap;
-  gap:8px;
+  .promo-overlay {
+    padding: 40px 32px;
+  }
+  
+  .promo-overlay h3 {
+    font-size: 26px;
+  }
+  
+  .promo-overlay .promo-highlight {
+    font-size: 32px;
+  }
+  
+  .promo-content {
+    padding: 28px 32px;
+  }
+}
+
+
+  
+
+/* Free Training Page Styles - MOBILE FIRST */
+.free-training-page {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+.free-training-header {
+  text-align: center;
+  margin-bottom: 24px;
+  padding-top: 10px;
+}
+
+.free-training-header h1 {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink-1), #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.free-training-header .rocket {
+  font-size: 30px;
+  margin-bottom: 8px;
+  animation: rocket-float 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes rocket-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Free Training - Image container */
+.free-training-video-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.free-training-image-section {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  background-image: url('https://scontent.fbeg2-1.fna.fbcdn.net/v/t39.30808-6/481773496_1359452582155118_7880969148085335674_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=aMmFayFaFoIQ7kNvwF5X9br&_nc_oc=Adml6GovMCH2DNUmZV3J6K1Gqco7RsWqIFJ9ZbOloRPRaV-ismNNE-WPdCgYvdGkhuQ&_nc_zt=23&_nc_ht=scontent.fbeg2-1.fna&_nc_gid=YUoWzbCM2A1OR-QoOoS_ag&oh=00_AfkEzRbXDeyOoeLXUnK_jaDWo2H0tMah9DkoGRxpakLWKg&oe=694CC7A0');
+  background-size: cover;
+  background-position: center;
+}
+
+.free-training-image-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, 
+    rgba(21, 19, 19, 1) 0%, 
+    rgba(21, 19, 19, 0.95) 10%, 
+    rgba(40, 25, 30, 0.85) 25%, 
+    rgba(80, 40, 55, 0.7) 45%, 
+    rgba(120, 55, 75, 0.55) 65%, 
+    rgba(180, 75, 100, 0.4) 85%, 
+    rgba(240, 98, 146, 0.25) 100%
+  );
+  z-index: 1;
+}
+
+.free-training-video-overlay {
+  position: relative;
+  padding: 28px 20px 28px;
+  text-align: center;
+  color: #fff;
+  background: var(--panel);
+}
+
+@media (min-width: 768px) {
+  .free-training-image-section {
+    min-height: 280px;
+  }
+  
+  .free-training-video-overlay {
+    padding: 32px 24px 32px;
+  }
+}
+
+/* Gift Opening Animation Overlay */
+.gift-celebration-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.gift-box-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 80px;
+  animation: gift-box-shake 0.6s ease-in-out, gift-box-open 0.4s ease-out 0.6s forwards;
+}
+
+@keyframes gift-box-shake {
+  0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+  25% { transform: translate(-50%, -50%) rotate(-5deg); }
+  75% { transform: translate(-50%, -50%) rotate(5deg); }
+}
+
+@keyframes gift-box-open {
+  0% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.8;
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+.falling-emoji {
+  position: absolute;
+  font-size: 30px;
+  animation: fall linear forwards;
+  opacity: 0;
+}
+
+@keyframes fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+.confetti-burst {
+  position: absolute;
+  font-size: 24px;
+  animation: burst-out 0.8s ease-out forwards;
+}
+
+@keyframes burst-out {
+  0% {
+    transform: translate(0, 0) scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.free-training-video-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+  margin-bottom: 20px;
+}
+
+.free-training-video-overlay h2 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.free-training-video-overlay .emoji-sparkle {
+  font-size: 24px;
+  margin: 0 4px;
+}
+
+.free-training-video-overlay .highlight {
+  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+  font-size: 22px;
+  display: block;
+  margin: 4px 0;
+}
+
+.free-training-video-overlay .subtext {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.free-training-content {
+  padding: 20px 16px 24px;
+}
+
+.free-training-benefit {
+  background: linear-gradient(135deg, rgba(240, 98, 146, 0.12), rgba(255, 163, 192, 0.06));
+  border: 2px solid rgba(240, 98, 146, 0.25);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Social Proof Stats Section */
+.social-proof-stats {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+}
+
+.stats-label {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(240, 98, 146, 0.7);
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.stat-label-text {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.free-training-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.free-training-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--text);
+  margin: 0 auto 20px;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+}
+
+.unlock-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
+  color: #fff;
+  font-weight: 900;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(240, 98, 146, 0.4);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  width: 100%;
+  max-width: 320px;
+}
+
+.unlock-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(240, 98, 146, 0.5);
+  filter: brightness(1.08);
+}
+
+.unlock-button:active {
+  transform: translateY(0);
+}
+
+/* TABLET AND UP (768px+) */
+@media (min-width: 768px) {
+  .free-training-page {
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  
+  .free-training-header {
+    margin-bottom: 32px;
+  }
+  
+  .free-training-header h1 {
+    font-size: 38px;
+  }
+  
+  .free-training-header .rocket {
+    font-size: 50px;
+  }
+  
+  .gift-box-container {
+    font-size: 120px;
+  }
+  
+  .falling-emoji {
+    font-size: 40px;
+  }
+  
+  .confetti-burst {
+    font-size: 30px;
+  }
+  
+  .free-training-video-card {
+    border-radius: 16px;
+    margin-bottom: 28px;
+  }
+  
+  .free-training-video-overlay {
+    padding: 32px 24px;
+  }
+  
+  .free-training-video-overlay h2 {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+  
+  .free-training-video-overlay .emoji-sparkle {
+    font-size: 28px;
+  }
+  
+  .free-training-video-overlay .highlight {
+    font-size: 28px;
+  }
+  
+  .free-training-video-overlay .subtext {
+    font-size: 15px;
+  }
+  
+  .free-training-content {
+    padding: 28px 24px 32px;
+  }
+  
+  .free-training-benefit {
+    padding: 18px 24px;
+    font-size: 17px;
+  }
+  
+  .social-proof-stats {
+    padding: 24px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .stats-label {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .stats-grid {
+    gap: 20px;
+  }
+  
+  .stat-number {
+    font-size: 28px;
+  }
+  
+  .stat-label-text {
+    font-size: 13px;
+  }
+  
+  .free-training-description {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .free-training-badge {
+    font-size: 14px;
+    padding: 11px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .unlock-button {
+    font-size: 17px;
+    padding: 15px 32px;
+    max-width: 360px;
+  }
+}
+
+/* DESKTOP (1024px+) */
+@media (min-width: 1024px) {
+  .free-training-page {
+    margin: 40px auto;
+  }
+  
+  .free-training-header h1 {
+    font-size: 42px;
+  }
+  
+  .free-training-video-overlay h2 {
+    font-size: 26px;
+  }
+  
+  .free-training-video-overlay .highlight {
+    font-size: 32px;
+  }
+  
+  .free-training-video-overlay .subtext {
+    font-size: 16px;
+  }
+  
+  .free-training-benefit {
+    font-size: 18px;
+  }
+  
+  .stat-number {
+    font-size: 32px;
+  }
+  
+  .stat-label-text {
+    font-size: 14px;
+  }
+  
+  .unlock-button {
+    font-size: 18px;
+    padding: 16px 36px;
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES - PRIORITY
+   ======================================== */
+
+/* MOBILE FIRST - Base styles above are mobile optimized */
+
+/* Small Mobile Adjustments (max 420px) */
+@media (max-width: 420px) {
+  body {
+    font-size: 15px;
+  }
+  
+  .wrap {
+    padding: 0 14px;
+  }
+  
+  .bar {
+    min-height: 56px;
+  }
+  
+  .brand {
+    font-size: 15px;
+  }
+  
+  .logo {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .support {
+    padding: 8px 10px;
+    font-size: 13px;
+    gap: 6px;
+  }
+  
+  .tabs {
+    gap: 8px;
+    margin: 16px auto 6px;
+  }
+  
+  .tab {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  #tabs .tab[data-free].glow {
+    padding-left: 32px;
+  }
+  
+  #tabs .tab[data-free].glow::before {
+    font-size: 18px;
+    left: 7px;
+  }
+  
+  .module-info {
+    font-size: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .module-info .label {
+    font-size: 11px;
+  }
+  
+  .module-info .sep {
+    display: none;
+  }
+  
+  .player-card {
+    margin: 16px 0;
+    border-radius: 12px;
+  }
+  
+  .frame {
+    border-radius: 12px;
+  }
+  
+  .content {
+    padding: 18px 16px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .desc {
+    font-size: 14px;
+  }
+  
+  .meta {
+    font-size: 13px;
+  }
+  
+  .complete-toggle {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+
+/* Standard Mobile (421px - 767px) */
+@media (min-width: 421px) and (max-width: 767px) {
+  .wrap {
+    padding: 0 16px;
+  }
+  
+  .tabs {
+    gap: 10px;
+  }
+  
+  .tab {
+    padding: 9px 13px;
+    font-size: 14px;
+  }
+  
+  #tabs .tab[data-free].glow {
+    padding-left: 34px;
+  }
+  
+  #tabs .tab[data-free].glow::before {
+    font-size: 19px;
+    left: 8px;
+  }
+  
+  .module-info {
+    font-size: 13px;
+  }
+  
+  .player-card {
+    margin: 18px 0;
+  }
+  
+  .content {
+    padding: 20px 18px;
+  }
+  
+  .title {
+    font-size: 22px;
+  }
+  
+  .desc {
+    font-size: 15px;
+  }
+}
+
+/* Landscape Mobile Orientation */
+@media (max-width: 767px) and (orientation: landscape) {
+  .bar {
+    min-height: 50px;
+  }
+  
+  .tabs {
+    margin: 12px auto 6px;
+  }
+  
+  .player-card {
+    margin: 12px 0;
+  }
+  
+  .module-info {
+    margin: 4px auto 8px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .tab {
+    min-height: 44px; /* Better touch target */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .support {
+    min-height: 44px;
+  }
+  
+  .complete-toggle {
+    min-height: 44px;
+  }
+  
+  .unlock-button {
+    min-height: 50px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  #tabs .tab.active:hover {
+    transform: none;
+    filter: none;
+  }
+  
+  .unlock-button:hover {
+    transform: none;
+  }
+}
+
+/* Hide elements that shouldn't wrap on very small screens */
+@media (max-width: 360px) {
+  .module-info .now {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .free-training-video-overlay .subtext br {
+    display: none;
+  }
 }
 
   </style>
@@ -789,7 +1622,7 @@
       <div class="brand">
         <div class="logo" aria-hidden="true">🦄</div><b>Unicorn</b>
       </div>
-      <a class="support" href="mailto:support@getunicornofficial.com">
+      <a class="support" href="/cdn-cgi/l/email-protection#681b1d1818071a1c280f0d1c1d06010b071a06070e0e010b010904460b0705">
         <i class="fa-solid fa-headset"></i> Support
       </a>
 
@@ -804,7 +1637,6 @@
     <div class="progress">
       <div class="bar" id="progressBar"></div>
     </div>
-    <div class="badges" id="badgesRow" style="display:none"></div>
 
     <section class="player-card">
       <div class="frame" id="frame"></div>
@@ -820,16 +1652,17 @@
       </div>
     </section>
 
+    <!-- Promotional Banner for Module 2 & 5 -->
+    <div id="promoBanner" style="display:none;"></div>
+
     <div class="controls">
       <button class="pill" id="prevBtn">‹ Previous</button>
       <button class="pill" id="nextBtn">Next ›</button>
     </div>
-    <p style="text-align: center;font-size:14px;">Refund Policy | FTC Compliance | Billing Support | Earnings Disclaimer | Privacy Policy & Terms of Service | Support</p>
-    <p style="text-align: center;">© 2025 Unicorn. All rights reserved.</p>
-    <p style="font-size: 10px;text-align:center;">Disclaimer: Please note that this product does not provide any guarantee of income or success. The results achieved by the product owner or any other individuals mentioned are not indicative of future success or earnings. This website is not affiliated with FaceBook or any of its associated entities. Once you navigate away from FaceBook, the responsibility for the content and its usage lies solely with the user. All content on this website, including but not limited to text, images, and multimedia, is protected by copyright law and the Digital Millennium Copyright Act. Unauthorized copying, duplication, modification, or theft, whether intentional or unintentional, is strictly prohibited. Violators will be prosecuted to the fullest extent of the law. We want to clarify that JVZoo serves as the retailer for the products featured on this site. JVZoo® is a registered trademark of BBC Systems Inc., a Florida corporation located at 1809 E. Broadway Street, Suite 125, Oviedo, FL 32765, USA, and is used with permission. The role of JVZoo as a retailer does not constitute an endorsement, approval, or review of these products or any claims, statements, or opinions used in their promotion.</p>
   </main>
+ 
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const modules = [
       {
         id: 'm1', title: 'MODULE 1', lessons: [
@@ -855,20 +1688,17 @@
         id: 'm5', title: 'MODULE 5', lessons: [
           { title: 'Making Money!', desc: 'Systems do the heavy lifting.', time: '9:05', vimeo: 'https://player.vimeo.com/video/1114711623' }
         ]
+      },
+      {
+        id: 'free', title: 'FREE TRAINING', lessons: [
+          { title: 'Bonus Training', desc: 'Exclusive bonus content for Unicorn members.', time: '0:00', vimeo: '', isFreeTraining: true }
+        ]
       }
     ];
 
     let currentModule = 0;
     let currentSlide = 0;
     let salesMode = false;
-
-    // --- Show badges only on course view ---
-    function updateBadgesVisibility(tab){
-      const row = document.getElementById('badgesRow');
-      if(!row) return;
-      row.style.display = (tab === 'course') ? 'flex' : 'none';
-    }
-
 
     // ---- Lesson completion storage ----
     function getCompleted(){
@@ -898,22 +1728,12 @@
       return arr.length === modules[modIdx].lessons.length && arr.every(Boolean);
     }
 
-    // ---- Override: unlock badge only when module complete ----
-    function checkModuleBadge(modId){
-      const idx = modules.findIndex(m => m.id === modId);
-      if (idx < 0) return;
-      if (isModuleComplete(idx)) unlockBadge(modId);
-      else {
-        // if not complete, don't add badge (leave existing badges as-is)
-      }
-    }
-
 
     // --- Student Tips per module ---
     const tipsByModule = {
       m1: '💡 <b>Tip:</b> Discipline creates freedom, not restriction',
-      m2: '💡 <b>Tip:</b> Confidence sells more than the product',
-      m3: '💡 <b>Tip:</b> One focused hour beats distracted days',
+      m2: '💡 <b>Prompt (Click to copy):</b> Generate me a unique instagram username for my quote page for female/woman. You can use following words and give me good username: "manifest", "empower", "wealth", "female", "woman", "mom","girl","queen","success" and other similar words… Here’s few examples of existing usernames: manifestqueens femalesuccess.co girl.yougotthisqueen innerwomanrising she.empowerswelth feamlealphaclub NOTE: Most simple usernames like 2-3 simple words are already taken, make them super unique and they can have like dots or something but no numbers or anything like that. Generate me 15 examples.',
+      m3: '💡 <b>Instagram Bio:</b> <a style="text-decoration: underline;" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1ZzWMJFaZQ4udzwBP22Tqrj5YLgdtOL7AoUZu5IxgeGw/edit?usp=sharing">Tap here to open list of Instagram Bios</a>',
       m4: '💡 <b>Tip:</b> Money follows clarity, not confusion',
       m5: '💡 <b>Tip:</b> Simplify the process, multiply results fast'
     };
@@ -927,28 +1747,6 @@
       m5: '<b>Next up:</b> You finished the core! Revisit high-impact lessons and implement.'
     };
 
-    // --- Badges ---
-    function getBadges(){
-      try{ return JSON.parse(localStorage.getItem('unicorn_badges')||'[]'); }catch(e){ return []; }
-    }
-    function setBadges(arr){
-      try{ localStorage.setItem('unicorn_badges', JSON.stringify(arr)); }catch(e){}
-    }
-    function unlockBadge(modId){
-      const cur = getBadges();
-      if(!cur.includes(modId)){ cur.push(modId); setBadges(cur); }
-      renderBadges();
-      updateNav();
-    }
-    function renderBadges(){
-      const row = document.getElementById('badgesRow'); if(!row) return;
-      const cur = getBadges();
-      if(!cur.length){ row.style.display='none'; row.innerHTML=''; return; }
-      const names = { m1:'Starter', m2:'Content Pro', m3:'Traffic Ace', m4:'Optimizer', m5:'Automator' };
-      row.innerHTML = cur.map(id => `<span class="badge" data-b="${id}"><i class="fa-solid fa-award"></i>${names[id]||id}</span>`).join('');
-      row.style.display='flex';
-    }
-
 
     const tabs = document.getElementById('tabs');
     const frame = document.getElementById('frame');
@@ -957,19 +1755,278 @@
     const metaEl = document.getElementById('meta');
     const moduleInfo = document.getElementById('moduleInfo');
     const progressBar = document.getElementById('progressBar');
+    
+    function triggerGiftCelebration() {
+      // Create overlay container
+      const overlay = document.createElement('div');
+      overlay.className = 'gift-celebration-overlay';
+      document.body.appendChild(overlay);
+      
+      // Create gift box
+      const giftBox = document.createElement('div');
+      giftBox.className = 'gift-box-container';
+      giftBox.textContent = '🎁';
+      overlay.appendChild(giftBox);
+      
+      // After gift box shakes and opens, create burst effect
+      setTimeout(() => {
+        // Create burst of emojis from center
+        const burstEmojis = ['🎉', '✨', '💝', '🎊', '⭐', '💫', '🌟', '🎈'];
+        const burstCount = 20;
+        
+        for (let i = 0; i < burstCount; i++) {
+          const emoji = document.createElement('div');
+          emoji.className = 'confetti-burst';
+          emoji.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+          
+          // Random direction for burst
+          const angle = (360 / burstCount) * i;
+          const distance = 200 + Math.random() * 100;
+          const tx = Math.cos(angle * Math.PI / 180) * distance;
+          const ty = Math.sin(angle * Math.PI / 180) * distance;
+          
+          emoji.style.setProperty('--tx', `${tx}px`);
+          emoji.style.setProperty('--ty', `${ty}px`);
+          emoji.style.left = '50%';
+          emoji.style.top = '50%';
+          
+          overlay.appendChild(emoji);
+        }
+      }, 600);
+      
+      // Create falling emojis
+      setTimeout(() => {
+        const emojis = ['🎁', '🎉', '✨', '💝', '🎊', '⭐', '💫', '🌟', '🎈', '🎀', '💖', '🌸'];
+        const emojiCount = 30;
+        
+        for (let i = 0; i < emojiCount; i++) {
+          setTimeout(() => {
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.animationDuration = (2 + Math.random() * 2) + 's';
+            emoji.style.animationDelay = (Math.random() * 0.5) + 's';
+            emoji.style.fontSize = (30 + Math.random() * 30) + 'px';
+            overlay.appendChild(emoji);
+          }, i * 80);
+        }
+      }, 800);
+      
+      // Remove overlay after animation completes
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => overlay.remove(), 500);
+      }, 4500);
+    }
+    
+    function showFreeTrainingPage() {
+      // Check if animation has already been shown
+      const animationShown = localStorage.getItem('unicorn_free_training_animation_shown') === '1';
+      
+      // Trigger gift celebration animation only on first visit
+      if (!animationShown) {
+        triggerGiftCelebration();
+        localStorage.setItem('unicorn_free_training_animation_shown', '1');
+      }
+      
+      // Hide normal player elements
+      document.querySelector('.player-card').style.display = 'none';
+      document.querySelector('.controls').style.display = 'none';
+      document.getElementById('moduleInfo').style.display = 'none';
+      document.querySelector('.progress').style.display = 'none';
+      
+      // Hide promo banner
+      const promoBanner = document.getElementById('promoBanner');
+      if (promoBanner) {
+        promoBanner.style.display = 'none';
+      }
+      
+      // Define the single product page (removed rotation)
+      const product = {
+        // Pink Theme
+        title: "FREE TRAINING SESSION",
+        headline: "How To Wake Up With An",
+        amount: "Additional $1,000-$5,000",
+        subtitle: "In Your Bank Account<br><em>Every Single Day...</em>",
+        benefit: "💰 Multiply Your Earnings To $1,000-$3,000 A Day",
+        description: "Scale to <strong>life-changing income</strong> with this bonus training.",
+        stats: {
+          users: "12,400+",
+          rating: "4.8⭐",
+          daily: "$528"
+        },
+        buttonUrl: "https://jvz7.com/c/3222981/415009/",
+        buttonText: "🔓 Unlock The Training",
+        theme: {
+          primaryColor: "#f06292",
+          secondaryColor: "#ffa3c0",
+          buttonGradient: "linear-gradient(135deg, #f06292, #ffa3c0)",
+          amountColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+          statsColor: "linear-gradient(135deg, #f06292, #ffa3c0)",
+          backgroundImage: "https://i.pinimg.com/736x/34/e3/5d/34e35d13f2cc14134c6e59bb8d6d5230.jpg"
+        }
+      };
+      
+      // Get or create free training container
+      const mainEl = document.querySelector('main');
+      let freeTrainingContainer = document.getElementById('freeTrainingContainer');
+      
+      // Only set innerHTML if container doesn't exist or is empty
+      if (!freeTrainingContainer) {
+        freeTrainingContainer = document.createElement('div');
+        freeTrainingContainer.id = 'freeTrainingContainer';
+        freeTrainingContainer.className = 'free-training-page';
+        mainEl.appendChild(freeTrainingContainer);
+      }
+      
+      // Only update content if container is empty (prevents re-rendering)
+      if (!freeTrainingContainer.innerHTML || freeTrainingContainer.style.display === 'none') {
+        freeTrainingContainer.innerHTML = `
+        <style>
+          /* Dynamic theme colors for current product */
+          .free-training-page .highlight {
+            background: ${product.theme.amountColor} !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .free-training-page .stat-number {
+            background: ${product.theme.statsColor} !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          .free-training-page .unlock-button {
+            background: ${product.theme.buttonGradient} !important;
+            box-shadow: 0 8px 24px ${product.theme.primaryColor}66 !important;
+          }
+          .free-training-page .unlock-button:hover {
+            box-shadow: 0 12px 32px ${product.theme.primaryColor}80 !important;
+          }
+          .free-training-page .stats-label {
+            color: ${product.theme.primaryColor}B3 !important;
+          }
+          .free-training-page .free-training-benefit {
+            border-color: ${product.theme.primaryColor}40 !important;
+            background: linear-gradient(135deg, ${product.theme.primaryColor}1F, ${product.theme.secondaryColor}0F) !important;
+          }
+          /* Themed gradient overlay on image */
+          .free-training-page .free-training-image-section {
+            background-image: url('${product.theme.backgroundImage}') !important;
+          }
+          .free-training-page .free-training-image-section::before {
+            background: linear-gradient(to top, 
+              #151313 0%, 
+              rgba(21, 19, 19, 0.9) 20%, 
+              ${product.theme.primaryColor}30 70%, 
+              ${product.theme.secondaryColor}26 100%
+            ) !important;
+          }
+        </style>
+        <div class="free-training-header">
+          <div class="rocket">🎁</div>
+          <h1><span style="color: #FFA500;"> <b>LIMITED GIFT</b> </span></h1>
+        </div>
+        <div class="free-training-video-card">
+          <div class="free-training-video-wrapper">
+            <div class="free-training-image-section"></div>
+            <div class="free-training-video-overlay">
+              <h2>
+                <span class="emoji-sparkle">🌟</span> <span style="color: #ffff00;"> ${product.title} </span> <span class="emoji-sparkle">🌟</span>
+              </h2>
+              <h2>
+                ${product.headline}<br>
+                <span class="highlight">${product.amount}</span>
+                ${product.subtitle}
+              </h2>
+            </div>
+          </div>
+          
+          <div class="free-training-content">
+            <div class="free-training-benefit">
+              ${product.benefit}
+            </div>
+            
+            <div class="social-proof-stats">
+              <p class="stats-label">REAL RESULTS FROM PEOPLE LIKE YOU</p>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <div class="stat-number">${product.stats.users}</div>
+                  <div class="stat-label-text">Active Users</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">${product.stats.rating}</div>
+                  <div class="stat-label-text">Avg Rating</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">${product.stats.daily}</div>
+                  <div class="stat-label-text">Avg Daily</div>
+                </div>
+              </div>
+            </div>
+            
+            <p class="free-training-description">
+              ${product.description}
+            </p>
+            
+            <div class="free-training-badge">
+              🎁 100% FREE
+            </div>
+            
+            <div style="text-align: center;">
+              <a href="${product.buttonUrl}" class="unlock-button">
+                ${product.buttonText}
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+      }
+      
+      // Always show the container
+      freeTrainingContainer.style.display = 'block';
+      
+      // Update tabs to show FREE TRAINING as active
+      const allTabs = document.querySelectorAll('#tabs .tab');
+      allTabs.forEach(tab => {
+        if (tab.hasAttribute('data-free')) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+    }
+    
     function showCourseView() {
       salesMode = false;
       /* sales-mode removed */
+      
+      // Hide free training page if it exists
+      const freeTrainingContainer = document.getElementById('freeTrainingContainer');
+      if (freeTrainingContainer) {
+        freeTrainingContainer.style.display = 'none';
+      }
+      
       document.querySelector('.player-card').style.display = '';
       document.querySelector('.controls').style.display = '';
       document.getElementById('moduleInfo').style.display = '';
       document.querySelector('.progress').style.display = '';
-      renderTabs(); renderSlide(); updateBadgesVisibility("course");
+      renderTabs(); 
+      renderSlide(); 
       updateNav();
-    ; updateBadgesVisibility("course"); }
+    }
     function renderTabs() {
+      const freeClicked = localStorage.getItem('unicorn_free_training_clicked') === '1';
       const modTabs = modules
-        .map((m, i) => `<button class="tab ${i === currentModule && !salesMode ? 'active' : ''}" data-i="${i}">${m.title}</button>`)
+        .map((m, i) => {
+          const isActive = i === currentModule && !salesMode ? 'active' : '';
+          const isFree = m.id === 'free';
+          const glowClass = (isFree && !freeClicked) ? 'glow' : '';
+          const dataAttr = isFree ? 'data-free' : '';
+          return `<button class="tab ${isActive} ${glowClass}" data-i="${i}" ${dataAttr}>${m.title}</button>`;
+        })
         .join('');
       tabs.innerHTML = modTabs;
     }
@@ -1002,6 +2059,12 @@
     function renderSlide() {
       const mod = modules[currentModule];
       const lesson = mod.lessons[currentSlide];
+      
+      // Skip rendering for free training - it has its own page
+      if (lesson.isFreeTraining) {
+        return;
+      }
+      
       setPlayer(lesson.vimeo);
       titleEl.textContent = lesson.title;
       descEl.textContent = lesson.desc || "";
@@ -1026,7 +2089,45 @@
       // Student tip (per module)
       const tipEl = document.getElementById('studentTip');
       const tip = tipsByModule[mod.id];
-      if (tip) { tipEl.innerHTML = tip; tipEl.style.display = 'block'; }
+      if (tip) { 
+        tipEl.innerHTML = tip; 
+        tipEl.style.display = 'block';
+        
+        // Add copy functionality for Module 2 prompt
+        if (mod.id === 'm2') {
+          const promptText = 'Generate me a unique instagram username for my quote page for female/woman. You can use following words and give me good username: "manifest", "empower", "wealth", "female", "woman", "mom","girl","queen","success" and other similar words… Here\'s few examples of existing usernames: manifestqueens femalesuccess.co girl.yougotthisqueen innerwomanrising she.empowerswelth feamlealphaclub NOTE: Most simple usernames like 2-3 simple words are already taken, make them super unique and they can have like dots or something but no numbers or anything like that. Generate me 15 examples.';
+          
+          tipEl.style.cursor = 'pointer';
+          tipEl.style.userSelect = 'none';
+          
+          tipEl.onclick = async function() {
+            try {
+              await navigator.clipboard.writeText(promptText);
+            } catch (err) {
+              const textArea = document.createElement('textarea');
+              textArea.value = promptText;
+              textArea.style.position = 'fixed';
+              textArea.style.left = '-999999px';
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+            }
+            
+            // Show copied notification
+            const notification = document.createElement('div');
+            notification.textContent = '✅ Copied to clipboard!';
+            notification.style.cssText = 'position:fixed;top:20px;right:20px;background:linear-gradient(135deg,#ffa3c0,#f06292);color:#1b1330;padding:14px 24px;border-radius:12px;font-weight:800;font-size:15px;box-shadow:0 8px 24px rgba(240,98,146,0.5);z-index:10000;animation:slideIn 0.3s ease';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+              notification.style.opacity = '0';
+              notification.style.transition = 'opacity 0.3s ease';
+              setTimeout(() => notification.remove(), 300);
+            }, 3000);
+          };
+        }
+      }
       else { tipEl.style.display = 'none'; }
 
       // Teaser (if on last lesson)
@@ -1035,28 +2136,145 @@
       if (isLast) {
         tzEl.innerHTML = teasers[mod.id] || '';
         tzEl.style.display = tzEl.innerHTML ? 'block' : 'none';
-        // Badge unlock moved to completion check
-        checkModuleBadge(mod.id);
       } else {
         tzEl.style.display = 'none';
         tzEl.innerHTML = '';
       }
 
       updateModuleInfo();
+      
+      // Promotional Banner for Module 2 & Module 5
+      const promoBanner = document.getElementById('promoBanner');
+      if (mod.id === 'm2' || mod.id === 'm5') {
+        const promoData = mod.id === 'm2' ? {
+          image: 'https://i.pinimg.com/736x/d3/bf/06/d3bf060f5a4cc5372b98cf3bc3210ad2.jpg',
+          headline: 'Your Personal Income Dashboard',
+          highlight: 'HAS JUST BEEN ACTIVATED',
+          subtitle: 'The System Pays Weekly And Runs On <em>Auto-Pilot!</em>',
+          benefit: '💎 Start making $300-$500/Day',
+          description: 'Unicorn helped me earn hundreds of dollars a day.<br><br>But it was this training that helped me scale to $3,000 days, travel the world in style, and finally support my family and kids the way they deserve.<br><br>Now listen—don\'t just half-watch this while scrolling your phone.<br><br>Grab a pen. Take notes. Pay attention.<br><br>This is your chance to take what you\'re learning here and go <strong>10x further</strong>. But only if you\'re willing to put in the effort. No shortcuts. No excuses.',
+          buttonUrl: 'https://www.o1dnf9trk.com/R5BJD5/N5213C/?source_id=members_area&sub1=module2',
+          buttonText: '🔓 Unlock The Training',
+          primaryColor: '#4A90E2',
+          secondaryColor: '#7CB8FF',
+          buttonGradient: 'linear-gradient(135deg, #4A90E2, #7CB8FF)',
+          highlightGradient: 'linear-gradient(135deg, #4A90E2, #7CB8FF)',
+          benefitBg: 'linear-gradient(135deg, rgba(74, 144, 226, 0.12), rgba(124, 184, 255, 0.06))',
+          benefitBorder: 'rgba(74, 144, 226, 0.3)',
+          imageGradient: `linear-gradient(to top, 
+            rgba(11, 10, 10, 1) 0%, 
+            rgba(11, 10, 10, 1) 30%,
+            rgba(15, 13, 13, 0.98) 50%,
+            rgba(20, 20, 25, 0.95) 70%,
+            rgba(30, 40, 60, 0.90) 85%,
+            rgba(40, 70, 110, 0.80) 95%,
+            rgba(74, 144, 226, 0.4) 100%
+          )`
+        } : {
+          image: 'https://i.pinimg.com/736x/98/76/9f/98769fb93b4650717aca2f3c92c01857.jpg',
+          headline: 'These People Followed One Step',
+          highlight: 'And Made $24,197.84',
+          subtitle: 'All From Pushing <em>A Few Buttons!</em>',
+          benefit: '🔥 Push One Button And Make $1,000/Day',
+          description: 'I started where you are right now. Watching videos. Taking notes. Learning the basics.<br><br>But this one system changed everything for me.<br><br>I went from hoping to make a few hundred dollars... to consistently hitting <strong>$1,000+ days</strong> like clockwork.<br><br>Stop overthinking it. Stop waiting for the "perfect time."<br><br>The people making serious money? They took action when everyone else was still watching tutorials.',
+          buttonUrl: 'https://www.o1dnf9trk.com/R5BJD5/HS752J/?source_id=members_area&sub1=module5',
+          buttonText: '🔓 Unlock The Training',
+          primaryColor: '#FF6B6B',
+          secondaryColor: '#FFB088',
+          buttonGradient: 'linear-gradient(135deg, #FF6B6B, #FFB088)',
+          highlightGradient: 'linear-gradient(135deg, #FF6B6B, #FFB088)',
+          benefitBg: 'linear-gradient(135deg, rgba(255, 107, 107, 0.12), rgba(255, 176, 136, 0.06))',
+          benefitBorder: 'rgba(255, 107, 107, 0.3)',
+          imageGradient: `linear-gradient(to top, 
+            rgba(11, 10, 10, 1) 0%, 
+            rgba(11, 10, 10, 1) 30%,
+            rgba(15, 13, 13, 0.98) 50%,
+            rgba(20, 18, 18, 0.95) 70%,
+            rgba(40, 30, 30, 0.90) 85%,
+            rgba(80, 50, 50, 0.80) 95%,
+            rgba(255, 107, 107, 0.4) 100%
+          )`
+        };
+        
+        promoBanner.innerHTML = `
+          <style>
+            #promoBanner-${mod.id} {
+              background: ${mod.id === 'm2' ? 'linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(124, 184, 255, 0.10))' : 'linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 176, 136, 0.10))'} !important;
+              border: 1px solid ${mod.id === 'm2' ? 'rgba(74, 144, 226, 0.25)' : 'rgba(255, 107, 107, 0.25)'} !important;
+            }
+            #promoBanner-${mod.id} .promo-image-section {
+              min-height: 320px;
+              display: flex;
+              align-items: center;
+            }
+            #promoBanner-${mod.id} .promo-image-section::before {
+              background: ${promoData.imageGradient} !important;
+            }
+            #promoBanner-${mod.id} .promo-overlay {
+              padding: 60px 20px 50px;
+              width: 100%;
+            }
+            #promoBanner-${mod.id} .promo-highlight {
+              background: ${promoData.highlightGradient} !important;
+              -webkit-background-clip: text !important;
+              -webkit-text-fill-color: transparent !important;
+              background-clip: text !important;
+            }
+            #promoBanner-${mod.id} .promo-button {
+              background: ${promoData.buttonGradient} !important;
+              box-shadow: 0 8px 24px ${promoData.primaryColor}66 !important;
+            }
+            #promoBanner-${mod.id} .promo-button:hover {
+              box-shadow: 0 12px 32px ${promoData.primaryColor}80 !important;
+            }
+            #promoBanner-${mod.id} .promo-benefit {
+              background: ${promoData.benefitBg} !important;
+              border-color: ${promoData.benefitBorder} !important;
+            }
+            @media (min-width: 768px) {
+              #promoBanner-${mod.id} .promo-image-section {
+                min-height: 360px;
+              }
+              #promoBanner-${mod.id} .promo-overlay {
+                padding: 70px 32px 60px;
+              }
+            }
+          </style>
+          <div class="promo-banner" id="promoBanner-${mod.id}">
+            <div class="promo-image-section" style="background-image: url('${promoData.image}');">
+              <div class="promo-overlay">
+                <h3>
+                  ${promoData.headline}<br>
+                  <span class="promo-highlight">${promoData.highlight}</span>
+                </h3>
+                <p style="color: rgba(255, 255, 255, 0.95); font-size: 15px; line-height: 1.6; margin: 12px 0 0; font-weight: 500;">${promoData.subtitle}</p>
+              </div>
+            </div>
+            <div class="promo-content">
+              <div class="promo-benefit">${promoData.benefit}</div>
+              <p class="promo-description">${promoData.description}</p>
+              <div style="text-align: center;">
+                <a href="${promoData.buttonUrl}" target="_blank" rel="noopener" class="promo-button">
+                  ${promoData.buttonText}
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+        promoBanner.style.display = 'block';
+      } else {
+        promoBanner.style.display = 'none';
+        promoBanner.innerHTML = '';
+      }
 
       // Sync completion toggle
       const toggle = document.getElementById('completeToggle');
       if (toggle){
         toggle.checked = isLessonCompleted(currentModule, currentSlide);
-        if (toggle.checked) { try { unlockBadge(mod.id); } catch(e){} }
         toggle.onchange = function(){
           setLessonCompleted(currentModule, currentSlide, this.checked);
-          if (this.checked) unlockBadge(mod.id);
-          renderBadges();
         };
       }
-
-      renderBadges();
     }
 
 
@@ -1113,7 +2331,16 @@ tabs.addEventListener('click', (e) => {
   const btn = e.target.closest('.tab');
   if (!btn) return;
 
-  
+  // Check if it's the FREE TRAINING tab
+  if (btn.hasAttribute('data-free')) {
+    // Mark as clicked to stop glow animation
+    localStorage.setItem('unicorn_free_training_clicked', '1');
+    // Re-render tabs to remove glow
+    renderTabs();
+    // Show free training page
+    showFreeTrainingPage();
+    return;
+  }
 
   const attr = btn.getAttribute('data-i');
   if (attr !== null) {
@@ -1134,7 +2361,8 @@ tabs.addEventListener('click', (e) => {
     });
 
     // Init
-    renderTabs(); renderSlide(); updateBadgesVisibility("course"); renderBadges();
+    renderTabs(); 
+    renderSlide(); 
     updateNav();
     </script>
 <!-- One-time welcome (localStorage + optional server check) -->
@@ -1392,5 +2620,3 @@ tabs.addEventListener('click', (e) => {
 </script>
 
 </body>
-
-</html>
