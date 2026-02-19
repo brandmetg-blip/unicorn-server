@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
   <head>
@@ -21,8 +21,8 @@
       // }
     </script>
     <!-- JVZoo checkout domain warm-up -->
-    <link rel="dns-prefetch" href="//www.jvzoo.com">
-    <link rel="preconnect" href="https://www.jvzoo.com" crossorigin>
+    <link rel="dns-prefetch" href="//www.jvzoo.com" />
+    <link rel="preconnect" href="https://www.jvzoo.com" crossorigin />
 
     <link href="css/styles.css" rel="stylesheet" />
     <meta charset="utf-8" />
@@ -60,114 +60,233 @@
     />
 
     <script>
+      /**
+       * JVZoo Affiliate Link Tracking & Rewriting Script
+       *
+       * This script performs two main functions:
+       * 1. Fires a tracking pixel when the page loads (once per page load)
+       * 2. Rewrites all JVZoo buy button links to include affiliate tracking parameters
+       *
+       * Features:
+       * - Handles relative (/b/...) and absolute (https://...) links
+       * - Preserves existing query parameters and hash fragments
+       * - Case-insensitive parameter deduplication (prevents aid/AID duplicates)
+       * - Watches for dynamically-added links via MutationObserver
+       * - Works on vendor sites (non-JVZoo domains)
+       */
       (function () {
+        // Prevent multiple initialization
         if (window.__JVZ_B_LINK_INIT__) return;
         window.__JVZ_B_LINK_INIT__ = true;
 
-        // ===== Options =====
-        const REWRITE_ENABLED = true; // when true: add ALL page params to /b/ links
-        const ALWAYS_PASS = ["aid", "coupon"]; // always added to /b/ links (lowercased keys)
-        const FALLBACK_PRODUCT_ID = ""; // optional fallback if no IDs found (e.g. '123456')
-        const FIRE_TTL_MS = 30 * 1000; // "already fired" time-to-live: 1 minute
-        const THROTTLE_MS = 1500; // cross-instance throttle between fires
-
-        // ===== State =====
-        const FIRED_MAP =
-          window.__JVZ_B_LINK_FIRED__ ||
-          (window.__JVZ_B_LINK_FIRED__ = Object.create(null)); // key -> timestamp
-        const firedKey = (aid, productId, tid) =>
-          [aid || "", productId || "", tid || ""].join("|");
-
-        const hasFired = (aid, productId, tid) => {
-          const k = firedKey(aid, productId, tid);
-          const now = Date.now();
-
-          // memory check
-          const memTs = Number(FIRED_MAP[k]);
-          if (Number.isFinite(memTs) && now - memTs < FIRE_TTL_MS) return true;
-
-          // sessionStorage check (+back-compat)
-          try {
-            const raw = sessionStorage.getItem("jvzFired:" + k);
-            if (raw == null) return false;
-
-            if (raw === "1") {
-              // legacy value -> convert to timestamp and honor TTL from now
-              sessionStorage.setItem("jvzFired:" + k, String(now));
-              FIRED_MAP[k] = now;
-              return true;
-            }
-
-            const ts = Number(raw);
-            if (!Number.isFinite(ts)) return false;
-
-            if (now - ts < FIRE_TTL_MS) {
-              FIRED_MAP[k] = ts;
-              return true;
-            } else {
-              sessionStorage.removeItem("jvzFired:" + k);
-              delete FIRED_MAP[k];
-              return false;
-            }
-          } catch (_) {
-            return Number.isFinite(memTs) && Date.now() - memTs < FIRE_TTL_MS;
+        // ===== Browser Compatibility Check =====
+        // Exit early if required APIs are not available (IE10 and below)
+        if (
+          typeof URL === "undefined" ||
+          typeof URLSearchParams === "undefined" ||
+          typeof MutationObserver === "undefined"
+        ) {
+          if (typeof console !== "undefined" && console.warn) {
+            console.warn(
+              "[JVZ] Browser not supported (missing URL, URLSearchParams, or MutationObserver)",
+            );
           }
+          return;
+        }
+
+        // ===== Configuration Options =====
+        /**
+         * Fallback product ID to use if no JVZoo links are found on the page.
+         * Leave empty ('') to skip tracking pixel if no product IDs are detected.
+         * Example: '123456'
+         */
+        const FALLBACK_PRODUCT_ID = "";
+
+        /**
+         * When true, ALL page query parameters are added to buy button links.
+         * When false, only parameters in ALWAYS_PASS are added.
+         */
+        const REWRITE_ENABLED = true;
+
+        /**
+         * Parameters that are ALWAYS added to buy button links, even when REWRITE_ENABLED is false.
+         * Note: 'tid' is intentionally excluded - it's only needed for click tracking, not purchase flow.
+         * These values are case-insensitive (matched as lowercase).
+         */
+        const ALWAYS_PASS = new Set(["aid", "coupon"]);
+
+        /**
+         * Debounce delay (ms) for mutation observer to prevent excessive processing.
+         * Higher values reduce CPU usage but increase delay before new links are processed.
+         */
+        const DEBOUNCE_MS = 200;
+
+        /**
+         * Safety timeout (ms) for cleaning up tracking iframe if onload/onerror don't fire.
+         */
+        const IFRAME_CLEANUP_MS = 10000;
+
+        /**
+         * Whitelist of allowed JVZoo hostnames. Only links to these domains are processed.
+         */
+        const ALLOWED_HOSTNAMES = Object.freeze([
+          "www.jvzoo.com",
+          "i.jvzoo.com",
+          "jvzoo.com",
+        ]);
+
+        /**
+         * Regex pattern for validating parameter keys (security).
+         * Allows: 1-64 characters, alphanumeric + underscore + hyphen, cannot start with hyphen.
+         */
+        const PARAM_KEY_PATTERN = /^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,63}$/;
+
+        // ===== Global State Management =====
+        /**
+         * Global state object for tracking script execution and preventing race conditions.
+         * Stored on window object to persist across function calls and allow external debugging.
+         */
+        window.__JVZ__ = window.__JVZ__ || {
+          updating: false, // Reentry guard: prevents updateBuyLinks from calling itself
+          pageFired: false, // Ensures tracking pixel fires only once per page load
+          pendingUpdateCount: 0, // Count of queued mutations (prevents starvation during rapid DOM changes)
         };
 
-        const markFired = (aid, productId, tid) => {
-          const k = firedKey(aid, productId, tid);
-          const now = Date.now();
-          FIRED_MAP[k] = now;
-          try {
-            sessionStorage.setItem("jvzFired:" + k, String(now));
-          } catch (_) {}
-        };
+        // ===== Debug Logging =====
+        /**
+         * Set DEBUG = true to enable console logging, or set window.__JVZ_DEBUG__ = true in browser console.
+         */
+        const DEBUG = false;
 
-        // failure-only debug helper
-        const DEBUG = true;
+        /**
+         * Logs debug messages only when debugging is enabled.
+         * Used for tracking failures and skipped operations.
+         */
         const dbgFail = (...args) => {
-          if (DEBUG && typeof console !== "undefined") {
-            (console.debug || console.log).apply(console, ["[JVZ]", ...args]);
+          if (DEBUG || window.__JVZ_DEBUG__) {
+            if (typeof console !== "undefined") {
+              (console.debug || console.log).apply(console, ["[JVZ]", ...args]);
+            }
           }
         };
 
-        // ===== 1) Normalize page params (aid/tid lowercased, others preserved) =====
+        // ===== Parse and Normalize Current Page Parameters =====
+        /**
+         * Extract query parameters from the current page URL and normalize affiliate params.
+         *
+         * IMPORTANT: JVZoo's affiliate system treats aid/tid/coupon as case-insensitive.
+         * We normalize these to lowercase to prevent duplicate parameters (e.g., AID + aid).
+         * If JVZoo changes this behavior, tracking may break.
+         *
+         * Examples:
+         *   Input:  ?AID=123&TID=456&foo=bar
+         *   Output: ?aid=123&tid=456&foo=bar
+         */
         const qp = new URLSearchParams(window.location.search);
         const pageParams = new URLSearchParams();
+
         for (const [key, value] of qp.entries()) {
           const kLower = key.toLowerCase();
+          // Normalize JVZoo-specific parameters to lowercase
           if (kLower === "aid" || kLower === "tid" || kLower === "coupon") {
             pageParams.set(kLower, value);
           } else {
+            // Preserve original case for all other parameters
             pageParams.set(key, value);
           }
         }
+
+        // Extract affiliate ID and tracking ID for later use
         const aidRaw = pageParams.get("aid");
         const tidRaw = pageParams.get("tid");
 
-        // ===== 2) Parse JVZoo URLs (supports /b/... and pixel form /.../..../...) =====
+        // ===== URL Parser: Validates and Extracts JVZoo Link Information =====
+        /**
+         * Parses a URL to determine if it's a valid JVZoo link and extracts IDs.
+         *
+         * Supported URL formats:
+         *   - https://www.jvzoo.com/b/182/46/99 (full URL with /b/)
+         *   - https://i.jvzoo.com/182/46/99 (pixel form without /b/)
+         *   - //www.jvzoo.com/b/182/46/99 (protocol-relative)
+         *   - /b/182/46/99 (relative on vendor sites - normalized to jvzoo.com)
+         *   - /B/182/46/99 (uppercase B also supported)
+         *   - https://vendor.com/b/182/46/99 (absolute on vendor sites - normalized to jvzoo.com)
+         *
+         * @param {string} url - The URL to parse
+         * @returns {Object|null} - Object with {url, funnelId, productId, buttonId} or null if invalid
+         */
         function parseJVZUrl(url) {
           try {
-            const u = new URL(url, window.location.href);
-            if (!/(\.|^)jvzoo\.com$/i.test(u.hostname)) return null;
+            // Security: Allow protocol-relative JVZoo links (//www.jvzoo.com/...) but reject others
+            const trimmedUrl = url && url.trim();
+            if (trimmedUrl && /^\/\/+/.test(trimmedUrl)) {
+              const testUrl = new URL("https:" + trimmedUrl);
+              const testHostname = testUrl.hostname.toLowerCase();
+              if (!ALLOWED_HOSTNAMES.includes(testHostname)) {
+                dbgFail("parseJVZUrl: protocol-relative URL not allowed", url);
+                return null;
+              }
+              // Valid JVZoo protocol-relative URL - continue processing
+            }
 
-            // Supports:
-            //   /b/{funnel}/{product}/{button}
-            //   /{funnel}/{product}/{button}   (e.g. i.jvzoo.com/182/46/99)
+            // Parse URL (relative URLs resolved against current page)
+            const u = new URL(url, window.location.href);
+
+            // Check if this is a /b/ or /B/ path
+            const hostname = u.hostname.toLowerCase();
+            const isBPath = /^\/[bB]\//.test(u.pathname);
+
+            // Handle vendor site links: if pathname starts with /b/ but domain isn't JVZoo, normalize it
+            if (!ALLOWED_HOSTNAMES.includes(hostname)) {
+              if (isBPath) {
+                // Rewrite vendor /b/ links to point to jvzoo.com, preserving query & hash
+                // Example: https://vendor.com/b/1/2/3?foo=bar#anchor → https://www.jvzoo.com/b/1/2/3?foo=bar#anchor
+                const relativeUrl = new URL(
+                  "https://www.jvzoo.com" + u.pathname + u.search + u.hash,
+                );
+                const relativeMatch = relativeUrl.pathname.match(
+                  /^\/(?:[bB]\/)?(\d+)\/(\d+)(?:\/(\d+))?(?:[\/? #]|$)/,
+                );
+                if (relativeMatch) {
+                  return {
+                    url: relativeUrl,
+                    funnelId: relativeMatch[1],
+                    productId: relativeMatch[2],
+                    buttonId: relativeMatch[3] || null,
+                  };
+                }
+              }
+
+              // Security: Reject untrusted subdomains (e.g., evil.jvzoo.com)
+              if (hostname.endsWith(".jvzoo.com")) {
+                dbgFail("parseJVZUrl: untrusted subdomain", hostname);
+              }
+              return null;
+            }
+
+            // Parse JVZoo URL pathname to extract IDs
+            // Pattern matches: /b/182/46/99 or /182/46/99 or /182/46 (buttonId optional)
             const m = u.pathname.match(
-              /^\/(?:[bB]\/)?(\d+)\/(\d+)\/(\d+)(?:[\/?#]|$)/
+              /^\/(?:[bB]\/)?(\d+)\/(\d+)(?:\/(\d+))?(?:[\/? #]|$)/,
             );
             if (!m) return null;
-            return { url: u, funnelId: m[1], productId: m[2], buttonId: m[3] };
-          } catch {
+
+            return {
+              url: u,
+              funnelId: m[1],
+              productId: m[2],
+              buttonId: m[3] || null, // null for tracking pixels
+            };
+          } catch (e) {
+            dbgFail("parseJVZUrl: error parsing", url, e);
             return null;
           }
         }
 
-        // Scan for first match in anchors, areas, images, iframes
+        // Scan for first match in anchors, areas, images, iframes (optimized to target JVZoo domains)
         function findFirstIdsOnPage() {
           const nodes = document.querySelectorAll(
-            "a[href], area[href], img[src], iframe[src]"
+            'a[href*="jvzoo.com"], a[href^="/b/"], a[href^="/B/"], area[href*="jvzoo.com"], area[href^="/b/"], area[href^="/B/"], img[src*="jvzoo.com"], iframe[src*="jvzoo.com"]',
           );
           for (const el of nodes) {
             const url = el.getAttribute("href") || el.getAttribute("src");
@@ -179,13 +298,17 @@
           return null;
         }
 
-        // ===== 3) Fire the click once =====
-        if (typeof window.__JVZ_LAST_CLICK_TS__ !== "number")
-          window.__JVZ_LAST_CLICK_TS__ = 0;
-
+        // ===== 3) Fire the click once per page =====
         function fireClickOnce() {
-          if (!aidRaw) {
-            dbgFail("click: skip -> missing aid");
+          // Page-level guard: only fire once per page load
+          if (window.__JVZ__.pageFired) {
+            dbgFail("click: skip -> already fired this page load");
+            return;
+          }
+
+          // Explicitly check for empty string (e.g., ?aid= with no value)
+          if (!aidRaw || aidRaw.trim() === "") {
+            dbgFail("click: skip -> missing or empty aid");
             return;
           }
 
@@ -199,87 +322,182 @@
               productId = String(FALLBACK_PRODUCT_ID);
             } else {
               dbgFail(
-                "click: skip -> no jvzoo id found in DOM and no valid FALLBACK_PRODUCT_ID"
+                "click: skip -> no jvzoo id found in DOM and no valid FALLBACK_PRODUCT_ID",
               );
               return;
             }
           }
 
-          const now = Date.now();
-          if (now - window.__JVZ_LAST_CLICK_TS__ < THROTTLE_MS) {
-            dbgFail("click: skip -> throttled", {
-              last: window.__JVZ_LAST_CLICK_TS__,
-              now,
-              delta: now - window.__JVZ_LAST_CLICK_TS__,
-            });
-            return;
+          try {
+            const clickUrl = new URL(
+              `https://www.jvzoo.com/c/${encodeURIComponent(aidRaw)}/${productId}`,
+            );
+            pageParams.forEach((v, k) => clickUrl.searchParams.set(k, v));
+
+            const iframe = document.createElement("iframe");
+            iframe.src = clickUrl.toString();
+            iframe.style.cssText =
+              "width:0;height:0;border:0;position:absolute;left:-9999px;top:-9999px;";
+
+            // Clean up iframe immediately on load/error, with safety timeout
+            let cleaned = false;
+            const cleanup = () => {
+              if (cleaned) return;
+              cleaned = true;
+              try {
+                iframe.remove();
+              } catch (_) {}
+            };
+
+            iframe.onload = cleanup;
+            iframe.onerror = cleanup;
+            setTimeout(cleanup, IFRAME_CLEANUP_MS);
+
+            (document.body || document.documentElement).appendChild(iframe);
+
+            // Mark as fired for this page load
+            window.__JVZ__.pageFired = true;
+          } catch (e) {
+            dbgFail("click: failed to create tracking iframe", e);
           }
-
-          if (hasFired(aidRaw, productId, tidRaw)) {
-            dbgFail("click: skip -> already fired for key (within TTL)", {
-              aid: aidRaw,
-              productId,
-              tid: tidRaw,
-            });
-            return;
-          }
-
-          const clickUrl = new URL(
-            `https://www.jvzoo.com/c/${encodeURIComponent(aidRaw)}/${productId}`
-          );
-          pageParams.forEach((v, k) => clickUrl.searchParams.set(k, v));
-
-          const iframe = document.createElement("iframe");
-          iframe.src = clickUrl.toString();
-          iframe.style.cssText =
-            "width:0;height:0;border:0;position:absolute;left:-9999px;top:-9999px;";
-          (document.body || document.documentElement).appendChild(iframe);
-
-          window.__JVZ_LAST_CLICK_TS__ = now;
-          markFired(aidRaw, productId, tidRaw);
         }
 
-        // ===== 4) Rewrite /b/ anchors (only <a>, not images/iframes) =====
-        function updateBuyLinks() {
-          document.querySelectorAll("a[href]").forEach((a) => {
-            const href = a.getAttribute("href");
-            const info = parseJVZUrl(href);
-            if (!info) return;
+        // ===== 4) Build URLSearchParams with case-insensitive keys =====
+        // More efficient: build params from scratch instead of modifying existing
+        function buildParamsWithCaseInsensitive(
+          originalParams,
+          overlayParams,
+          shouldOverlay,
+        ) {
+          const result = new URLSearchParams();
+          const seenKeysLower = new Map(); // track lowercase keys to prevent duplicates
 
-            // Start from canonical origin+pathname (preserves funnel/product/button ids)
-            const newUrl = new URL(info.url.origin + info.url.pathname);
-
-            // (a) copy the link’s own original QS parameters first
-            info.url.searchParams.forEach((v, k) =>
-              newUrl.searchParams.set(k, v)
-            );
-
-            // (b1) always overlay whitelisted params from page
-            pageParams.forEach((v, k) => {
-              if (ALWAYS_PASS.includes(k.toLowerCase())) {
-                newUrl.searchParams.set(k, v);
-              }
-            });
-
-            // (b2) optionally overlay ALL other page params when enabled
-            if (REWRITE_ENABLED) {
-              pageParams.forEach((v, k) => {
-                if (!ALWAYS_PASS.includes(k.toLowerCase())) {
-                  newUrl.searchParams.set(k, v);
-                }
-              });
+          // Helper to add param with case-insensitive deduplication
+          const addParam = (key, value) => {
+            // Validate parameter key for security (1-64 chars, can't start with hyphen)
+            if (!PARAM_KEY_PATTERN.test(key)) {
+              dbgFail("addParam: invalid parameter key", key);
+              return;
             }
 
-            a.setAttribute("href", newUrl.toString());
+            const keyLower = key.toLowerCase();
+            // If we've seen this key (case-insensitive), delete using the ORIGINAL case
+            const existingKey = seenKeysLower.get(keyLower);
+            if (existingKey !== undefined) {
+              result.delete(existingKey); // URLSearchParams.delete() is case-sensitive!
+            }
+            result.set(key, value);
+            seenKeysLower.set(keyLower, key);
+          };
+
+          // Add original params first
+          originalParams.forEach((v, k) => addParam(k, v));
+
+          // Overlay page params based on rules
+          overlayParams.forEach((v, k) => {
+            const kLower = k.toLowerCase();
+            // Skip 'tid' - it's only for click tracking, not purchase flow
+            if (kLower === "tid") return;
+
+            if (ALWAYS_PASS.has(kLower) || shouldOverlay) {
+              addParam(k, v);
+            }
           });
+
+          return result;
         }
 
-        // ===== 5) Init & observe late-injected links =====
+        // ===== 5) Rewrite /b/ anchors (only <a>, not images/iframes) =====
+        function updateBuyLinks() {
+          // Reentry guard: prevent triggering ourselves
+          if (window.__JVZ__.updating) return;
+          window.__JVZ__.updating = true;
+
+          try {
+            // Optimized selector: target JVZoo domain + relative /b/ or /B/ links
+            const selector = [
+              'a[href*="jvzoo.com"]:not([data-jvz-processed])',
+              'a[href^="/b/"]:not([data-jvz-processed])',
+              'a[href^="/B/"]:not([data-jvz-processed])',
+            ].join(", ");
+
+            document.querySelectorAll(selector).forEach((a) => {
+              const href = a.getAttribute("href");
+              if (!href) return;
+
+              const info = parseJVZUrl(href);
+              if (!info) return;
+
+              try {
+                // Start from canonical origin+pathname (preserves funnel/product/button ids)
+                const newUrl = new URL(info.url.origin + info.url.pathname);
+
+                // Build params efficiently with case-insensitive deduplication
+                const newParams = buildParamsWithCaseInsensitive(
+                  info.url.searchParams, // original link params
+                  pageParams, // page params to overlay
+                  REWRITE_ENABLED, // whether to overlay all params
+                );
+
+                newUrl.search = newParams.toString();
+
+                // Preserve hash fragment if present (for anchor links and SPAs)
+                if (info.url.hash) {
+                  newUrl.hash = info.url.hash;
+                }
+
+                const newHref = newUrl.toString();
+
+                // Only update if href actually changed (avoid unnecessary mutations)
+                if (href !== newHref) {
+                  a.setAttribute("href", newHref);
+                }
+
+                // Store the processed href value (not just boolean) to detect future changes
+                a.dataset.jvzProcessed = "true";
+                a.dataset.jvzLastHref = newHref;
+              } catch (e) {
+                dbgFail("updateBuyLinks: error processing link", href, e);
+              }
+            });
+          } finally {
+            window.__JVZ__.updating = false;
+
+            // Process any mutations that arrived while we were updating
+            // Using counter prevents starvation if mutations arrive during setTimeout window
+            if (window.__JVZ__.pendingUpdateCount > 0) {
+              window.__JVZ__.pendingUpdateCount = 0;
+              // Schedule on next tick to avoid immediate recursion
+              setTimeout(() => updateBuyLinks(), 0);
+            }
+          }
+        }
+
+        // ===== 6) Debounce helper =====
+        function debounce(fn, delay) {
+          let timer = null;
+          return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn(...args), delay);
+          };
+        }
+
+        // ===== 7) Init & observe late-injected links =====
         function init() {
           updateBuyLinks();
           fireClickOnce();
 
+          const handleMutations = debounce(() => {
+            updateBuyLinks();
+          }, DEBOUNCE_MS);
+
           const observer = new MutationObserver((records) => {
+            // If we're currently updating, increment counter for later processing
+            if (window.__JVZ__.updating) {
+              window.__JVZ__.pendingUpdateCount++;
+              return;
+            }
+
             let shouldUpdate = false;
             for (const rec of records) {
               if (
@@ -287,19 +505,44 @@
                 rec.attributeName === "href" &&
                 rec.target instanceof Element
               ) {
-                if (
-                  rec.target.matches &&
-                  rec.target.matches('a[href*="/b/"]')
-                ) {
-                  shouldUpdate = true;
-                  break;
+                const wasProcessed = rec.target.dataset.jvzProcessed === "true";
+                const href = rec.target.getAttribute("href") || "";
+
+                if (wasProcessed) {
+                  const lastHref = rec.target.dataset.jvzLastHref || ""; // Fallback for undefined
+
+                  // If href changed since we processed it, clear flags and trigger update
+                  // Let updateBuyLinks determine if it's a valid JVZoo link
+                  if (href !== lastHref) {
+                    rec.target.removeAttribute("data-jvz-processed");
+                    rec.target.removeAttribute("data-jvz-last-href");
+                    shouldUpdate = true;
+                    break;
+                  }
+                } else {
+                  // Unprocessed anchor changed to a JVZoo link - trigger update
+                  if (parseJVZUrl(href)) {
+                    shouldUpdate = true;
+                    break;
+                  }
                 }
               }
               for (const node of rec.addedNodes) {
                 if (!(node instanceof Element)) continue;
+                // Use matchesFn for better browser compatibility
+                const matchesFn =
+                  node.matches ||
+                  node.msMatchesSelector ||
+                  node.webkitMatchesSelector;
+                const querySelectorFn = node.querySelector;
+
+                // Combined selector for efficiency (supports jvzoo.com, and relative /b/ or /B/)
+                const linkSelector =
+                  'a[href*="jvzoo.com"], a[href^="/b/"], a[href^="/B/"]';
+
                 if (
-                  (node.matches && node.matches('a[href*="/b/"]')) ||
-                  (node.querySelector && node.querySelector('a[href*="/b/"]'))
+                  (matchesFn && matchesFn.call(node, linkSelector)) ||
+                  (querySelectorFn && querySelectorFn.call(node, linkSelector))
                 ) {
                   shouldUpdate = true;
                   break;
@@ -308,18 +551,42 @@
               if (shouldUpdate) break;
             }
             if (shouldUpdate) {
-              updateBuyLinks();
-              fireClickOnce();
+              handleMutations();
             }
           });
 
-          observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ["href"],
-          });
+          // Attach observer to body (retry if body doesn't exist yet)
+          const attachObserver = (retries = 0) => {
+            if (!document.body) {
+              // Body still doesn't exist, wait and retry with limit
+              if (retries < 50) {
+                // Max 50 retries = ~500ms
+                setTimeout(() => attachObserver(retries + 1), 10);
+              } else {
+                dbgFail(
+                  "attachObserver: gave up waiting for document.body after 50 retries",
+                );
+              }
+              return;
+            }
+
+            observer.observe(document.body, {
+              childList: true,
+              subtree: true,
+              attributes: true,
+              attributeFilter: ["href"],
+            });
+          };
+
+          attachObserver();
         }
+
+        // ===== 8) Optional: Reset pageFired on SPA navigation =====
+        // Uncomment if you want to fire clicks on each route change (not just page load)
+        // window.addEventListener('popstate', () => {
+        //   window.__JVZ__.pageFired = false;
+        //   fireClickOnce();
+        // });
 
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", init, { once: true });
@@ -655,7 +922,10 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-center px-2 lg:px-0">
-                    <a id="buyBtn" href="https://www.jvzoo.com/b/114393/423669/99">
+                    <a
+                      id="buyBtn"
+                      href="https://www.jvzoo.com/b/114393/423669/99"
+                    >
                       <img
                         alt="order now button"
                         src="images/order-now-button.webp"
@@ -925,7 +1195,7 @@
       function loadWistiaVideo() {
         const videoContainer = document.getElementById("wistia-video");
         const mobileVideoContainer = document.getElementById(
-          "wistia-video-mobile"
+          "wistia-video-mobile",
         );
         videoContainer.innerHTML = "";
         mobileVideoContainer.innerHTML = "";
@@ -979,7 +1249,7 @@
           onReady: function (video) {
             let globalMobileVideo = video;
             let hiddenOnPlayElements = document.getElementsByClassName(
-              "hidden-on-play-mobile"
+              "hidden-on-play-mobile",
             );
 
             video.bind("play", function () {
@@ -1002,13 +1272,13 @@
 
       loadWistiaVideo();
     </script>
-        <script>
+    <script>
       fetch(
         "/cb/ipc.php?pg=" +
-          encodeURIComponent(location.pathname + location.search)
+          encodeURIComponent(location.pathname + location.search),
       ).catch(() => {});
     </script>
-        <script>
+    <script>
       (function () {
         const pageParams = new URLSearchParams(window.location.search);
 
@@ -1058,35 +1328,35 @@
       })();
     </script>
 
-<script>
-  const CHECKOUT_URL = "https://www.jvzoo.com/b/114393/423669/99";
-  let checkoutPreloaded = false;
+    <script>
+      const CHECKOUT_URL = "https://www.jvzoo.com/b/114393/423669/99";
+      let checkoutPreloaded = false;
 
-  function preloadCheckout() {
-    if (checkoutPreloaded) return;
-    checkoutPreloaded = true;
+      function preloadCheckout() {
+        if (checkoutPreloaded) return;
+        checkoutPreloaded = true;
 
-    // ONLY network warm-up — no DOM changes
-    const img = new Image();
-    img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
-  }
-</script>
-<script>
-  function showCheckoutOverlay() {
-    if (document.getElementById("checkoutOverlay")) return;
+        // ONLY network warm-up — no DOM changes
+        const img = new Image();
+        img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
+      }
+    </script>
+    <script>
+      function showCheckoutOverlay() {
+        if (document.getElementById("checkoutOverlay")) return;
 
-    const messages = [
-      "Initializing secure session...",
-      "Encrypting access...",
-      "Verifying gateway...",
-      "Establishing secure tunnel...",
-      "Preparing access portal..."
-    ];
+        const messages = [
+          "Initializing secure session...",
+          "Encrypting access...",
+          "Verifying gateway...",
+          "Establishing secure tunnel...",
+          "Preparing access portal...",
+        ];
 
-    const overlay = document.createElement("div");
-    overlay.id = "checkoutOverlay";
+        const overlay = document.createElement("div");
+        overlay.id = "checkoutOverlay";
 
-    overlay.innerHTML = `
+        overlay.innerHTML = `
       <style>
         @keyframes spin {
           from { transform: rotate(0deg); }
@@ -1182,61 +1452,64 @@
       </div>
     `;
 
-    document.body.appendChild(overlay);
+        document.body.appendChild(overlay);
 
-    /* ---- Progress + text animation (visual only) ---- */
-    let percent = 0;
-    let msgIndex = 0;
+        /* ---- Progress + text animation (visual only) ---- */
+        let percent = 0;
+        let msgIndex = 0;
 
-    const percentEl = document.getElementById("checkoutPercent");
-    const statusEl = document.getElementById("checkoutStatus");
+        const percentEl = document.getElementById("checkoutPercent");
+        const statusEl = document.getElementById("checkoutStatus");
 
-    const percentTimer = setInterval(() => {
-      percent += Math.floor(Math.random() * 4) + 1;
-      if (percent > 100) percent = 100;
-      percentEl.textContent = percent + "%";
-      if (percent === 100) clearInterval(percentTimer);
-    }, 80);
+        const percentTimer = setInterval(() => {
+          percent += Math.floor(Math.random() * 4) + 1;
+          if (percent > 100) percent = 100;
+          percentEl.textContent = percent + "%";
+          if (percent === 100) clearInterval(percentTimer);
+        }, 80);
 
-    const textTimer = setInterval(() => {
-      msgIndex = (msgIndex + 1) % messages.length;
-      statusEl.textContent = messages[msgIndex];
-    }, 700);
-  }
+        const textTimer = setInterval(() => {
+          msgIndex = (msgIndex + 1) % messages.length;
+          statusEl.textContent = messages[msgIndex];
+        }, 700);
+      }
 
-  const buyBtn = document.getElementById("buyBtn");
-  if (buyBtn) {
-    buyBtn.addEventListener("click", showCheckoutOverlay);
-  }
-</script>
+      const buyBtn = document.getElementById("buyBtn");
+      if (buyBtn) {
+        buyBtn.addEventListener("click", showCheckoutOverlay);
+      }
+    </script>
 
-<script>
-  window.addEventListener("pageshow", function () {
-    const overlay = document.getElementById("checkoutOverlay");
-    if (overlay) overlay.remove();
-  });
-</script>
-
-
-
-
-
-<script>
-  window._wq = window._wq || [];
-  _wq.push({
-    id: "_all",
-    onReady: function(video) {
-      let triggered = false;
-
-      video.bind("timechange", function(t) {
-        if (!triggered && t >= 900) { // 15 min
-          triggered = true;
-          preloadCheckout();
-        }
+    <script>
+      window.addEventListener("pageshow", function () {
+        const overlay = document.getElementById("checkoutOverlay");
+        if (overlay) overlay.remove();
       });
-    }
-  });
-</script>
-<img src="https://i.jvzoo.com/114393/423669/99" alt="Unicorn" border="0" width='1' height='1' />
+    </script>
+
+    <script>
+      window._wq = window._wq || [];
+      _wq.push({
+        id: "_all",
+        onReady: function (video) {
+          let triggered = false;
+
+          video.bind("timechange", function (t) {
+            if (!triggered && t >= 900) {
+              // 15 min
+              triggered = true;
+              preloadCheckout();
+            }
+          });
+        },
+      });
+    </script>
+    <img
+      src="https://i.jvzoo.com/114393/423669/99"
+      alt="Unicorn"
+      border="0"
+      width="1"
+      height="1"
+    />
   </body>
 </html>
