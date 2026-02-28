@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link href="../ds/images/favico1.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="../ds/images/favico1.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="../ds/images/favico1.png" rel="icon" sizes="16x16" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Earnings Disclaimer – Unicorn</title>
+  <meta name="description" content="Unicorn Earnings Disclaimer outlining income estimates, risk acknowledgment, and limitations of liability." />
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card:#121318;
+      --text:#e8eaf0;
+      --muted:#a7b0c0;
+      --accent:#5cc27b;
+      --accent-2:#59c0f0;
+      --border:#1e2130;
+      --maxw:900px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      color:var(--text); background: radial-gradient(1200px 500px at 10% -20%, rgba(255,255,255,.06), rgba(255,255,255,0) 60%),
+                radial-gradient(900px 400px at 90% 120%, rgba(0,0,0,.35), rgba(0,0,0,0) 60%),
+                linear-gradient(180deg, #0a0b0f, #0b0c10);
+      line-height:1.65;
+    }
+    header{
+      border-bottom:1px solid var(--border);
+      position:sticky; top:0; background:rgba(11,12,16,.8); backdrop-filter:saturate(140%) blur(6px);
+      z-index:100;
+    }
+    .wrap{max-width:var(--maxw); margin-inline:auto; padding:24px 18px}
+    h1{font-size:clamp(1.6rem, 1.1rem + 2vw, 2.6rem); line-height:1.2; margin:0}
+    main{padding:28px 18px}
+    section{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; margin:18px auto; max-width:var(--maxw); box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h2{margin-top:0; font-size:1.4rem}
+    p, li{color:#d6d9e1}
+    a{color:var(--accent-2)}
+    .foot{max-width:var(--maxw); margin:40px auto 80px; padding:0 18px; color:var(--muted); font-size:.95rem}
+    .foot a{color:var(--accent-2)}
+  </style>
+</head>
+<body>
+
+  <header id="top">
+    <div class="wrap">
+      <h1>Earnings Disclaimer</h1>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <p>While we make every effort to ensure that we accurately represent all the products and services reviewed on this website and their potential for income, it should be noted that earnings and income statements made by <strong>Unicorn</strong> and its advertisers/sponsors are estimates only of what we think you can possibly earn. There is no guarantee that you will make these levels of income and you accept the risk that the earnings and income statements differ by individual.</p>
+      <p>As with any business, your results may vary and will be based on your individual capacity, business experience, expertise, and level of desire. There are no guarantees concerning the level of success you may experience. The testimonials and examples used are exceptional results, which do not apply to the average purchaser, and are not intended to represent or guarantee that anyone will achieve the same or similar results. Each individual's success depends on his or her background, dedication, desire and motivation.</p>
+      <p>There is no assurance that examples of past earnings can be duplicated in the future. We cannot guarantee your future results and/or success. There are some unknown risks in business and on the internet that we cannot foresee which could reduce the results you experience. We are not responsible for your actions.</p>
+      <p>The use of our information, products and services should be based on your own due diligence and you agree that <strong>Unicorn</strong> and the advertisers/sponsors of this website are not liable for any success or failure of your business that is directly or indirectly related to the purchase and use of our information, products and services reviewed or advertised on this website.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>© <span id="year"></span> Unicorn. All rights reserved. This disclaimer may be updated from time to time; material changes will be posted on this page.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
