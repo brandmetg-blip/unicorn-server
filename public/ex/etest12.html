@@ -110,10 +110,6 @@
           width: 100%;
           aspect-ratio: 4 / 5;
           background-color: #000;
-          background-image: url("images/loading-video.gif");
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: 80px 80px;
         }
       }
 
@@ -124,10 +120,6 @@
           width: 100%;
           aspect-ratio: 4 / 5;
           background-color: #000;
-          background-image: url("images/loading-video.gif");
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: 80px 80px;
           min-height: calc(100vw * 1.25);
         }
       }
@@ -218,7 +210,8 @@
           <div class="w-full lg:w-[910px] lg:max-w-[910px]">
             <header class="pb-4">
               <h1
-                class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-2 text-center text-[28px] leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 lg:text-6xl text-black"
+                class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-2 text-center leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 text-black"
+                style="font-size: clamp(1.75rem, 8vw, 3.75rem);"
               >
                 "This Money Button Makes Me<br />
                 <span class="text-header-pink">$528/Day</span> On Autopilot"
@@ -276,9 +269,17 @@
                 x-on:mobilevideoplay.window="mfullscreen = true; mhasToggledFullScreen = true"
                 x-on:mobilevideopause.window="mfullscreen = false"
               >
-                <div id="wistia-video-mobile" class="absolute inset-0 h-full w-full"></div>
+                <!-- Loading text (sits behind the video, visible until Wistia covers it) -->
+                <div class="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold text-center pointer-events-none">
+                  <div class="text-center">
+                    <img src="images/loading-video.gif" alt="Loading" class="mx-auto mb-4 w-16 h-16" />
+                    <div>Your Video<br />Is Loading...</div>
+                  </div>
+                </div>
 
-                <div class="absolute inset-0 flex h-full w-full items-center justify-center pointer-events-none">
+                <div id="wistia-video-mobile" class="absolute inset-0 h-full w-full z-[2]"></div>
+
+                <div class="absolute inset-0 flex h-full w-full items-center justify-center pointer-events-none z-[3]">
                   <img
                     x-show="!mfullscreen &amp;&amp; mhasToggledFullScreen"
                     x-cloak=""
