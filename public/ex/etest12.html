@@ -233,10 +233,9 @@
                 </div>
                 <div class="block md:hidden">
                   <!-- Black placeholder container for mobile video -->
-                  <div class="relative w-full overflow-hidden" style="height: 480px">
+                  <div class="relative w-full overflow-hidden" style="aspect-ratio: 9/16; max-height: 80vh;">
                     <div
-                      class="absolute bg-black w-full text-white flex items-center justify-center text-4xl font-bold text-center"
-                      style="height: 480px"
+                      class="absolute inset-0 bg-black w-full h-full text-white flex items-center justify-center text-4xl font-bold text-center"
                     >
                       <div class="text-center">
                         <img
@@ -250,7 +249,7 @@
                       </div>
                     </div>
                     <div
-                      class="relative h-auto w-screen"
+                      class="relative h-auto w-full"
                       x-data="{ mfullscreen: false, mhasToggledFullScreen: false } "
                       x-on:mobilevideopause.window="mfullscreen = false"
                       x-on:mobilevideoplay.window="mfullscreen = true; mhasToggledFullScreen = true"
@@ -440,7 +439,7 @@
                   border: none;
                   border-radius: 0;
                   font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
-                  font-size: 13px;
+                  font-size: 15px;
                   color: #1d2129;
                   padding: 0;
                 }
@@ -448,62 +447,62 @@
                 .rfb-header {
                   background: #f6f7f9;
                   border-bottom: none;
-                  padding: 8px 12px;
+                  padding: 10px 12px;
                   font-weight: 600;
-                  font-size: 14px;
+                  font-size: 16px;
                   color: #4b4f56;
                   display: flex;
                   align-items: center;
                   gap: 6px;
                 }
-                .rfb-header svg { width: 16px; height: 16px; fill: #4b4f56; flex-shrink: 0; }
+                .rfb-header svg { width: 18px; height: 18px; fill: #4b4f56; flex-shrink: 0; }
                 .rfb-body { padding: 0; }
                 .rfb-item {
                   display: flex;
                   align-items: flex-start;
-                  padding: 8px 12px;
+                  padding: 10px 12px;
                   border-bottom: none;
                   gap: 10px;
                 }
                 .rfb-item:last-child { border-bottom: none; }
                 .rfb-item.rfb-reply {
-                  padding-left: 58px;
+                  padding-left: 62px;
                 }
                 .rfb-avatar {
-                  width: 40px;
-                  height: 40px;
+                  width: 44px;
+                  height: 44px;
                   border-radius: 50%;
                   object-fit: cover;
                   flex-shrink: 0;
                 }
                 .rfb-reply .rfb-avatar {
-                  width: 32px;
-                  height: 32px;
+                  width: 36px;
+                  height: 36px;
                 }
                 .rfb-content { flex: 1; min-width: 0; }
                 .rfb-name {
                   font-weight: 700;
                   color: #365899;
-                  font-size: 13px;
+                  font-size: 15px;
                   text-decoration: none;
                   cursor: pointer;
                   display: inline;
                 }
                 .rfb-name:hover { text-decoration: underline; }
                 .rfb-text {
-                  margin: 2px 0 4px;
-                  line-height: 1.38;
+                  margin: 3px 0 5px;
+                  line-height: 1.4;
                   color: #1d2129;
-                  font-size: 13px;
+                  font-size: 15px;
                   word-wrap: break-word;
                 }
                 .rfb-actions {
                   display: flex;
                   align-items: center;
                   gap: 4px;
-                  font-size: 12px;
+                  font-size: 13px;
                   color: #90949c;
-                  margin-top: 2px;
+                  margin-top: 3px;
                 }
                 .rfb-actions a {
                   color: #4267b2;
@@ -518,7 +517,7 @@
                   align-items: center;
                   gap: 3px;
                   float: right;
-                  font-size: 12px;
+                  font-size: 13px;
                   color: #8d949e;
                   background: #fff;
                   border: none;
@@ -537,26 +536,26 @@
                   display: inline-flex;
                   align-items: center;
                   gap: 3px;
-                  font-size: 11px;
+                  font-size: 12px;
                   color: #90949c;
                   margin-left: 8px;
                   font-weight: 400;
                 }
                 .rfb-pinned svg {
-                  width: 12px;
-                  height: 12px;
+                  width: 14px;
+                  height: 14px;
                   fill: #90949c;
                 }
                 @media (max-width: 640px) {
                   .rfb-section {
                     margin: 16px 8px 0;
-                    font-size: 13px;
+                    font-size: 14px;
                   }
-                  .rfb-item { padding: 6px 8px; gap: 8px; }
-                  .rfb-item.rfb-reply { padding-left: 48px; }
-                  .rfb-avatar { width: 36px; height: 36px; }
-                  .rfb-reply .rfb-avatar { width: 28px; height: 28px; }
-                  .rfb-text { font-size: 13px; }
+                  .rfb-item { padding: 8px 8px; gap: 8px; }
+                  .rfb-item.rfb-reply { padding-left: 52px; }
+                  .rfb-avatar { width: 40px; height: 40px; }
+                  .rfb-reply .rfb-avatar { width: 32px; height: 32px; }
+                  .rfb-text { font-size: 14px; }
                 }
               </style>
 
