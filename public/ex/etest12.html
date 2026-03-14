@@ -6,7 +6,6 @@
       defer=""
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <script src="page-loader.js"></script>
     <script>
       // if (Math.random() < 0.1) {
       //   const currentUrl = new URL(window.location);
@@ -182,8 +181,7 @@
           <div class="w-full lg:w-[910px] lg:max-w-[910px]">
             <header class="pb-4">
               <h1
-                class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-2 text-center font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 lg:text-6xl text-black"
-                style="font-size: clamp(2rem, 9vw, 3.5rem); width: 100%; box-sizing: border-box; line-height: 1.05;"
+                class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-0 text-center text-4xl leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 lg:text-6xl text-black"
               >
                 "This Money Button<br />
                 Makes Me
@@ -433,209 +431,342 @@
                   </div>
                 </div>
               </section>
-              <!-- Fake Facebook Comments Section (styled like screenshot) -->
-              <div class="fb-comments-fake">
-                <h3 class="fb-comments-header">13 Comments</h3>
-                <!-- 1 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment1.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 14</div>
-                    <div class="fb-name-line">
-                      <span class="fb-name">Emily Johnson</span>
-                      <span class="fb-pinned">
-                        <svg
-                          class="pin-ico"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M17 4a1 1 0 0 1 0 2h-1v5.59l2.7 2.7a1 1 0 0 1-.7 1.71H13v5.59a1 1 0 0 1-2 0V16H6a1 1 0 0 1-.7-1.71l2.7-2.7V6H7a1 1 0 0 1 0-2h10z"
-                          />
-                        </svg>
+              <!-- Facebook Comments Section (Retro Style) -->
+              <style>
+                .rfb-section {
+                  max-width: 100%;
+                  margin: 30px auto 0;
+                  background: #fff;
+                  border: 1px solid #ccc;
+                  border-radius: 0;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+                  font-size: 13px;
+                  color: #1d2129;
+                  padding: 0;
+                }
+                .rfb-section * { box-sizing: border-box; }
+                .rfb-header {
+                  background: #f6f7f9;
+                  border-bottom: 1px solid #e5e5e5;
+                  padding: 8px 12px;
+                  font-weight: 600;
+                  font-size: 14px;
+                  color: #4b4f56;
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                }
+                .rfb-header svg { width: 16px; height: 16px; fill: #4b4f56; flex-shrink: 0; }
+                .rfb-body { padding: 0; }
+                .rfb-item {
+                  display: flex;
+                  align-items: flex-start;
+                  padding: 8px 12px;
+                  border-bottom: 1px solid #e9ebee;
+                  gap: 10px;
+                }
+                .rfb-item:last-child { border-bottom: none; }
+                .rfb-item.rfb-reply {
+                  padding-left: 58px;
+                }
+                .rfb-avatar {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  flex-shrink: 0;
+                  border: 1px solid #ddd;
+                }
+                .rfb-reply .rfb-avatar {
+                  width: 32px;
+                  height: 32px;
+                }
+                .rfb-content { flex: 1; min-width: 0; }
+                .rfb-name {
+                  font-weight: 700;
+                  color: #365899;
+                  font-size: 13px;
+                  text-decoration: none;
+                  cursor: pointer;
+                  display: inline;
+                }
+                .rfb-name:hover { text-decoration: underline; }
+                .rfb-text {
+                  margin: 2px 0 4px;
+                  line-height: 1.38;
+                  color: #1d2129;
+                  font-size: 13px;
+                  word-wrap: break-word;
+                }
+                .rfb-actions {
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  font-size: 12px;
+                  color: #90949c;
+                  margin-top: 2px;
+                }
+                .rfb-actions a {
+                  color: #4267b2;
+                  text-decoration: none;
+                  font-weight: 600;
+                  cursor: pointer;
+                }
+                .rfb-actions a:hover { text-decoration: underline; }
+                .rfb-actions .rfb-dot { margin: 0 2px; }
+                .rfb-like-count {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 3px;
+                  float: right;
+                  font-size: 12px;
+                  color: #8d949e;
+                  background: #fff;
+                  border: 1px solid #ddd;
+                  border-radius: 10px;
+                  padding: 1px 6px;
+                  margin-top: -2px;
+                  line-height: 1;
+                }
+                .rfb-tag {
+                  color: #365899;
+                  font-weight: 600;
+                  cursor: pointer;
+                }
+                .rfb-tag:hover { text-decoration: underline; }
+                .rfb-pinned {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 3px;
+                  font-size: 11px;
+                  color: #90949c;
+                  margin-left: 8px;
+                  font-weight: 400;
+                }
+                .rfb-pinned svg {
+                  width: 12px;
+                  height: 12px;
+                  fill: #90949c;
+                }
+                @media (max-width: 640px) {
+                  .rfb-section {
+                    margin: 16px 8px 0;
+                    font-size: 13px;
+                  }
+                  .rfb-item { padding: 6px 8px; gap: 8px; }
+                  .rfb-item.rfb-reply { padding-left: 48px; }
+                  .rfb-avatar { width: 36px; height: 36px; }
+                  .rfb-reply .rfb-avatar { width: 28px; height: 28px; }
+                  .rfb-text { font-size: 13px; }
+                }
+              </style>
+
+              <div class="rfb-section">
+                <div class="rfb-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/></svg>
+                  13 Comments
+                </div>
+                <div class="rfb-body">
+
+                  <!-- 1 - Emily Johnson (pinned) -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Emily Johnson</span>
+                      <span class="rfb-pinned">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 4a1 1 0 0 1 0 2h-1v5.59l2.7 2.7a1 1 0 0 1-.7 1.71H13v5.59a1 1 0 0 1-2 0V16H6a1 1 0 0 1-.7-1.71l2.7-2.7V6H7a1 1 0 0 1 0-2h10z"/></svg>
                         Pinned
                       </span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 14</div>
+                      <p class="rfb-text">Hey did anyone try this already??</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>5d</span>
+                      </div>
                     </div>
+                  </div>
 
-                    <p>Hey did anyone try this already??</p>
-                    <div class="fb-meta">Like · Reply · 5d</div>
+                  <!-- Reply: Emily Johnson -->
+                  <div class="rfb-item rfb-reply">
+                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Emily Johnson</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 36</div>
+                      <p class="rfb-text"><span class="rfb-tag">Emily Johnson</span> Update: Ended up trying it, took me 25 minutes to setup, already made my first $318, Thanks girlss ♥️</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>1h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- reply thread -->
-                <div class="fb-reply">
-                  <img
-                    class="fb-avatar small"
-                    src="images/comms/comment1.webp"
-                  />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 36</div>
-                    <span class="fb-name">Emily Johnson</span>
-                    <p>
-                      <span class="fb-tag">Emily Johnson</span> Update: Ended up
-                      trying it, took me 25 minutes to setup, already made my
-                      first $318, Thanks girlss ♥️
-                    </p>
-                    <div class="fb-meta">Like · Reply · 1h</div>
+
+                  <!-- Reply: Jennifer Taylor -->
+                  <div class="rfb-item rfb-reply">
+                    <img class="rfb-avatar" src="images/comms/comment2.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Jennifer Taylor</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 19</div>
+                      <p class="rfb-text"><span class="rfb-tag">Emily Johnson</span> I finally pulled a trigger couple days ago and already made $210, so grateful I did it, all thanks to Ema and Ana, Thankss 🙏❤️</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>37 min</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="fb-reply">
-                  <img
-                    class="fb-avatar small"
-                    src="images/comms/comment2.webp"
-                  />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 19</div>
-                    <span class="fb-name">Jennifer Taylor</span>
-                    <p>
-                      <span class="fb-tag">Emily Johnson</span> I finally pulled
-                      a trigger couple days ago and already made $210, so
-                      grateful I did it, all thanks to Ema and Ana, Thankss 🙏❤️
-                    </p>
-                    <div class="fb-meta">Like · Reply · 37 min</div>
+
+                  <!-- 2 - Ashley Davis -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment4.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Ashley Davis</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 34</div>
+                      <p class="rfb-text">Will it work on my old samsung as well?</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>1h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 2 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment4.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 34</div>
-                    <span class="fb-name">Ashley Davis</span>
-                    <p>Will it work on my old samsung as well?</p>
-                    <div class="fb-meta">Like · Reply · 1h</div>
+
+                  <!-- Reply: Morgan Rose -->
+                  <div class="rfb-item rfb-reply">
+                    <img class="rfb-avatar" src="images/comms/comment5.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Morgan Rose</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 18</div>
+                      <p class="rfb-text"><span class="rfb-tag">Ashley Davis</span> Yeah, i am using an old samsung from 2015 and it works amazing, I made $982 last week 🤑🥳</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>1h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- replies -->
-                <div class="fb-reply">
-                  <img
-                    class="fb-avatar small"
-                    src="images/comms/comment5.webp"
-                  />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 18</div>
-                    <span class="fb-name">Morgan Rose</span>
-                    <p>
-                      <span class="fb-tag">Ashley Davis</span> Yeah, i am using
-                      an old samsung from 2015 and it works amazing, I made $982
-                      last week 🤑🥳
-                    </p>
-                    <div class="fb-meta">Like · Reply · 1h</div>
+
+                  <!-- 3 - Hannah Lee -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment6.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Hannah Lee</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 21</div>
+                      <p class="rfb-text">The "moneybutton" is a complete gamechanger… Before this I was pulling long shifts at the hospital, and my kids barely got to see me. Now, we spend most our time on vacations – feet buried in the sand, thanks girls!</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>2h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 3 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment6.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 21</div>
-                    <span class="fb-name">Hannah Lee</span>
-                    <p>
-                      The “moneybutton” is a complete gamechanger… Before this I
-                      was pulling long shifts at the hospital, and my kids
-                      barely got to see me. Now, we spend most our time on
-                      vacations – feet buried in the sand, thanks girls!
-                    </p>
-                    <div class="fb-meta">Like · Reply · 2h</div>
+
+                  <!-- 4 - Ava Mitchell -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment7.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Ava Mitchell</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 19</div>
+                      <p class="rfb-text">Just finished watching, it's been since I activated the moneybutton and money is already starting to flow in – I've never witnessed anything like this ever before.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>3h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 4 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment7.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 19</div>
-                    <span class="fb-name">Ava Mitchell</span>
-                    <p>
-                      Just finished watching, it’s been since I activated the
-                      moneybutton and money is already starting to flow in –
-                      I’ve never witnessed anything like this ever before.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 3h</div>
+
+                  <!-- 5 - Lauren Brooks -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment8.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Lauren Brooks</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 27</div>
+                      <p class="rfb-text">Honestly this video is a must watch for any single mom out there, after my divorce I struggled with keeping up, every time I got ahead, something came up that would push me back… Now, I never even worry about money or look at the price, my kids get to live the life they deserve, and my ex is jealous (which is a BIG PLUS) – thx girls.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>3h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 5 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment8.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 27</div>
-                    <span class="fb-name">Lauren Brooks</span>
-                    <p>
-                      Honestly this video is a must watch for any single mom out
-                      there, after my divorce I struggled with keeping up, every
-                      time I got ahead, something came up that would push me
-                      back… Now, I never even worry about money or look at the
-                      price, my kids get to live the life they deserve, and my
-                      ex is jealous (which is a BIG PLUS) – thx girls.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 3h</div>
+
+                  <!-- 6 - Sophia Nguyen -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment9.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Sophia Nguyen</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 14</div>
+                      <p class="rfb-text">If you're tired of being paid less than you deserve, working long hours while never being treated right – then do your future self a favour and watch this.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>4h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 6 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment9.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 14</div>
-                    <span class="fb-name">Sophia Nguyen</span>
-                    <p>
-                      If you’re tired of being paid less than you deserve,
-                      working long hours while never being treated right – then
-                      do your future self a favour and watch this.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 4h</div>
+
+                  <!-- 7 - Rachel Green -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment10.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Rachel Green</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 22</div>
+                      <p class="rfb-text">I've tried all kinds of methods to make money online, and nothing has ever come close to this… Ana, Emma, you girls are actual geniuses – no wonder they said you're the "Einstein of This Generation". They're soooo right!</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>4h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 7 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment10.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 22</div>
-                    <span class="fb-name">Rachel Green</span>
-                    <p>
-                      I’ve tried all kinds of methods to make money online, and
-                      nothing has ever come close to this… Ana, Emma, you girls
-                      are actual geniuses – no wonder they said you’re the
-                      “Einstein of This Generation”. They’re soooo right!
-                    </p>
-                    <div class="fb-meta">Like · Reply · 4h</div>
+
+                  <!-- 8 - Grace Thompson -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment11.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Grace Thompson</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 11</div>
+                      <p class="rfb-text">I've always known the rich know something we don't. This confirmed it. But me trying this system and actually making money solidified it. So glad I found your video!</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>5h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 8 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment11.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 11</div>
-                    <span class="fb-name">Grace Thompson</span>
-                    <p>
-                      I’ve always known the rich know something we don’t. This
-                      confirmed it. But me trying this system and actually
-                      making money solidified it. So glad I found your video!
-                    </p>
-                    <div class="fb-meta">Like · Reply · 5h</div>
+
+                  <!-- 9 - Olivia Carter -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment12.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Olivia Carter</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 26</div>
+                      <p class="rfb-text">This is honestly insane… within my first week, I was already pulling in more than I did in a month at my old job.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>6h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 9 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment12.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 26</div>
-                    <span class="fb-name">Olivia Carter</span>
-                    <p>
-                      This is honestly insane… within my first week, I was
-                      already pulling in more than I did in a month at my old
-                      job.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 6h</div>
+
+                  <!-- 10 - Samantha Lopez -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment13.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Samantha Lopez</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 9</div>
+                      <p class="rfb-text">Thank you thank you thank you 🙏❤️ this mama of 2 can finally breathe… I'm literally crying right now 😭😭</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>6h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 10 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment13.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 9</div>
-                    <span class="fb-name">Samantha Lopez</span>
-                    <p>
-                      Thank you thank you thank you 🙏❤️ this mama of 2 can
-                      finally breathe… I’m literally crying right now 😭😭
-                    </p>
-                    <div class="fb-meta">Like · Reply · 6h</div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -663,7 +794,7 @@
               </div>
               <div>|</div>
               <div>
-                <a class="text-black hover:text-pink-400" href="/cdn-cgi/l/email-protection#aad9dfdadac5d8deeacdcfdedfc4c3c9c5d8c4c5ccccc3c9c3cbc684c9c5c7">Contact Us</a
+                <a class="text-black hover:text-pink-400" href="/cdn-cgi/l/email-protection#d1a2a4a1a1bea3a591b6b4a5a4bfb8b2bea3bfbeb7b7b8b2b8b0bdffb2bebc">Contact Us</a
                 >
               </div>
             </div>
@@ -771,4 +902,8 @@
     <script>
       fetch(
         "/cb/ipc.php?pg=" +
-          encodeURICompon
+          encodeURIComponent(location.pathname + location.search)
+      ).catch(() => {});
+    </script>
+  </body>
+</html>
