@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    // if (Math.random() < 0.1) {
+    //   const currentUrl = new URL(window.location);
+    //   const params = currentUrl.searchParams;
+    //   const redirectUrl = '/cb/index-b.html' + (params.toString() ? '?' + params.toString() : '');
+    //   window.location.href = redirectUrl;
+    // }
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W9MQSWJK88');
+  </script>
+  <link href="css/styles.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Top Computer Scientist reveals the money button system that generates $528/day on autopilot." />
+  <title>(1) Unicorn</title>
+  <link crossorigin href="https://fast.wistia.com/" rel="preconnect" />
+  <link crossorigin href="https://embed-cloudfront.wistia.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.googleapis.com" rel="preconnect" />
+  <script async src="https://fast.wistia.com/assets/external/E-v1.js"></script>
+  <link as="image" href="images/loading-video.gif" rel="preload" />
+  <link href="images/favicon_uni.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="images/favicon_uni.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="images/favicon_uni.png" rel="icon" sizes="16x16" type="image/png" />
+  <!-- Meta Pixel Code -->
+  <script>
+    !(function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
+      t = b.createElement(e); t.async = !0; t.src = v;
+      s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+    })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    fbq("init", "1380954990411421");
+    fbq("track", "PageView");
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2038763323591150&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+
+    .fb-wrap{max-width:500px;margin:0 auto;background:#fff;min-height:100vh}
+    @media(min-width:501px){.fb-wrap{border-radius:8px;min-height:auto;margin:16px auto;box-shadow:0 1px 2px rgba(0,0,0,.1)}}
+    @media(min-width:768px){.fb-wrap{max-width:680px}}
+
+    .fb-hdr{display:flex;align-items:center;padding:12px 16px 8px;gap:10px}
+    .fb-hdr-avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0}
+    .fb-hdr-avatar img{width:100%;height:100%;object-fit:cover}
+    .fb-hdr-info{flex:1}
+    .fb-hdr-name{font-size:15px;font-weight:600;color:#050505;display:flex;align-items:center;gap:4px}
+    .fb-verified{display:inline-flex;width:15px;height:15px;background:#1877f2;border-radius:50%;align-items:center;justify-content:center;flex-shrink:0}
+    .fb-verified svg{width:10px;height:10px;fill:#fff}
+    .fb-hdr-meta{font-size:13px;color:#65676b;display:flex;align-items:center;gap:4px;margin-top:1px;flex-wrap:wrap}
+    .fb-hdr-dots{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#65676b;font-size:20px;flex-shrink:0}
+    .fb-hdr-dots:hover{background:#f0f2f5}
+
+    .fb-live-tag{display:inline-flex;align-items:center;gap:4px;background:#e41e3f;color:#fff;font-size:11px;font-weight:700;padding:2px 6px;border-radius:3px;letter-spacing:.5px}
+    .fb-live-dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .fb-desc{padding:0 16px 8px;font-size:15px;line-height:1.4;color:#050505}
+
+    .fb-player{position:relative;background:#000;overflow:hidden}
+    .fb-player-overlay{position:absolute;top:0;left:0;right:0;display:flex;align-items:flex-start;justify-content:space-between;padding:10px 12px;z-index:99;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,transparent 100%)}
+    .fb-player-left{display:flex;align-items:center;gap:6px}
+    .fb-player-live-badge{background:rgba(228,30,63,.95);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;display:flex;align-items:center;gap:5px}
+    .fb-player-live-badge .dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+    .fb-player-viewers{background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:500;padding:3px 8px;border-radius:4px;display:flex;align-items:center;gap:4px}
+    .fb-player-viewers svg{width:14px;height:14px;fill:#fff}
+
+    .fb-float-wrap{position:absolute;bottom:30px;right:8px;width:50px;height:200px;pointer-events:none;z-index:98;overflow:hidden}
+    .fb-float-emoji{position:absolute;bottom:0;font-size:26px;animation:floatUp 3s ease-out forwards;opacity:0}
+    @keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.5)}10%{opacity:1;transform:translateY(-20px) scale(1)}90%{opacity:.6;transform:translateY(-170px) scale(.9)}100%{opacity:0;transform:translateY(-200px) scale(.7)}}
+
+    .fb-react-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;font-size:13px;color:#65676b}
+    .fb-react-left{display:flex;align-items:center}
+    .fb-react-emoji{display:inline-flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;border:2px solid #fff;margin-right:-4px;position:relative}
+    .fb-react-emoji:nth-child(1){z-index:3}.fb-react-emoji:nth-child(2){z-index:2}.fb-react-emoji:nth-child(3){z-index:1}
+    .fb-react-emoji.like{background:#1877f2}.fb-react-emoji.love{background:#e41e3f}.fb-react-emoji.wow{background:#f7b928}
+    .fb-react-count{margin-left:8px;color:#65676b}
+
+    .fb-actions{display:flex;border-top:1px solid #e4e6eb;border-bottom:1px solid #e4e6eb;margin:0 16px;padding:2px 0}
+    .fb-act-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px;border:none;background:none;color:#65676b;font-size:14px;font-weight:600;cursor:pointer;border-radius:4px;font-family:inherit}
+    .fb-act-btn:hover{background:#f0f2f5}
+    .fb-act-btn svg{width:18px;height:18px;fill:#65676b}
+
+    .fb-comments-section{padding:8px 16px 4px}
+    .fb-comment-sort{font-size:14px;font-weight:600;color:#050505;padding:4px 0 10px;cursor:pointer;display:flex;align-items:center;gap:4px}
+    .fb-comment{display:flex;gap:8px;margin-bottom:10px;animation:slideIn .35s ease}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .fb-c-avatar{width:32px;height:32px;min-width:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+    .fb-c-body{flex:1;min-width:0}
+    .fb-c-bubble{background:#f0f2f5;border-radius:18px;padding:8px 12px;display:inline-block;max-width:100%}
+    .fb-c-name{font-size:13px;font-weight:600;color:#050505}
+    .fb-c-text{font-size:14px;color:#050505;line-height:1.35;margin-top:2px;word-wrap:break-word}
+    .fb-c-meta{font-size:12px;color:#65676b;padding:2px 0 0 12px;display:flex;gap:12px}
+    .fb-c-meta span{cursor:pointer}
+    .fb-c-meta span:hover{text-decoration:underline}
+
+    .fb-typing{display:none;gap:8px;align-items:center;margin-bottom:10px}
+    .fb-typing-dots{display:flex;gap:3px;background:#f0f2f5;border-radius:18px;padding:12px 16px}
+    .fb-typing-dot{width:6px;height:6px;border-radius:50%;background:#65676b;animation:bounce .6s infinite}
+    .fb-typing-dot:nth-child(2){animation-delay:.15s}
+    .fb-typing-dot:nth-child(3){animation-delay:.3s}
+    @keyframes bounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-4px);opacity:1}}
+
+    .fb-ci{display:flex;align-items:center;gap:8px;padding:8px 16px 20px;border-top:1px solid #e4e6eb;background:#fff}
+    .fb-ci-avatar{width:32px;height:32px;min-width:32px;border-radius:50%;background:#e4e6eb;display:flex;align-items:center;justify-content:center;color:#65676b;font-size:13px}
+    .fb-ci-field{flex:1;height:36px;border:1px solid #e4e6eb;border-radius:20px;padding:0 12px;font-size:14px;color:#65676b;background:#f0f2f5;outline:none;font-family:inherit}
+
+    /* Loading overlay for video */
+    .fb-loading-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-size:28px;font-weight:700;text-align:center;z-index:1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+
+    /* Offer section adjustments */
+    .offer-wrapper{padding:0 16px}
+
+    /* Sound notice */
+    .sound-notice{padding:10px 16px;font-size:14px;color:#050505;text-align:center;border-top:1px solid #e4e6eb}
+    .sound-notice strong{color:#e41e3f}
+
+    /* Footer inside fb style */
+    .fb-footer{background:#f0f2f5;padding:40px 20px;text-align:center;font-size:12px;color:#65676b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+    .fb-footer a{color:#65676b;text-decoration:none}
+    .fb-footer a:hover{text-decoration:underline}
+  </style>
+</head>
+
+<body>
+  <!-- Exit Intent Modal (Alpine.js) -->
+  <div x-data="{ showModal: false }" x-init="
+    document.addEventListener('mouseleave', (event) => {
+      if (event.clientY <= 0) { showModal = true; }
+    });
+  ">
+    <div x-show="showModal" x-cloak class="bg-opacity-80 fixed inset-0 z-[2000] flex items-center justify-center bg-black">
+      <div class="relative w-full max-w-2xl rounded-lg border-4 border-red-500 bg-white p-6 shadow-xl" @click.away="showModal = false">
+        <button type="button" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900" @click="showModal = false" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <h2 class="text-center font-serif text-4xl font-bold text-red-500">WAIT! <span class="text-cyan-700">In Just 1:47...</span></h2>
+        <h3 class="mt-2 px-10 text-center font-serif text-3xl font-semibold text-cyan-700">I'll Reveal The 5 Min A Day System That Makes Me More Than Most CEO's, Doctors &amp; Lawyers Combined!</h3>
+        <div class="mt-4 flex items-center gap-4">
+          <img alt="Man in a chair" class="h-48 w-56 rounded-lg shadow" src="images/popup-image.webp" />
+          <p class="font-serif text-lg text-gray-700">As a divorced mom of three, I never thought my life would turn around. This system gave me back my confidence and finally let me provide my kids the life I'd always dreamed of. And it only takes 5 minutes a day!</p>
+        </div>
+        <button type="button" @click="showModal = false" class="pulsing mt-6 w-full rounded-lg border-4 border-blue-500 bg-[#FFFF00] px-4 py-2 font-serif font-bold text-black underline hover:bg-cyan-200">Keep Watching To Discover This 5 Min/Day System &gt;&gt;</button>
+      </div>
+    </div>
+
+  <div class="fb-wrap">
+    <!-- Facebook Post Header -->
+    <div class="fb-hdr">
+      <div class="fb-hdr-avatar"><img src="images/favicon_uni.png" alt="Unicorn" /></div>
+      <div class="fb-hdr-info">
+        <div class="fb-hdr-name">
+          Unicorn
+          <span class="fb-verified"><svg viewBox="0 0 12 12"><path d="M10.17 2.29L4.5 7.96 1.83 5.29a1 1 0 00-1.41 1.42l3.38 3.38a1 1 0 001.41 0l6.36-6.36a1 1 0 00-1.4-1.44z"/></svg></span>
+        </div>
+        <div class="fb-hdr-meta">
+          <span id="timeAgo">23m</span> &middot;
+          <span class="fb-live-tag"><span class="fb-live-dot"></span> Live</span>
+          &middot; &#127758;
+        </div>
+      </div>
+      <div class="fb-hdr-dots">&ctdot;</div>
+    </div>
+
+    <!-- Post Description -->
+    <div class="fb-desc">
+      <strong>TOP COMPUTER SCIENTIST:</strong> "This Money Button Makes Me <span style="color:#e91e8c;font-weight:700">$528/Day</span> On Autopilot"<br><br>
+      &#128308; Press play before this gets taken down &#128071;
+    </div>
+
+    <!-- Video Player Area -->
+    <div class="fb-player" id="playerWrap">
+      <div class="fb-player-overlay" id="playerOverlay">
+        <div class="fb-player-left">
+          <div class="fb-player-live-badge"><span class="dot"></span> LIVE</div>
+          <div class="fb-player-viewers">
+            <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            <span id="viewerCount">3,847</span>
+          </div>
+        </div>
+      </div>
+      <div class="fb-float-wrap" id="floatReactions"></div>
+
+      <!-- Loading overlay -->
+      <div class="fb-loading-overlay" id="videoLoading">
+        <div>Your Video<br>Is Loading...</div>
+      </div>
+
+      <!-- Desktop Wistia -->
+      <div class="landscape-only" style="width:100%">
+        <div style="position:relative;width:100%;aspect-ratio:910/515;">
+          <div id="wistia-video" style="position:absolute;inset:0;width:100%;height:100%;"></div>
+        </div>
+      </div>
+
+      <!-- Mobile Wistia -->
+      <div class="portrait-only" style="width:100%">
+        <div style="position:relative;width:100%;aspect-ratio:4/5;min-height:calc(100vw * 1.25);">
+          <div id="wistia-video-mobile" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reaction Bar -->
+    <div class="fb-react-bar">
+      <div class="fb-react-left">
+        <span class="fb-react-emoji like">&#128077;</span>
+        <span class="fb-react-emoji love">&#10084;&#65039;</span>
+        <span class="fb-react-emoji wow">&#128558;</span>
+        <span class="fb-react-count" id="likeCount">4.2K</span>
+      </div>
+      <div>
+        <span id="commentCountDisplay">892 Comments</span> &middot; <span id="shareCount">1.3K Shares</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="fb-actions">
+      <button class="fb-act-btn"><svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg> Like</button>
+      <button class="fb-act-btn"><svg viewBox="0 0 24 24"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/></svg> Comment</button>
+      <button class="fb-act-btn"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share</button>
+    </div>
+
+    <!-- Sound Notice -->
+    <div class="sound-notice">
+      &#128264; <strong>IMPORTANT:</strong> Make sure your sound is on. Please allow the video up to 10 seconds to load.
+    </div>
+
+    <!-- Offer Section (hidden until timer) -->
+    <div class="offer-wrapper">
+              <section
+                class="mx-4 mt-12 rounded-xl border-2 border-pink pb-6 lg:mx-0 bg-white"
+                id="offer"
+                x-cloak=""
+                x-data="{ show: false }"
+                x-init="
+                                const params = new URLSearchParams(window.location.search);
+                                if (params.get('showoffer') === '1') {
+                                    show = true;
+                                } else {
+                                    setTimeout(() =&gt; show = true, 1130000);
+                                }
+                        "
+                x-show="show"
+              >
+                <div>
+                  <div
+                    class="bg-pink py-4 text-center font-serif text-2xl leading-tight font-semibold tracking-wide lg:text-5xl lg:leading-relaxed"
+                    style="color: #fff"
+                  >
+                    <h1>
+                      Unlock Your Copy Of
+                      <br />
+                      Unicorn
+                    </h1>
+                  </div>
+                  <div
+                    class="relative h-[18px] w-[360px] overflow-hidden bg-transparent lg:h-[42px] lg:w-[908px]"
+                  >
+                    <div
+                      class="absolute bottom-0 left-0 h-0 w-0 border-t-[18px] border-r-[180px] border-l-[180px] border-black border-t-pink border-r-transparent border-l-transparent lg:border-t-[42px] lg:border-r-[452px] lg:border-l-[452px]"
+                    ></div>
+                  </div>
+                </div>
+                <div class="mx-5 mt-4">
+                  <img
+                    alt="Product Image"
+                    class="lg:h-auto lg:w-[870px]"
+                    src="images/new-mockup.png"
+                  />
+                </div>
+                <div class="">
+                  <div
+                    class="mx-6 mt-4 grid h-24 grid-cols-3 rounded-xl text-lg font-medium text-white lg:text-3xl"
+                  >
+                    <!-- First Icon -->
+                    <div
+                      class="flex items-center justify-center gap-4 rounded-l-xl bg-[#8d5cc7] text-center lg:text-left"
+                    >
+                      <img
+                        alt="special discount icon"
+                        class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
+                        src="images/special_discount.webp"
+                      />
+                      <span class="font-roboto-condensed leading-tight">
+                        Special
+                        <br />
+                        Discount
+                      </span>
+                    </div>
+                    <!-- Second Icon -->
+                    <div
+                      class="flex items-center justify-center gap-4 bg-[#5590d8] text-center lg:text-left"
+                    >
+                      <img
+                        alt="instant access icon"
+                        class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
+                        src="images/instant_access.webp"
+                      />
+                      <span class="font-roboto-condensed leading-tight">
+                        Instant
+                        <br />
+                        Access
+                      </span>
+                    </div>
+                    <!-- Third Icon -->
+                    <div
+                      class="flex items-center justify-center gap-4 rounded-r-xl bg-[#249e24] text-center lg:text-left"
+                    >
+                      <img
+                        alt="quick start icon"
+                        class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
+                        src="images/quick_start.webp"
+                      />
+                      <span class="font-roboto-condensed leading-tight">
+                        Quick Start
+                        <br />
+                        Bonuses
+                      </span>
+                    </div>
+                  </div>
+                  <div class="mt-6 flex items-center justify-center">
+                    <div>
+                      <img
+                        alt="left call out arrow"
+                        class="mb-6"
+                        src="images/left_arrow.png"
+                      />
+                    </div>
+                    <div>
+                      <div class="text-center font-serif text-2xl font-bold">
+                        Today Just For
+                      </div>
+                      <div
+                        class="-mt-3 text-center font-serif text-[54px] font-bold text-blue-950 lg:text-[71px]"
+                      >
+                        $47
+                      </div>
+                    </div>
+                    <div>
+                      <img
+                        alt="right call out arrow"
+                        class="mb-6"
+                        src="images/right_arrow.png"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-center px-2 lg:px-0">
+                    <a href="https://explodely.com/p/775300325">
+                      <img
+                        alt="order now button"
+                        src="images/order-now-button.webp"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </section>
+    </div>
+
+    <!-- Auto-generating Comments -->
+    <div class="fb-comments-section">
+      <div class="fb-comment-sort">Most relevant <span>&#9662;</span></div>
+      <div id="commentsFeed"></div>
+      <div id="typingIndicator" class="fb-typing">
+        <div class="fb-c-avatar" style="background:#e4e6eb;width:32px;height:32px;min-width:32px;border-radius:50%"></div>
+        <div class="fb-typing-dots"><div class="fb-typing-dot"></div><div class="fb-typing-dot"></div><div class="fb-typing-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- Comment Input -->
+    <div class="fb-ci">
+      <div class="fb-ci-avatar">&#128100;</div>
+      <input class="fb-ci-field" placeholder="Write a comment..." readonly />
+    </div>
+
+  </div><!-- end fb-wrap -->
+
+  </div><!-- end alpine modal wrapper -->
+
+  <!-- Footer -->
+  <div class="fb-footer">
+    <div style="margin-bottom:12px">
+      <a href="https://getunicornofficial.com/tos/">Privacy Policy &amp; Terms Of Service</a>
+      &nbsp;|&nbsp;
+      <a href="/cdn-cgi/l/email-protection#d1a2a4a1a1bea3a591b6b4a5a4bfb8b2bea3bfbeb7b7b8b2b8b0bdffb2bebc">Contact Us</a>
+    </div>
+    <div>Copyright &copy; 2026 Unicorn. All Rights Reserved.</div>
+    <p style="margin-top:20px;font-size:11px;max-width:600px;margin-left:auto;margin-right:auto;">
+      This site is not a part of the Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.
+    </p>
+  </div>
+
+  <!-- Portrait/Landscape CSS -->
+  <style>
+    .landscape-only { display: block; }
+    .portrait-only  { display: none; }
+    @media (orientation: portrait) and (max-width: 1024px) {
+      .portrait-only  { display: block !important; }
+      .landscape-only { display: none !important; }
+    }
+    @media (max-width: 767px) {
+      .portrait-only  { display: block !important; }
+      .landscape-only { display: none !important; }
+    }
+  </style>
+
+  <!-- Wistia Video Scripts -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
+      let globalVideo;
+      let mobileGlobalVideo;
+
+      function loadWistiaVideo() {
+        const videoContainer = document.getElementById("wistia-video");
+        const mobileVideoContainer = document.getElementById(
+          "wistia-video-mobile"
+        );
+        videoContainer.innerHTML = "";
+        mobileVideoContainer.innerHTML = "";
+
+        videoId = "dbjl61s8og";
+        mobileVideoId = "q14l8nriet";
+
+        const wistiaDiv = document.createElement("div");
+        const mobileWistiaDiv = document.createElement("div");
+        wistiaDiv.className = `wistia_embed wistia_async_${videoId}`;
+        mobileWistiaDiv.className = `wistia_embed wistia_async_${mobileVideoId}`;
+        videoContainer.appendChild(wistiaDiv);
+        mobileVideoContainer.appendChild(mobileWistiaDiv);
+
+        if (!window._wistiaInitialized) {
+          const wistiaScript = document.createElement("script");
+          wistiaScript.src = "https://fast.wistia.com/assets/external/E-v1.js";
+          wistiaScript.async = true;
+          document.head.appendChild(wistiaScript);
+          const mobileWistiaScript = document.createElement("script");
+          mobileWistiaScript.src =
+            "https://fast.wistia.com/assets/external/E-v1.js";
+          mobileWistiaScript.async = true;
+          document.head.appendChild(mobileWistiaScript);
+          window._wistiaInitialized = true;
+        }
+
+        window._wq = window._wq || [];
+        _wq.push({
+          id: videoId,
+          options: {
+            videoFoam: true,
+          },
+          onReady: function (video) {
+            globalVideo = video;
+
+            video.bind("play", function () {
+              window.dispatchEvent(new Event("videoplay"));
+            });
+
+            video.bind("pause", function () {
+              window.dispatchEvent(new Event("videopause"));
+            });
+          },
+        });
+        _wq.push({
+          id: mobileVideoId,
+          options: {
+            videoFoam: true,
+          },
+          onReady: function (video) {
+            let globalMobileVideo = video;
+            let hiddenOnPlayElements = document.getElementsByClassName(
+              "hidden-on-play-mobile"
+            );
+
+            video.bind("play", function () {
+              for (let hd of hiddenOnPlayElements) {
+                hd.classList.add("hidden");
+              }
+
+              window.dispatchEvent(new Event("mobilevideoplay"));
+            });
+
+            video.bind("pause", function () {
+              for (let hd of hiddenOnPlayElements) {
+                hd.classList.remove("hidden");
+              }
+              window.dispatchEvent(new Event("mobilevideopause"));
+            });
+          },
+        });
+      }
+
+      loadWistiaVideo();
+    </script>
+
+  </script>
+
+  <!-- Hide loading overlay once video loads -->
+  <script>
+    window._wq = window._wq || [];
+    _wq.push({ id: "_all", onReady: function(video) {
+      var lo = document.getElementById('videoLoading');
+      if(lo) { lo.style.transition='opacity 0.5s'; lo.style.opacity='0'; setTimeout(function(){ lo.style.display='none'; },600); }
+    }});
+  </script>
+
+  <!-- Facebook Live Engine: viewer count, reactions, auto-comments -->
+  <script>
+  (function(){
+    var names=[
+      'Emily Johnson','Jennifer Taylor','Ashley Davis','Morgan Rose','Hannah Lee',
+      'Ava Mitchell','Lauren Brooks','Sophia Nguyen','Rachel Green','Grace Thompson',
+      'Olivia Carter','Samantha Lopez','Karen Mitchell','Linda Harper','Susan Bailey',
+      'Debra Foster','Patricia Reynolds','Nancy Coleman','Barbara Watson','Donna Simmons',
+      'Carol Jenkins','Sharon Tucker','Tammy Baker','Brenda Perry','Judy Crawford',
+      'Cindy Butler','Diane West','Janet Long','Sandra Gray','Kathy Price'
+    ];
+    var avatarColors=['#4267B2','#45bd62','#e41e3f','#f7b928','#a040a0','#1877f2','#e46a2e','#7c3aed','#059669','#d97706','#dc2626','#2563eb'];
+
+    var comments=[
+      {t:"Hey did anyone try this already??"},
+      {t:"Update: Ended up trying it, took me 25 minutes to setup, already made my first $318 \u2764\uFE0F"},
+      {t:"I finally pulled the trigger couple days ago and already made $210, so grateful I did it \uD83D\uDE4F\u2764\uFE0F"},
+      {t:"Will it work on my old samsung as well?"},
+      {t:"Yeah, i am using an old samsung from 2015 and it works amazing, I made $982 last week \uD83E\uDD11\uD83E\uDD73"},
+      {t:"The moneybutton is a complete gamechanger. Before this I was pulling long shifts at the hospital, and my kids barely got to see me. Now, we spend most our time on vacations!"},
+      {t:"Just finished watching, money is already starting to flow in. I've never witnessed anything like this ever before."},
+      {t:"Honestly this video is a must watch for any single mom out there. My kids get to live the life they deserve now."},
+      {t:"If you're tired of being paid less than you deserve, working long hours while never being treated right \u2013 then do your future self a favour and watch this."},
+      {t:"I've tried all kinds of methods to make money online, and nothing has ever come close to this!"},
+      {t:"I've always known the rich know something we don't. This confirmed it. So glad I found your video!"},
+      {t:"This is honestly insane. Within my first week, I was already pulling in more than I did in a month at my old job."},
+      {t:"Thank you thank you thank you \uD83D\uDE4F\u2764\uFE0F this mama of 2 can finally breathe"},
+      {t:"STOP what you're doing and WATCH THIS. I'm dead serious right now"},
+      {t:"I almost didn't watch this. ALMOST. That would have been the biggest mistake of my life"},
+      {t:"When she pulls out the phone and shows the screen... you're going to lose your mind. I promise."},
+      {t:"Anyone else get goosebumps around the 6 minute mark? Just me??"},
+      {t:"I sent this to my sister and she called me back crying. Just watch the whole thing."},
+      {t:"DO NOT skip ahead. Every single minute matters. Trust me on this"},
+      {t:"My hands are literally shaking right now. If you haven't gotten to the phone part yet KEEP GOING"},
+      {t:"I was about to scroll past but something told me to stop. 10 minutes in and I can't look away"},
+      {t:"Just showed this to my whole group chat. Everyone is freaking out"},
+      {t:"How long is this going to be up? I need everybody in my family to see this"},
+      {t:"Facebook already hid this from my feed once. I had to search for it. SHARE IT before they do it again"},
+      {t:"Don't you DARE click off this video. What's coming up next is the whole reason you're here"},
+      {t:"I've never commented on one of these before in my life but I HAD to say something. Just wait."},
+      {t:"The first 5 minutes are good but what comes after... I'm still processing it 3 days later"},
+      {t:"My neighbor thought I was crazy when I told her. Then she watched it. Now she's the crazy one telling everybody"},
+      {t:"I screamed so loud my dog started barking. You'll understand why when you get to that part"}
+    ];
+
+    function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+    function pick(a){return a[rand(0,a.length-1)]}
+    function shuffle(a){var r=a.slice();for(var i=r.length-1;i>0;i--){var j=rand(0,i);var t=r[i];r[i]=r[j];r[j]=t}return r}
+    function formatNum(n){if(n>=1000)return(n/1000).toFixed(1).replace(/\.0$/,'')+'K';return n.toString()}
+    function getInitials(n){var p=n.split(' ');return(p[0][0]+(p.length>1?p[p.length-1][0]:'')).toUpperCase()}
+
+    // Viewer count
+    var viewerBase=rand(3200,4200);
+    var viewerEl=document.getElementById('viewerCount');
+    function updateViewers(){
+      viewerBase+=rand(-10,18);
+      if(viewerBase<2800)viewerBase=2800+rand(0,200);
+      if(viewerBase>5500)viewerBase=5500-rand(0,200);
+      if(viewerEl)viewerEl.textContent=viewerBase.toLocaleString('en-US');
+      setTimeout(updateViewers,rand(3000,6000));
+    }
+    updateViewers();
+
+    // Counters
+    var likeNum=rand(3800,4500),commentNum=rand(780,920),shareNum=rand(1100,1500);
+    var likeEl=document.getElementById('likeCount'),commentEl=document.getElementById('commentCountDisplay'),shareEl=document.getElementById('shareCount');
+    function updateCounters(){
+      likeNum+=rand(0,3);commentNum+=rand(0,1);shareNum+=rand(0,2);
+      if(likeEl)likeEl.textContent=formatNum(likeNum);
+      if(commentEl)commentEl.textContent=formatNum(commentNum)+' Comments';
+      if(shareEl)shareEl.textContent=formatNum(shareNum)+' Shares';
+      setTimeout(updateCounters,rand(4000,8000));
+    }
+    updateCounters();
+
+    // Floating reactions
+    var floatContainer=document.getElementById('floatReactions');
+    var floatEmojis=['\uD83D\uDC4D','\u2764\uFE0F','\uD83D\uDE2E','\uD83D\uDE4F','\u2764\uFE0F','\uD83D\uDC4D','\u2764\uFE0F','\uD83D\uDE4C'];
+    function floatReaction(){
+      if(!floatContainer)return;
+      var el=document.createElement('div');el.className='fb-float-emoji';el.textContent=pick(floatEmojis);el.style.left=rand(0,30)+'px';
+      floatContainer.appendChild(el);setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el)},3200);
+      setTimeout(floatReaction,rand(600,2500));
+    }
+    setTimeout(floatReaction,rand(2000,4000));
+
+    // Time ago
+    var startTime=Date.now()-rand(20,30)*60000;
+    var timeAgoEl=document.getElementById('timeAgo');
+    function updateTimeAgo(){
+      var mins=Math.floor((Date.now()-startTime)/60000);
+      if(timeAgoEl)timeAgoEl.textContent=mins<60?mins+'m':Math.floor(mins/60)+'h';
+      setTimeout(updateTimeAgo,60000);
+    }
+    updateTimeAgo();
+
+    // Comments engine
+    var feed=document.getElementById('commentsFeed');
+    var typingEl=document.getElementById('typingIndicator');
+    var shuffled=shuffle(comments);
+    var idx=0;
+    var usedNames={};
+
+    function pickName(){
+      var n=pick(names);var t=0;while(usedNames[n]&&t<5){n=pick(names);t++}
+      usedNames[n]=true;
+      return{name:n,color:pick(avatarColors)};
+    }
+
+    function buildComment(tpl,mins){
+      var p=pickName();
+      var time=mins<1?'Just now':mins<60?Math.floor(mins)+'m':Math.floor(mins/60)+'h';
+      return '<div class="fb-comment"><div class="fb-c-avatar" style="background:'+p.color+'">'+getInitials(p.name)+'</div><div class="fb-c-body"><div class="fb-c-bubble"><div class="fb-c-name">'+p.name+'</div><div class="fb-c-text">'+tpl.t+'</div></div><div class="fb-c-meta"><span>'+time+'</span><span>Like</span><span>Reply</span></div></div></div>';
+    }
+
+    function getNext(){
+      if(idx>=shuffled.length){shuffled=shuffle(comments);idx=0;usedNames={}}
+      return shuffled[idx++];
+    }
+
+    if(feed){var h='';for(var i=0;i<4;i++)h+=buildComment(getNext(),rand(2,15));feed.innerHTML=h}
+
+    var total=4;
+    function addNew(){
+      if(total>=60||!feed)return;
+      if(typingEl)typingEl.style.display='flex';
+      setTimeout(function(){
+        if(typingEl)typingEl.style.display='none';
+        feed.insertAdjacentHTML('afterbegin',buildComment(getNext(),0));
+        total++;commentNum++;if(commentEl)commentEl.textContent=formatNum(commentNum)+' Comments';
+        var d=total<12?rand(4000,7000):total<25?rand(6000,10000):rand(8000,14000);
+        setTimeout(addNew,d);
+      },rand(1500,3000));
+    }
+    setTimeout(addNew,rand(4000,7000));
+
+    // Fade overlay after 2 min
+    setTimeout(function(){
+      var ov=document.getElementById('playerOverlay');
+      if(ov){ov.style.transition='opacity 1.5s ease';ov.style.opacity='0';setTimeout(function(){ov.style.display='none'},1600)}
+    },120000);
+  })();
+  </script>
+
+    <script>
+      fetch(
+        "/cb/ipc.php?pg=" +
+          encodeURIComponent(location.pathname + location.search)
+      ).catch(() => {});
+    </script>
+  </body>
+</html>
