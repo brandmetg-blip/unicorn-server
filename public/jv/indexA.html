@@ -2,24 +2,6 @@
 
 <html lang="en">
   <head>
-    <script
-      defer=""
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
-    <script src="page-loader.js"></script>
-    <script>
-      // 10% traffic split to index-b.html
-
-      // @taha, uncomment lines 11-18 to start the split test
-      // if (Math.random() < 0.1) {
-      //   const currentUrl = new URL(window.location);
-      //   const params = currentUrl.searchParams;
-      //
-      //   // Redirect to index-b.html with current parameters
-      //   const redirectUrl = '/cb/index-b.html' + (params.toString() ? '?' + params.toString() : '');
-      //   window.location.href = redirectUrl;
-      // }
-    </script>
     <link href="css/styles.css" rel="stylesheet" />
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -54,276 +36,71 @@
       sizes="16x16"
       type="image/png"
     />
-
+    <!-- Meta Pixel Code -->
     <script>
-      (function () {
-        if (window.__JVZ_B_LINK_INIT__) return;
-        window.__JVZ_B_LINK_INIT__ = true;
-
-        // ===== Options =====
-        const REWRITE_ENABLED = true; // when true: add ALL page params to /b/ links
-        const ALWAYS_PASS = ["aid", "coupon"]; // always added to /b/ links (lowercased keys)
-        const FALLBACK_PRODUCT_ID = ""; // optional fallback if no IDs found (e.g. '123456')
-        const FIRE_TTL_MS = 30 * 1000; // "already fired" time-to-live: 1 minute
-        const THROTTLE_MS = 1500; // cross-instance throttle between fires
-
-        // ===== State =====
-        const FIRED_MAP =
-          window.__JVZ_B_LINK_FIRED__ ||
-          (window.__JVZ_B_LINK_FIRED__ = Object.create(null)); // key -> timestamp
-        const firedKey = (aid, productId, tid) =>
-          [aid || "", productId || "", tid || ""].join("|");
-
-        const hasFired = (aid, productId, tid) => {
-          const k = firedKey(aid, productId, tid);
-          const now = Date.now();
-
-          // memory check
-          const memTs = Number(FIRED_MAP[k]);
-          if (Number.isFinite(memTs) && now - memTs < FIRE_TTL_MS) return true;
-
-          // sessionStorage check (+back-compat)
-          try {
-            const raw = sessionStorage.getItem("jvzFired:" + k);
-            if (raw == null) return false;
-
-            if (raw === "1") {
-              // legacy value -> convert to timestamp and honor TTL from now
-              sessionStorage.setItem("jvzFired:" + k, String(now));
-              FIRED_MAP[k] = now;
-              return true;
-            }
-
-            const ts = Number(raw);
-            if (!Number.isFinite(ts)) return false;
-
-            if (now - ts < FIRE_TTL_MS) {
-              FIRED_MAP[k] = ts;
-              return true;
-            } else {
-              sessionStorage.removeItem("jvzFired:" + k);
-              delete FIRED_MAP[k];
-              return false;
-            }
-          } catch (_) {
-            return Number.isFinite(memTs) && Date.now() - memTs < FIRE_TTL_MS;
-          }
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
         };
-
-        const markFired = (aid, productId, tid) => {
-          const k = firedKey(aid, productId, tid);
-          const now = Date.now();
-          FIRED_MAP[k] = now;
-          try {
-            sessionStorage.setItem("jvzFired:" + k, String(now));
-          } catch (_) {}
-        };
-
-        // failure-only debug helper
-        const DEBUG = true;
-        const dbgFail = (...args) => {
-          if (DEBUG && typeof console !== "undefined") {
-            (console.debug || console.log).apply(console, ["[JVZ]", ...args]);
-          }
-        };
-
-        // ===== 1) Normalize page params (aid/tid lowercased, others preserved) =====
-        const qp = new URLSearchParams(window.location.search);
-        const pageParams = new URLSearchParams();
-        for (const [key, value] of qp.entries()) {
-          const kLower = key.toLowerCase();
-          if (kLower === "aid" || kLower === "tid" || kLower === "coupon") {
-            pageParams.set(kLower, value);
-          } else {
-            pageParams.set(key, value);
-          }
-        }
-        const aidRaw = pageParams.get("aid");
-        const tidRaw = pageParams.get("tid");
-
-        // ===== 2) Parse JVZoo URLs (supports /b/... and pixel form /.../..../...) =====
-        function parseJVZUrl(url) {
-          try {
-            const u = new URL(url, window.location.href);
-            if (!/(\.|^)jvzoo\.com$/i.test(u.hostname)) return null;
-
-            // Supports:
-            //   /b/{funnel}/{product}/{button}
-            //   /{funnel}/{product}/{button}   (e.g. i.jvzoo.com/182/46/99)
-            const m = u.pathname.match(
-              /^\/(?:[bB]\/)?(\d+)\/(\d+)\/(\d+)(?:[\/?#]|$)/
-            );
-            if (!m) return null;
-            return { url: u, funnelId: m[1], productId: m[2], buttonId: m[3] };
-          } catch {
-            return null;
-          }
-        }
-
-        // Scan for first match in anchors, areas, images, iframes
-        function findFirstIdsOnPage() {
-          const nodes = document.querySelectorAll(
-            "a[href], area[href], img[src], iframe[src]"
-          );
-          for (const el of nodes) {
-            const url = el.getAttribute("href") || el.getAttribute("src");
-            if (!url) continue;
-            const info = parseJVZUrl(url);
-            if (info)
-              return { funnelId: info.funnelId, productId: info.productId };
-          }
-          return null;
-        }
-
-        // ===== 3) Fire the click once =====
-        if (typeof window.__JVZ_LAST_CLICK_TS__ !== "number")
-          window.__JVZ_LAST_CLICK_TS__ = 0;
-
-        function fireClickOnce() {
-          if (!aidRaw) {
-            dbgFail("click: skip -> missing aid");
-            return;
-          }
-
-          let ids = findFirstIdsOnPage();
-          let productId = ids && ids.productId;
-          if (!productId) {
-            if (
-              FALLBACK_PRODUCT_ID &&
-              /^\d+$/.test(String(FALLBACK_PRODUCT_ID))
-            ) {
-              productId = String(FALLBACK_PRODUCT_ID);
-            } else {
-              dbgFail(
-                "click: skip -> no jvzoo id found in DOM and no valid FALLBACK_PRODUCT_ID"
-              );
-              return;
-            }
-          }
-
-          const now = Date.now();
-          if (now - window.__JVZ_LAST_CLICK_TS__ < THROTTLE_MS) {
-            dbgFail("click: skip -> throttled", {
-              last: window.__JVZ_LAST_CLICK_TS__,
-              now,
-              delta: now - window.__JVZ_LAST_CLICK_TS__,
-            });
-            return;
-          }
-
-          if (hasFired(aidRaw, productId, tidRaw)) {
-            dbgFail("click: skip -> already fired for key (within TTL)", {
-              aid: aidRaw,
-              productId,
-              tid: tidRaw,
-            });
-            return;
-          }
-
-          const clickUrl = new URL(
-            `https://www.jvzoo.com/c/${encodeURIComponent(aidRaw)}/${productId}`
-          );
-          pageParams.forEach((v, k) => clickUrl.searchParams.set(k, v));
-
-          const iframe = document.createElement("iframe");
-          iframe.src = clickUrl.toString();
-          iframe.style.cssText =
-            "width:0;height:0;border:0;position:absolute;left:-9999px;top:-9999px;";
-          (document.body || document.documentElement).appendChild(iframe);
-
-          window.__JVZ_LAST_CLICK_TS__ = now;
-          markFired(aidRaw, productId, tidRaw);
-        }
-
-        // ===== 4) Rewrite /b/ anchors (only <a>, not images/iframes) =====
-        function updateBuyLinks() {
-          document.querySelectorAll("a[href]").forEach((a) => {
-            const href = a.getAttribute("href");
-            const info = parseJVZUrl(href);
-            if (!info) return;
-
-            // Start from canonical origin+pathname (preserves funnel/product/button ids)
-            const newUrl = new URL(info.url.origin + info.url.pathname);
-
-            // (a) copy the link’s own original QS parameters first
-            info.url.searchParams.forEach((v, k) =>
-              newUrl.searchParams.set(k, v)
-            );
-
-            // (b1) always overlay whitelisted params from page
-            pageParams.forEach((v, k) => {
-              if (ALWAYS_PASS.includes(k.toLowerCase())) {
-                newUrl.searchParams.set(k, v);
-              }
-            });
-
-            // (b2) optionally overlay ALL other page params when enabled
-            if (REWRITE_ENABLED) {
-              pageParams.forEach((v, k) => {
-                if (!ALWAYS_PASS.includes(k.toLowerCase())) {
-                  newUrl.searchParams.set(k, v);
-                }
-              });
-            }
-
-            a.setAttribute("href", newUrl.toString());
-          });
-        }
-
-        // ===== 5) Init & observe late-injected links =====
-        function init() {
-          updateBuyLinks();
-          fireClickOnce();
-
-          const observer = new MutationObserver((records) => {
-            let shouldUpdate = false;
-            for (const rec of records) {
-              if (
-                rec.type === "attributes" &&
-                rec.attributeName === "href" &&
-                rec.target instanceof Element
-              ) {
-                if (
-                  rec.target.matches &&
-                  rec.target.matches('a[href*="/b/"]')
-                ) {
-                  shouldUpdate = true;
-                  break;
-                }
-              }
-              for (const node of rec.addedNodes) {
-                if (!(node instanceof Element)) continue;
-                if (
-                  (node.matches && node.matches('a[href*="/b/"]')) ||
-                  (node.querySelector && node.querySelector('a[href*="/b/"]'))
-                ) {
-                  shouldUpdate = true;
-                  break;
-                }
-              }
-              if (shouldUpdate) break;
-            }
-            if (shouldUpdate) {
-              updateBuyLinks();
-              fireClickOnce();
-            }
-          });
-
-          observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ["href"],
-          });
-        }
-
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", init, { once: true });
-        } else {
-          init();
-        }
-      })();
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      fbq("init", "1380954990411421");
+      fbq("track", "PageView");
     </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=2038763323591150&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <style>
+      /* Desktop/Landscape = show desktop embed */
+      .landscape-only { display: block; }
+      .portrait-only  { display: none; }
+
+      /* Tablet/phone portrait = show mobile embed */
+      @media (orientation: portrait) and (max-width: 1024px) {
+        .portrait-only  { display: block !important; }
+        .landscape-only { display: none !important; }
+
+        .mobile-video-wrapper {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 4 / 5;
+          background-color: #000;
+        }
+      }
+
+      /* Phone */
+      @media (max-width: 767px) {
+        .mobile-video-wrapper {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 4 / 5;
+          background-color: #000;
+          min-height: calc(100vw * 1.25);
+        }
+      }
+    </style>
   </head>
 
   <body class="relative font-sans h-100 m-0 p-0 min-h-screen flex flex-col">
@@ -392,7 +169,7 @@
               <p class="font-serif text-lg text-gray-700">
                 As a divorced mom of three, I never thought my life would turn
                 around. This system gave me back my confidence and finally let
-                me provide my kids the life I’d always dreamed of. And it only
+                me provide my kids the life I'd always dreamed of. And it only
                 takes 5 minutes a day!
               </p>
             </div>
@@ -409,102 +186,92 @@
         <div class="flex items-start justify-center">
           <div class="w-full lg:w-[910px] lg:max-w-[910px]">
             <header class="pb-4">
+              <h2
+                class="hidden-on-play-mobile font-roboto-condensed font-bold mt-4 mb-2 text-center text-[20px] tracking-[0.1em] uppercase text-gray-800 lg:text-[20px]">
+                TOP COMPUTER SCIENTIST:
+              </h2>
               <h1
-                class="hidden-on-play-mobile font-roboto-condensed mt-10 mb-8 min-h-[70px] px-0 text-center text-4xl leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 lg:text-6xl text-black"
+                class="hidden-on-play-mobile font-roboto-condensed mb-8 min-h-[70px] px-2 text-center leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 text-black"
+                style="font-size: clamp(1.75rem, 8vw, 3.75rem);"
               >
-                "This MoneyButton<br />
-                Makes Me
-                <span class="text-header-pink">$528/Day</span><br />
-                On Autopilot"
+                <span class="text-header-pink">"This Money Button Makes Me $528/Day On Autopilot"</span>
               </h1>
-              <div class="flex items-start justify-center lg:mt-10">
-                <div class="hidden md:block">
-                  <div
-                    class="relative flex h-[578px] w-[330px] items-center justify-center border-4 bg-black lg:h-[515px] lg:w-[910px]"
-                  >
-                    <div class="flex items-center justify-center">
-                      <img
-                        alt="Loading Video"
-                        class="absolute w-100 lg:w-[500px]"
-                        loading="lazy"
-                        src="images/loading-video.gif"
-                      />
-                      <!-- Wistia Video Container -->
-                      <div
-                        :class="fullscreen ? 'fixed top-0 left-0 w-screen h-screen bg-black z-50 flex items-center justify-center' : 'relative w-full lg:w-[910px] lg:h-[515px] aspect-w-910 aspect-h-515 border-4 border-white shadow-lg shadow-gray-500'"
-                        class="wistia-video-container"
-                        x-data="{ fullscreen: false, hasToggledFullScreen: false }"
-                        x-on:videopause.window="fullscreen = false"
-                        x-on:videoplay.window="fullscreen = true; hasToggledFullScreen = true"
-                      >
-                        <div
-                          class="flex h-full w-full items-center justify-center"
-                        >
-                          <img
-                            @click.stop="fullscreen = true; globalVideo.play();"
-                            alt="play"
-                            class="pulsing-video-button z-[1000] w-[180px] lg:w-[360px]"
-                            src="images/click-to-play-video.png"
-                            x-cloak=""
-                            x-show="!fullscreen &amp;&amp; hasToggledFullScreen"
-                          />
-                        </div>
-                        <!-- Wistia Video -->
-                        <div
-                          :class="fullscreen ? 'fullscreen-video' : ''"
-                          class="absolute inset-0 h-full w-full"
-                          id="wistia-video"
-                        ></div>
-                      </div>
-                    </div>
-                    <!-- Placeholder Image to Reserve Space -->
-                  </div>
-                </div>
-                <div class="block md:hidden">
-                  <!-- Black placeholder container for mobile video -->
-                  <div class="relative w-full" style="height: 480px">
-                    <div
-                      class="absolute bg-black w-full text-white flex items-center justify-center text-4xl font-bold text-center"
-                      style="height: 480px"
-                    >
-                      <div class="text-center">
-                        <img
-                          src="images/loading-video.gif"
-                          alt="Loading"
-                          class="mx-auto mb-4 w-16 h-16"
-                          loading="eager"
-                          fetchpriority="high"
-                        />
-                        <div>Your Video<br />Is Loading...</div>
-                      </div>
-                    </div>
-                    <div
-                      class="relative h-auto w-screen"
-                      x-data="{ mfullscreen: false, mhasToggledFullScreen: false } "
-                      x-on:mobilevideopause.window="mfullscreen = false"
-                      x-on:mobilevideoplay.window="mfullscreen = true; mhasToggledFullScreen = true"
-                    >
-                      <div
-                        class="inset-0 h-full w-full"
-                        id="wistia-video-mobile"
-                      ></div>
-                    </div>
+          <div class="flex items-start justify-center lg:mt-10">
 
+            <!-- LANDSCAPE/desktop video -->
+            <div class="landscape-only w-full overflow-hidden">
+              <div
+                class="relative flex w-full max-w-[910px] mx-auto items-center justify-center bg-black" style="aspect-ratio: 910/515;">
+                <div class="flex items-center justify-center">
+                  <img
+                    alt="Loading Video"
+                    class="absolute w-100 lg:w-[500px]"
+                    loading="lazy"
+                    src="images/loading-video.gif"
+                  />
+                  <!-- Wistia Video Container -->
+                  <div
+                    :class="fullscreen ? 'fixed top-0 left-0 w-screen h-screen bg-black z-50 flex items-center justify-center' : 'relative w-full max-w-[910px] aspect-w-910 aspect-h-515'"
+                    class="wistia-video-container"
+                    x-data="{ fullscreen: false, hasToggledFullScreen: false }"
+                    x-on:videopause.window="fullscreen = false"
+                    x-on:videoplay.window="fullscreen = true; hasToggledFullScreen = true"
+                  >
                     <div
-                      class="pointer-events-none absolute inset-0 flex h-full w-full items-center justify-center"
+                      class="flex h-full w-full items-center justify-center"
                     >
                       <img
-                        @click.stop="mfullscreen = true; globalVideo.play();"
+                        @click.stop="fullscreen = true; globalVideo.play();"
                         alt="play"
-                        class="pulsing-video-button w-[180px] lg:w-[360px]"
+                        class="pulsing-video-button z-[1000] w-[180px] lg:w-[360px]"
                         src="images/click-to-play-video.png"
                         x-cloak=""
-                        x-show="!mfullscreen &amp;&amp; mhasToggledFullScreen"
+                        x-show="!fullscreen &amp;&amp; hasToggledFullScreen"
                       />
                     </div>
+                    <!-- Wistia Video -->
+                    <div
+                      :class="fullscreen ? 'fullscreen-video' : ''"
+                      class="absolute inset-0 h-full w-full"
+                      id="wistia-video"
+                    ></div>
                   </div>
                 </div>
+                <!-- Placeholder Image to Reserve Space -->
               </div>
+            </div>
+
+            <!-- PORTRAIT tablet/phone video -->
+            <div class="portrait-only w-full">
+              <div
+                class="relative w-screen mobile-video-wrapper"
+                x-data="{ mfullscreen: false, mhasToggledFullScreen: false }"
+                x-on:mobilevideoplay.window="mfullscreen = true; mhasToggledFullScreen = true"
+                x-on:mobilevideopause.window="mfullscreen = false"
+              >
+                <!-- Loading text (sits behind the video, visible until Wistia covers it) -->
+                <div class="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold text-center pointer-events-none">
+                  <div class="text-center">
+                    <div>Your Video<br />Is Loading...</div>
+                  </div>
+                </div>
+
+                <div id="wistia-video-mobile" class="absolute inset-0 h-full w-full z-[2]"></div>
+
+                <div class="absolute inset-0 flex h-full w-full items-center justify-center pointer-events-none z-[3]">
+                  <img
+                    x-show="!mfullscreen &amp;&amp; mhasToggledFullScreen"
+                    x-cloak=""
+                    @click.stop="mfullscreen = true; mobileGlobalVideo &amp;&amp; mobileGlobalVideo.play();"
+                    alt="play"
+                    class="pulsing-video-button w-[180px] lg:w-[360px] pointer-events-auto"
+                    src="images/click-to-play-video.png"
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
             </header>
           </div>
         </div>
@@ -522,12 +289,12 @@
               />
               <div>
                 <strong class="font-serif font-semibold text-pink-500"
-                  >IMPORTANT:</strong
+                  ><b>IMPORTANT:</b></strong
                 >
-                Make sure your sound is on.
+                <b>Make sure your sound is on.</b>
               </div>
             </div>
-            <div>Please allow the video up to 10 seconds to load.</div>
+            <div><b>Please allow the video up to 10 seconds to load.</b></div>
           </div>
         </div>
         <div class="w-full bg-white">
@@ -651,7 +418,7 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-center px-2 lg:px-0">
-                    <a href="checkout-c.html">
+                    <a id="buyBtn" href="https://explodely.com/p/775300325">
                       <img
                         alt="order now button"
                         src="images/order-now-button.webp"
@@ -660,209 +427,342 @@
                   </div>
                 </div>
               </section>
-              <!-- Fake Facebook Comments Section (styled like screenshot) -->
-              <div class="fb-comments-fake">
-                <h3 class="fb-comments-header">13 Comments</h3>
-                <!-- 1 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment1.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 14</div>
-                    <div class="fb-name-line">
-                      <span class="fb-name">Emily Johnson</span>
-                      <span class="fb-pinned">
-                        <svg
-                          class="pin-ico"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M17 4a1 1 0 0 1 0 2h-1v5.59l2.7 2.7a1 1 0 0 1-.7 1.71H13v5.59a1 1 0 0 1-2 0V16H6a1 1 0 0 1-.7-1.71l2.7-2.7V6H7a1 1 0 0 1 0-2h10z"
-                          />
-                        </svg>
+              <!-- Facebook Comments Section (Retro Style) -->
+              <style>
+                .rfb-section {
+                  max-width: 100%;
+                  margin: 30px auto 0;
+                  background: #fff;
+                  border: 1px solid #e4e7ec;
+                  border-radius: 8px;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+                  font-size: 15px;
+                  color: #1d2129;
+                  padding: 0;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+                }
+                .rfb-section * { box-sizing: border-box; }
+                .rfb-header {
+                  background: #f6f7f9;
+                  border-bottom: none;
+                  padding: 10px 12px;
+                  font-weight: 600;
+                  font-size: 16px;
+                  color: #4b4f56;
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                }
+                .rfb-header svg { width: 18px; height: 18px; fill: #4b4f56; flex-shrink: 0; }
+                .rfb-body { padding: 0; }
+                .rfb-item {
+                  display: flex;
+                  align-items: flex-start;
+                  padding: 10px 12px;
+                  border-bottom: none;
+                  gap: 10px;
+                }
+                .rfb-item:last-child { border-bottom: none; }
+                .rfb-item.rfb-reply {
+                  padding-left: 62px;
+                }
+                .rfb-avatar {
+                  width: 44px;
+                  height: 44px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  flex-shrink: 0;
+                }
+                .rfb-reply .rfb-avatar {
+                  width: 36px;
+                  height: 36px;
+                }
+                .rfb-content { flex: 1; min-width: 0; }
+                .rfb-name {
+                  font-weight: 700;
+                  color: #365899;
+                  font-size: 15px;
+                  text-decoration: none;
+                  cursor: pointer;
+                  display: inline;
+                }
+                .rfb-name:hover { text-decoration: underline; }
+                .rfb-text {
+                  margin: 3px 0 5px;
+                  line-height: 1.4;
+                  color: #1d2129;
+                  font-size: 15px;
+                  word-wrap: break-word;
+                }
+                .rfb-actions {
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  font-size: 13px;
+                  color: #90949c;
+                  margin-top: 3px;
+                }
+                .rfb-actions a {
+                  color: #4267b2;
+                  text-decoration: none;
+                  font-weight: 600;
+                  cursor: pointer;
+                }
+                .rfb-actions a:hover { text-decoration: underline; }
+                .rfb-actions .rfb-dot { margin: 0 2px; }
+                .rfb-like-count {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 3px;
+                  float: right;
+                  font-size: 13px;
+                  color: #8d949e;
+                  background: #fff;
+                  border: none;
+                  border-radius: 10px;
+                  padding: 1px 6px;
+                  margin-top: -2px;
+                  line-height: 1;
+                }
+                .rfb-tag {
+                  color: #365899;
+                  font-weight: 600;
+                  cursor: pointer;
+                }
+                .rfb-tag:hover { text-decoration: underline; }
+                .rfb-pinned {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 3px;
+                  font-size: 12px;
+                  color: #90949c;
+                  margin-left: 8px;
+                  font-weight: 400;
+                }
+                .rfb-pinned svg {
+                  width: 14px;
+                  height: 14px;
+                  fill: #90949c;
+                }
+                @media (max-width: 640px) {
+                  .rfb-section {
+                    margin: 16px 8px 0;
+                    font-size: 14px;
+                  }
+                  .rfb-item { padding: 8px 8px; gap: 8px; }
+                  .rfb-item.rfb-reply { padding-left: 52px; }
+                  .rfb-avatar { width: 40px; height: 40px; }
+                  .rfb-reply .rfb-avatar { width: 32px; height: 32px; }
+                  .rfb-text { font-size: 14px; }
+                }
+              </style>
+
+              <div class="rfb-section">
+                <div class="rfb-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/></svg>
+                  13 Comments
+                </div>
+                <div class="rfb-body">
+
+                  <!-- 1 - Emily Johnson (pinned) -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Emily Johnson</span>
+                      <span class="rfb-pinned">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 4a1 1 0 0 1 0 2h-1v5.59l2.7 2.7a1 1 0 0 1-.7 1.71H13v5.59a1 1 0 0 1-2 0V16H6a1 1 0 0 1-.7-1.71l2.7-2.7V6H7a1 1 0 0 1 0-2h10z"/></svg>
                         Pinned
                       </span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 14</div>
+                      <p class="rfb-text">Hey did anyone try this already??</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>5d</span>
+                      </div>
                     </div>
+                  </div>
 
-                    <p>Hey did anyone try this already??</p>
-                    <div class="fb-meta">Like · Reply · 5d</div>
+                  <!-- Reply: Emily Johnson -->
+                  <div class="rfb-item rfb-reply">
+                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Emily Johnson</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 36</div>
+                      <p class="rfb-text"><span class="rfb-tag">Emily Johnson</span> Update: Ended up trying it, took me 25 minutes to setup, already made my first $318, Thanks girlss ♥️</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>1h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- reply thread -->
-                <div class="fb-reply">
-                  <img
-                    class="fb-avatar small"
-                    src="images/comms/comment1.webp"
-                  />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 36</div>
-                    <span class="fb-name">Emily Johnson</span>
-                    <p>
-                      <span class="fb-tag">Emily Johnson</span> Update: Ended up
-                      trying it, took me 25 minutes to setup, already made my
-                      first $318, Thanks girlss ♥️
-                    </p>
-                    <div class="fb-meta">Like · Reply · 1h</div>
+
+                  <!-- Reply: Jennifer Taylor -->
+                  <div class="rfb-item rfb-reply">
+                    <img class="rfb-avatar" src="images/comms/comment2.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Jennifer Taylor</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 19</div>
+                      <p class="rfb-text"><span class="rfb-tag">Emily Johnson</span> I finally pulled a trigger couple days ago and already made $210, so grateful I did it, all thanks to Ema and Ana, Thankss 🙏❤️</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>37 min</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="fb-reply">
-                  <img
-                    class="fb-avatar small"
-                    src="images/comms/comment2.webp"
-                  />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 19</div>
-                    <span class="fb-name">Jennifer Taylor</span>
-                    <p>
-                      <span class="fb-tag">Emily Johnson</span> I finally pulled
-                      a trigger couple days ago and already made $210, so
-                      grateful I did it, all thanks to Ema and Ana, Thankss 🙏❤️
-                    </p>
-                    <div class="fb-meta">Like · Reply · 37 min</div>
+
+                  <!-- 2 - Ashley Davis -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment4.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Ashley Davis</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 34</div>
+                      <p class="rfb-text">Will it work on my old samsung as well?</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>1h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 2 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment4.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 34</div>
-                    <span class="fb-name">Ashley Davis</span>
-                    <p>Will it work on my old samsung as well?</p>
-                    <div class="fb-meta">Like · Reply · 1h</div>
+
+                  <!-- Reply: Morgan Rose -->
+                  <div class="rfb-item rfb-reply">
+                    <img class="rfb-avatar" src="images/comms/comment5.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Morgan Rose</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 18</div>
+                      <p class="rfb-text"><span class="rfb-tag">Ashley Davis</span> Yeah, i am using an old samsung from 2015 and it works amazing, I made $982 last week 🤑🥳</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>1h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- replies -->
-                <div class="fb-reply">
-                  <img
-                    class="fb-avatar small"
-                    src="images/comms/comment5.webp"
-                  />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 18</div>
-                    <span class="fb-name">Morgan Rose</span>
-                    <p>
-                      <span class="fb-tag">Ashley Davis</span> Yeah, i am using
-                      an old samsung from 2015 and it works amazing, I made $982
-                      last week 🤑🥳
-                    </p>
-                    <div class="fb-meta">Like · Reply · 1h</div>
+
+                  <!-- 3 - Hannah Lee -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment6.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Hannah Lee</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 21</div>
+                      <p class="rfb-text">The "moneybutton" is a complete gamechanger… Before this I was pulling long shifts at the hospital, and my kids barely got to see me. Now, we spend most our time on vacations – feet buried in the sand, thanks girls!</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>2h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 3 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment6.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 21</div>
-                    <span class="fb-name">Hannah Lee</span>
-                    <p>
-                      The “moneybutton” is a complete gamechanger… Before this I
-                      was pulling long shifts at the hospital, and my kids
-                      barely got to see me. Now, we spend most our time on
-                      vacations – feet buried in the sand, thanks girls!
-                    </p>
-                    <div class="fb-meta">Like · Reply · 2h</div>
+
+                  <!-- 4 - Ava Mitchell -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment7.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Ava Mitchell</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 19</div>
+                      <p class="rfb-text">Just finished watching, it's been since I activated the moneybutton and money is already starting to flow in – I've never witnessed anything like this ever before.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>3h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 4 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment7.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 19</div>
-                    <span class="fb-name">Ava Mitchell</span>
-                    <p>
-                      Just finished watching, it’s been since I activated the
-                      moneybutton and money is already starting to flow in –
-                      I’ve never witnessed anything like this ever before.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 3h</div>
+
+                  <!-- 5 - Lauren Brooks -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment8.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Lauren Brooks</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 27</div>
+                      <p class="rfb-text">Honestly this video is a must watch for any single mom out there, after my divorce I struggled with keeping up, every time I got ahead, something came up that would push me back… Now, I never even worry about money or look at the price, my kids get to live the life they deserve, and my ex is jealous (which is a BIG PLUS) – thx girls.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>3h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 5 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment8.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 27</div>
-                    <span class="fb-name">Lauren Brooks</span>
-                    <p>
-                      Honestly this video is a must watch for any single mom out
-                      there, after my divorce I struggled with keeping up, every
-                      time I got ahead, something came up that would push me
-                      back… Now, I never even worry about money or look at the
-                      price, my kids get to live the life they deserve, and my
-                      ex is jealous (which is a BIG PLUS) – thx girls.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 3h</div>
+
+                  <!-- 6 - Sophia Nguyen -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment9.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Sophia Nguyen</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 14</div>
+                      <p class="rfb-text">If you're tired of being paid less than you deserve, working long hours while never being treated right – then do your future self a favour and watch this.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>4h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 6 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment9.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 14</div>
-                    <span class="fb-name">Sophia Nguyen</span>
-                    <p>
-                      If you’re tired of being paid less than you deserve,
-                      working long hours while never being treated right – then
-                      do your future self a favour and watch this.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 4h</div>
+
+                  <!-- 7 - Rachel Green -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment10.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Rachel Green</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 22</div>
+                      <p class="rfb-text">I've tried all kinds of methods to make money online, and nothing has ever come close to this… Ana, Emma, you girls are actual geniuses – no wonder they said you're the "Einstein of This Generation". They're soooo right!</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>4h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 7 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment10.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 22</div>
-                    <span class="fb-name">Rachel Green</span>
-                    <p>
-                      I’ve tried all kinds of methods to make money online, and
-                      nothing has ever come close to this… Ana, Emma, you girls
-                      are actual geniuses – no wonder they said you’re the
-                      “Einstein of This Generation”. They’re soooo right!
-                    </p>
-                    <div class="fb-meta">Like · Reply · 4h</div>
+
+                  <!-- 8 - Grace Thompson -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment11.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Grace Thompson</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 11</div>
+                      <p class="rfb-text">I've always known the rich know something we don't. This confirmed it. But me trying this system and actually making money solidified it. So glad I found your video!</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>5h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 8 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment11.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 11</div>
-                    <span class="fb-name">Grace Thompson</span>
-                    <p>
-                      I’ve always known the rich know something we don’t. This
-                      confirmed it. But me trying this system and actually
-                      making money solidified it. So glad I found your video!
-                    </p>
-                    <div class="fb-meta">Like · Reply · 5h</div>
+
+                  <!-- 9 - Olivia Carter -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment12.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Olivia Carter</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 26</div>
+                      <p class="rfb-text">This is honestly insane… within my first week, I was already pulling in more than I did in a month at my old job.</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>6h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 9 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment12.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 26</div>
-                    <span class="fb-name">Olivia Carter</span>
-                    <p>
-                      This is honestly insane… within my first week, I was
-                      already pulling in more than I did in a month at my old
-                      job.
-                    </p>
-                    <div class="fb-meta">Like · Reply · 6h</div>
+
+                  <!-- 10 - Samantha Lopez -->
+                  <div class="rfb-item">
+                    <img class="rfb-avatar" src="images/comms/comment13.webp" alt="">
+                    <div class="rfb-content">
+                      <span class="rfb-name">Samantha Lopez</span>
+                      <div class="rfb-like-count">&#128077; &#10084;&#65039; 9</div>
+                      <p class="rfb-text">Thank you thank you thank you 🙏❤️ this mama of 2 can finally breathe… I'm literally crying right now 😭😭</p>
+                      <div class="rfb-actions">
+                        <a>Like</a><span class="rfb-dot">&middot;</span>
+                        <a>Reply</a><span class="rfb-dot">&middot;</span>
+                        <span>6h</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- 10 -->
-                <div class="fb-comment">
-                  <img class="fb-avatar" src="images/comms/comment13.webp" />
-                  <div class="fb-comment-body">
-                    <div class="fb-reactions">👍 ❤️ 9</div>
-                    <span class="fb-name">Samantha Lopez</span>
-                    <p>
-                      Thank you thank you thank you 🙏❤️ this mama of 2 can
-                      finally breathe… I’m literally crying right now 😭😭
-                    </p>
-                    <div class="fb-meta">Like · Reply · 6h</div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -890,10 +790,7 @@
               </div>
               <div>|</div>
               <div>
-                <a
-                  class="text-black hover:text-pink-400"
-                  href="mailto:support@getunicornofficial.com"
-                  >Contact Us</a
+                <a class="text-black hover:text-pink-400" href="/cdn-cgi/l/email-protection#d1a2a4a1a1bea3a591b6b4a5a4bfb8b2bea3bfbeb7b7b8b2b8b0bdffb2bebc">Contact Us</a
                 >
               </div>
             </div>
@@ -914,7 +811,7 @@
         </div>
       </footer>
     </div>
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       let globalVideo;
       let mobileGlobalVideo;
 
@@ -926,8 +823,8 @@
         videoContainer.innerHTML = "";
         mobileVideoContainer.innerHTML = "";
 
-        videoId = "mlh2g7vbpw";
-        mobileVideoId = "ricao1cgk4";
+        videoId = "dbjl61s8og";
+        mobileVideoId = "q14l8nriet";
 
         const wistiaDiv = document.createElement("div");
         const mobileWistiaDiv = document.createElement("div");
@@ -998,60 +895,182 @@
 
       loadWistiaVideo();
     </script>
-        <script>
+    <script>
       fetch(
         "/cb/ipc.php?pg=" +
           encodeURIComponent(location.pathname + location.search)
       ).catch(() => {});
     </script>
-        <script>
-      (function () {
-        const pageParams = new URLSearchParams(window.location.search);
+    <script
+      defer=""
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script>
+      // if (Math.random() < 0.1) {
+      //   const currentUrl = new URL(window.location);
+      //   const params = currentUrl.searchParams;
+      //
+      //   // Redirect to index-b.html with current parameters
+      //   const redirectUrl = '/cb/index-b.html' + (params.toString() ? '?' + params.toString() : '');
+      //   window.location.href = redirectUrl;
+      // }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-        // Save all current query params into localStorage with 'p_' prefix
-        pageParams.forEach((value, key) => {
-          try {
-            localStorage.setItem("p_" + key, value);
-          } catch (e) {
-            // Ignore storage errors
-          }
-        });
+      gtag('config', 'G-W9MQSWJK88');
+    </script>
 
-        document.addEventListener("click", function (e) {
-          const link = e.target.closest("a");
-          if (!link) return;
+    <!-- Checkout Loading Overlay -->
+    <script>
+      function showCheckoutOverlay() {
+        if (document.getElementById("checkoutOverlay")) return;
 
-          if (!link.href.includes("checkout-c.html")) return;
+        const messages = [
+          "Initializing secure session...",
+          "Encrypting access...",
+          "Verifying gateway...",
+          "Establishing secure tunnel...",
+          "Preparing access portal...",
+        ];
 
-          const url = new URL(link.href, window.location.origin);
+        const overlay = document.createElement("div");
+        overlay.id = "checkoutOverlay";
 
-          // Start with whatever query may already be on the href
-          const finalParams = new URLSearchParams(url.search);
+        overlay.innerHTML = `
+      <style>
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      </style>
 
-          // Add live params from this page
-          pageParams.forEach((value, key) => {
-            finalParams.set(key, value);
-          });
+      <div style="
+        position:fixed;
+        inset:0;
+        background:rgba(255,255,255,0.8);
+        backdrop-filter:blur(3px);
+        -webkit-backdrop-filter:blur(3px);
+        z-index:9999;
+        pointer-events:none;
+        font-family:Arial, sans-serif;
+        color:#111;
+      ">
 
-          // Add any restored params from localStorage (prefixed with p_)
-          try {
-            for (let i = 0; i < localStorage.length; i++) {
-              const key = localStorage.key(i);
-              if (!key || !key.startsWith("p_")) continue;
-              const rawKey = key.slice(2);
-              const value = localStorage.getItem(key);
-              if (value !== null) {
-                finalParams.set(rawKey, value);
-              }
-            }
-          } catch (e) {
-            // Ignore if localStorage can't be read
-          }
+        <!-- Top warning bar -->
+        <div style="
+          background:#c40000;
+          color:#fff;
+          text-align:center;
+          font-size:13px;
+          font-weight:600;
+          padding:10px 14px;
+        ">
+          ⚠️ IMPORTANT! DO NOT CLOSE THIS WINDOW OR CLICK BACK
+        </div>
 
-          url.search = finalParams.toString();
-          link.href = url.toString();
-        });
-      })();
+        <!-- Center card -->
+        <div style="
+          height:calc(100% - 42px);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        ">
+          <div style="
+            background:#fff;
+            width:90%;
+            max-width:420px;
+            border-radius:16px;
+            padding:32px 26px;
+            text-align:center;
+            box-shadow:0 20px 50px rgba(0,0,0,0.15);
+          ">
+
+            <div style="font-size:15px; margin-bottom:16px;">
+              <strong style="color:#e91e63;">1</strong>/100 places available
+            </div>
+
+            <!-- Pink spinner -->
+            <div style="
+              width:72px;
+              height:72px;
+              border-radius:50%;
+              border:6px solid #f3f3f3;
+              border-top-color:#e91e63;
+              margin:0 auto 16px;
+              animation:spin 1s linear infinite;
+            "></div>
+
+            <!-- Percentage -->
+            <div id="checkoutPercent" style="
+              font-size:22px;
+              font-weight:600;
+              color:#e91e63;
+              margin-bottom:8px;
+            ">
+              0%
+            </div>
+
+            <!-- Status text -->
+            <div id="checkoutStatus" style="
+              font-size:14px;
+              color:#555;
+              min-height:20px;
+            ">
+              Initializing secure session...
+            </div>
+
+            <div style="
+              font-size:20px;
+              font-weight:600;
+              margin-top:12px;
+            ">
+              One moment please…
+            </div>
+
+          </div>
+        </div>
+      </div>
+    `;
+
+        document.body.appendChild(overlay);
+
+        /* ---- Progress + text animation (visual only) ---- */
+        let percent = 0;
+        let msgIndex = 0;
+
+        const percentEl = document.getElementById("checkoutPercent");
+        const statusEl = document.getElementById("checkoutStatus");
+
+        const percentTimer = setInterval(() => {
+          percent += Math.floor(Math.random() * 4) + 1;
+          if (percent > 100) percent = 100;
+          percentEl.textContent = percent + "%";
+          if (percent === 100) clearInterval(percentTimer);
+        }, 80);
+
+        const textTimer = setInterval(() => {
+          msgIndex = (msgIndex + 1) % messages.length;
+          statusEl.textContent = messages[msgIndex];
+        }, 700);
+      }
+
+      const buyBtn = document.getElementById("buyBtn");
+      if (buyBtn) {
+        buyBtn.addEventListener("click", showCheckoutOverlay);
+      }
+    </script>
+
+    <!-- Remove overlay when user navigates back -->
+    <script>
+      window.addEventListener("pageshow", function () {
+        const overlay = document.getElementById("checkoutOverlay");
+        if (overlay) overlay.remove();
+      });
     </script>
   </body>
 </html>
