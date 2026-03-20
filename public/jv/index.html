@@ -1278,69 +1278,74 @@
           encodeURIComponent(location.pathname + location.search),
       ).catch(() => {});
     </script>
-    <script>
-      (function () {
-        const pageParams = new URLSearchParams(window.location.search);
 
-        // Save all current query params into localStorage with 'p_' prefix
-        pageParams.forEach((value, key) => {
-          try {
-            localStorage.setItem("p_" + key, value);
-          } catch (e) {
-            // Ignore storage errors
-          }
-        });
 
-        document.addEventListener("click", function (e) {
-          const link = e.target.closest("a");
-          if (!link) return;
+<script>
+  (function () {
+    const pageParams = new URLSearchParams(window.location.search);
 
-          if (!link.href.includes("https://wwww.jvzoo.com")) return;
-
-          const url = new URL(link.href, window.location.origin);
-
-          // Start with whatever query may already be on the href
-          const finalParams = new URLSearchParams(url.search);
-
-          // Add live params from this page
-          pageParams.forEach((value, key) => {
-            finalParams.set(key, value);
-          });
-
-          // Add any restored params from localStorage (prefixed with p_)
-          try {
-            for (let i = 0; i < localStorage.length; i++) {
-              const key = localStorage.key(i);
-              if (!key || !key.startsWith("p_")) continue;
-              const rawKey = key.slice(2);
-              const value = localStorage.getItem(key);
-              if (value !== null) {
-                finalParams.set(rawKey, value);
-              }
-            }
-          } catch (e) {
-            // Ignore if localStorage can't be read
-          }
-
-          url.search = finalParams.toString();
-          link.href = url.toString();
-        });
-      })();
-    </script>
-
-    <script>
-      const CHECKOUT_URL = "https://www.jvzoo.com/b/114393/423669/99";
-      let checkoutPreloaded = false;
-
-      function preloadCheckout() {
-        if (checkoutPreloaded) return;
-        checkoutPreloaded = true;
-
-        // ONLY network warm-up — no DOM changes
-        const img = new Image();
-        img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
+    // Save all current query params into localStorage with 'p_' prefix
+    pageParams.forEach((value, key) => {
+      try {
+        localStorage.setItem("p_" + key, value);
+      } catch (e) {
+        // Ignore storage errors
       }
-    </script>
+    });
+
+    document.addEventListener("click", function (e) {
+      const link = e.target.closest("a");
+      if (!link) return;
+
+      if (!link.href.includes("https://www.jvzoo.com")) return;
+
+      const url = new URL(link.href, window.location.origin);
+
+      // Start with whatever query may already be on the href
+      const finalParams = new URLSearchParams(url.search);
+
+      // Add live params from this page
+      pageParams.forEach((value, key) => {
+        finalParams.set(key, value);
+      });
+
+      // Add any restored params from localStorage (prefixed with p_)
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (!key || !key.startsWith("p_")) continue;
+          const rawKey = key.slice(2);
+          const value = localStorage.getItem(key);
+          if (value !== null) {
+            finalParams.set(rawKey, value);
+          }
+        }
+      } catch (e) {
+        // Ignore if localStorage can't be read
+      }
+
+      url.search = finalParams.toString();
+      link.href = url.toString();
+    });
+  })();
+</script>
+
+<script>
+  const CHECKOUT_URL = "https://www.jvzoo.com/b/114393/423669/99";
+  let checkoutPreloaded = false;
+
+  function preloadCheckout() {
+    if (checkoutPreloaded) return;
+    checkoutPreloaded = true;
+
+    // ONLY network warm-up — no DOM changes
+    const img = new Image();
+    img.src = CHECKOUT_URL + "?_warmup=" + Date.now();
+  }
+
+  // Pre-warm checkout after 10 minutes on page
+  setTimeout(preloadCheckout, 5000); //600000
+</script>
     <script>
       function showCheckoutOverlay() {
         if (document.getElementById("checkoutOverlay")) return;
