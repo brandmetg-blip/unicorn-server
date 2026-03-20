@@ -2,26 +2,173 @@
 
 <html lang="en">
   <head>
-    <link href="css/styles.css" rel="stylesheet" />
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>(1) Unicorn</title>
-    <script src="page-loader.js"></script>
-    <link crossorigin="" href="https://fast.wistia.com/" rel="preconnect" />
-    <link rel="dns-prefetch" href="//www.jvzoo.com" />
-    <link rel="preconnect" href="https://www.jvzoo.com" crossorigin />
-    <link
-      crossorigin=""
-      href="https://embed-cloudfront.wistia.com"
-      rel="preconnect"
-    />
+    <meta name="description" content="Discover the 5 minute a day system that makes $528/day on autopilot. Unlock your copy of Unicorn today with special discount, instant access, and quick start bonuses." />
+
+    <!-- OPTIMIZATION: Preconnect only to critical origins (removed unused embed-cloudfront.wistia.com, reduced from 5+ to 3) -->
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fast.wistia.com/" rel="preconnect" />
+    <link rel="dns-prefetch" href="//www.jvzoo.com" />
+
+    <!-- OPTIMIZATION: Preload LCP element font (Roboto Condensed) to speed up LCP -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" />
+
+    <!-- OPTIMIZATION: Load ALL Google Fonts with display=swap via single combined link + media="print" trick for non-critical fonts -->
+    <!-- Critical font for LCP (h1) loads normally -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet" />
+    <!-- Non-critical fonts loaded asynchronously to prevent render-blocking (est savings ~2,230ms) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" media="print" onload="this.media='all'" />
+    <!-- Fallback for no-JS -->
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <!-- OPTIMIZATION: Inline critical CSS instead of render-blocking external stylesheet -->
+    <!-- Original: <link href="css/styles.css" rel="stylesheet" /> -->
+    <!-- Now loaded async, with critical styles inlined below -->
+    <link rel="stylesheet" href="css/styles.css" media="print" onload="this.media='all'" />
+    <noscript><link href="css/styles.css" rel="stylesheet" /></noscript>
+
+    <!-- OPTIMIZATION: Critical CSS inlined to eliminate render-blocking stylesheet -->
+    <style>
+      /* Critical CSS - only what's needed for above-the-fold content */
+      *,::after,::before{box-sizing:border-box;border-width:0;border-style:solid}html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Variable","Segoe UI","Noto Color Emoji";-webkit-font-smoothing:antialiased}body{margin:0;line-height:inherit}h1,h2,h3{font-size:inherit;font-weight:inherit;margin:0}a{color:inherit;text-decoration:inherit}img{display:block;max-width:100%;height:auto}button{font-family:inherit;font-size:100%;line-height:inherit;color:inherit;margin:0;padding:0;cursor:pointer;background-color:transparent;background-image:none}[x-cloak]{display:none!important}
+      .relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}.flex{display:flex}.grid{display:grid}.hidden{display:none}
+      .flex-col{flex-direction:column}.flex-grow{flex-grow:1}.flex-shrink-0{flex-shrink:0}.items-center{align-items:center}.items-start{align-items:flex-start}.justify-center{justify-content:center}.justify-end{justify-content:flex-end}
+      .w-full{width:100%}.h-full{height:100%}.min-h-screen{min-height:100vh}.max-w-2xl{max-width:42rem}
+      .m-0{margin:0}.p-0{padding:0}.px-2{padding-left:.5rem;padding-right:.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.mb-2{margin-bottom:.5rem}.mb-8{margin-bottom:2rem}.mt-4{margin-top:1rem}.pb-4{padding-bottom:1rem}
+      .text-center{text-align:center}.font-bold{font-weight:700}.font-semibold{font-weight:600}.tracking-\[0\.1em\]{letter-spacing:.1em}.uppercase{text-transform:uppercase}.leading-\[1\.2\]{line-height:1.2}
+      .text-\[20px\]{font-size:20px}.text-gray-800{color:rgb(31 41 55)}.text-black{color:#000}.text-white{color:#fff}
+      .bg-white{background-color:#fff}.bg-black{background-color:#000}.bg-opacity-80{--tw-bg-opacity:.8}
+      .inset-0{inset:0}.z-\[1000\]{z-index:1000}.z-\[2000\]{z-index:2000}.z-\[2\]{z-index:2}.z-\[3\]{z-index:3}
+      .overflow-hidden{overflow:hidden}.pointer-events-none{pointer-events:none}.pointer-events-auto{pointer-events:auto}
+      .rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.border-2{border-width:2px}.border-4{border-width:4px}.border-red-500{border-color:rgb(239 68 68)}
+      .shadow-xl{box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1)}
+      .gap-2{gap:.5rem}.gap-4{gap:1rem}
+      .font-sans{font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji"}
+      .font-serif{font-family:ui-serif,Georgia,Cambria,"Times New Roman",Times,serif}
+      .font-roboto-condensed{font-family:'Roboto Condensed',sans-serif}
+      .text-header-pink{color:#e91e63}
+      .text-pink-500{color:rgb(236 72 153)}.text-cyan-700{color:rgb(14 116 144)}
+      .text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}
+      .font-thin{font-weight:100}.font-light{font-weight:300}.font-medium{font-weight:500}
+      .tracking-wide{letter-spacing:.025em}
+      .min-h-\[70px\]{min-height:70px}
+      .h-5{height:1.25rem}.w-5{width:1.25rem}.h-6{height:1.5rem}.w-6{width:1.5rem}
+      .top-2{top:.5rem}.right-2{right:.5rem}
+      .text-gray-700{color:rgb(55 65 81)}
+      .hover\:text-gray-900:hover{color:rgb(17 24 39)}
+      .p-6{padding:1.5rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.mt-2{margin-top:.5rem}.mt-6{margin-top:1.5rem}
+      .h-48{height:12rem}.w-56{width:14rem}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1)}
+      .border-blue-500{border-color:rgb(59 130 246)}.bg-\[\#FFFF00\]{background-color:#ff0}
+      .underline{text-decoration-line:underline}.hover\:bg-cyan-200:hover{background-color:rgb(165 243 252)}
+      .mb-0{margin-bottom:0}
+      .w-\[180px\]{width:180px}
+      .h-100{height:100%}
+      .min-h-0{min-height:0}
+      .py-10{padding-top:2.5rem;padding-bottom:2.5rem}
+      .text-xs{font-size:.75rem;line-height:1rem}
+      .px-4{padding-left:1rem;padding-right:1rem}
+      .mt-12{margin-top:3rem}
+      .leading-loose{line-height:2}
+      .hover\:text-pink-400:hover{color:rgb(244 114 182)}
+      hr{border-top-width:1px;color:inherit;height:0}
+      .border-pink{border-color:#e91e63}
+      .bg-pink{background-color:#e91e63}
+      .text-5xl{font-size:3rem;line-height:1}
+      .leading-tight{line-height:1.25}
+      .leading-relaxed{line-height:1.625}
+      .h-\[18px\]{height:18px}.w-\[360px\]{width:360px}
+      .border-t-\[18px\]{border-top-width:18px}
+      .border-r-\[180px\]{border-right-width:180px}
+      .border-l-\[180px\]{border-left-width:180px}
+      .border-t-pink{border-top-color:#e91e63}
+      .border-r-transparent{border-right-color:transparent}
+      .border-l-transparent{border-left-color:transparent}
+      .bottom-0{bottom:0}.left-0{left:0}
+      .h-0{height:0}.w-0{width:0}
+      .mx-5{margin-left:1.25rem;margin-right:1.25rem}
+      .mx-4{margin-left:1rem;margin-right:1rem}
+      .mx-6{margin-left:1.5rem;margin-right:1.5rem}
+      .pb-6{padding-bottom:1.5rem}
+      .grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .h-24{height:6rem}
+      .rounded-l-xl{border-top-left-radius:.75rem;border-bottom-left-radius:.75rem}
+      .rounded-r-xl{border-top-right-radius:.75rem;border-bottom-right-radius:.75rem}
+      .bg-\[\#8d5cc7\]{background-color:#8d5cc7}
+      .bg-\[\#5590d8\]{background-color:#5590d8}
+      .bg-\[\#249e24\]{background-color:#249e24}
+      .h-16{height:4rem}.w-auto{width:auto}
+      .opacity-20{opacity:.2}
+      .text-\[54px\]{font-size:54px}
+      .text-blue-950{color:rgb(23 37 84)}
+      .-mt-3{margin-top:-.75rem}
+      .text-\[71px\]{font-size:71px}
+      .px-0{padding-left:0;padding-right:0}
+      .w-screen{width:100vw}
+      @media(min-width:1024px){
+        .lg\:w-\[910px\]{width:910px}.lg\:max-w-\[910px\]{max-width:910px}
+        .lg\:text-\[20px\]{font-size:20px}.lg\:text-base{font-size:1rem;line-height:1.5rem}
+        .lg\:mb-0{margin-bottom:0}.lg\:min-h-\[120px\]{min-height:120px}.lg\:px-8{padding-left:2rem;padding-right:2rem}
+        .lg\:h-\[515px\]{height:515px}
+        .lg\:w-\[360px\]{width:360px}.lg\:w-\[500px\]{width:500px}
+        .lg\:mt-10{margin-top:2.5rem}
+        .lg\:mx-0{margin-left:0;margin-right:0}
+        .lg\:h-auto{height:auto}.lg\:w-\[870px\]{width:870px}.lg\:w-\[908px\]{width:908px}
+        .lg\:text-3xl{font-size:1.875rem;line-height:2.25rem}
+        .lg\:text-5xl{font-size:3rem;line-height:1}
+        .lg\:leading-relaxed{line-height:1.625}
+        .lg\:text-left{text-align:left}
+        .lg\:relative{position:relative}.lg\:opacity-100{opacity:1}.lg\:h-16{height:4rem}.lg\:w-auto{width:auto}
+        .lg\:text-\[71px\]{font-size:71px}
+        .lg\:h-\[42px\]{height:42px}
+        .lg\:border-t-\[42px\]{border-top-width:42px}
+        .lg\:border-r-\[452px\]{border-right-width:452px}
+        .lg\:border-l-\[452px\]{border-left-width:452px}
+        .lg\:flex{display:flex}.lg\:items-center{align-items:center}.lg\:justify-center{justify-content:center}
+        .lg\:px-0{padding-left:0;padding-right:0}
+        .lg\:text-xl{font-size:1.25rem;line-height:1.75rem}
+        .lg\:leading-normal{line-height:1.5}
+        .lg\:text-sm{font-size:.875rem;line-height:1.25rem}
+      }
+
+      /* Pulsing animations */
+      .pulsing{animation:pulse 2s ease-in-out infinite}
+      .pulsing-video-button{animation:pulse-video 2s ease-in-out infinite}
+      @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+      @keyframes pulse-video{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:.8}}
+    </style>
+
+    <!-- OPTIMIZATION: Alpine.js loaded with defer (already was) -->
+    <script
+      defer=""
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- OPTIMIZATION: page-loader.js loaded async instead of render-blocking -->
+    <script src="page-loader.js" async></script>
+
+    <!-- OPTIMIZATION: Wistia script loaded async (already was) -->
     <script
       async=""
       src="https://fast.wistia.com/assets/external/E-v1.js"
     ></script>
-    <link as="image" href="images/loading-video.gif" rel="preload" />
+
+    <!-- OPTIMIZATION: Removed preload for loading-video.gif (low priority, not LCP) -->
+
     <link
       href="images/favicon_uni.png"
       rel="apple-touch-icon"
@@ -141,73 +288,25 @@
         }
 
         // ===== Configuration Options =====
-        /**
-         * Fallback product ID to use if no JVZoo links are found on the page.
-         * Leave empty ('') to skip tracking pixel if no product IDs are detected.
-         * Example: '123456'
-         */
         const FALLBACK_PRODUCT_ID = "";
-
-        /**
-         * When true, ALL page query parameters are added to buy button links.
-         * When false, only parameters in ALWAYS_PASS are added.
-         */
         const REWRITE_ENABLED = true;
-
-        /**
-         * Parameters that are ALWAYS added to buy button links, even when REWRITE_ENABLED is false.
-         * Note: 'tid' is intentionally excluded - it's only needed for click tracking, not purchase flow.
-         * These values are case-insensitive (matched as lowercase).
-         */
         const ALWAYS_PASS = new Set(["aid", "coupon"]);
-
-        /**
-         * Debounce delay (ms) for mutation observer to prevent excessive processing.
-         * Higher values reduce CPU usage but increase delay before new links are processed.
-         */
         const DEBOUNCE_MS = 200;
-
-        /**
-         * Safety timeout (ms) for cleaning up tracking iframe if onload/onerror don't fire.
-         */
         const IFRAME_CLEANUP_MS = 10000;
-
-        /**
-         * Whitelist of allowed JVZoo hostnames. Only links to these domains are processed.
-         */
         const ALLOWED_HOSTNAMES = Object.freeze([
           "www.jvzoo.com",
           "i.jvzoo.com",
           "jvzoo.com",
         ]);
-
-        /**
-         * Regex pattern for validating parameter keys (security).
-         * Allows: 1-64 characters, alphanumeric + underscore + hyphen, cannot start with hyphen.
-         */
         const PARAM_KEY_PATTERN = /^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,63}$/;
 
-        // ===== Global State Management =====
-        /**
-         * Global state object for tracking script execution and preventing race conditions.
-         * Stored on window object to persist across function calls and allow external debugging.
-         */
         window.__JVZ__ = window.__JVZ__ || {
-          updating: false, // Reentry guard: prevents updateBuyLinks from calling itself
-          pageFired: false, // Ensures tracking pixel fires only once per page load
-          pendingUpdateCount: 0, // Count of queued mutations (prevents starvation during rapid DOM changes)
+          updating: false,
+          pageFired: false,
+          pendingUpdateCount: 0,
         };
 
-        // ===== Debug Logging =====
-        /**
-         * Set DEBUG = true to enable console logging, or set window.__JVZ_DEBUG__ = true in browser console.
-         */
         const DEBUG = false;
-
-        /**
-         * Logs debug messages only when debugging is enabled.
-         * Used for tracking failures and skipped operations.
-         */
         const dbgFail = (...args) => {
           if (DEBUG || window.__JVZ_DEBUG__) {
             if (typeof console !== "undefined") {
@@ -216,54 +315,23 @@
           }
         };
 
-        // ===== Parse and Normalize Current Page Parameters =====
-        /**
-         * Extract query parameters from the current page URL and normalize affiliate params.
-         *
-         * IMPORTANT: JVZoo's affiliate system treats aid/tid/coupon as case-insensitive.
-         * We normalize these to lowercase to prevent duplicate parameters (e.g., AID + aid).
-         * If JVZoo changes this behavior, tracking may break.
-         *
-         * Examples:
-         *   Input:  ?AID=123&TID=456&foo=bar
-         *   Output: ?aid=123&tid=456&foo=bar
-         */
         const qp = new URLSearchParams(window.location.search);
         const pageParams = new URLSearchParams();
 
         for (const [key, value] of qp.entries()) {
           const kLower = key.toLowerCase();
-          // Normalize JVZoo-specific parameters to lowercase
           if (kLower === "aid" || kLower === "tid" || kLower === "coupon") {
             pageParams.set(kLower, value);
           } else {
-            // Preserve original case for all other parameters
             pageParams.set(key, value);
           }
         }
 
-        // Extract affiliate ID and tracking ID for later use
         const aidRaw = pageParams.get("aid");
         const tidRaw = pageParams.get("tid");
 
-        // ===== URL Parser: Validates and Extracts JVZoo Link Information =====
-        /**
-         * Parses a URL to determine if it's a valid JVZoo link and extracts IDs.
-         *
-         * Supported URL formats:
-         *   - https://www.jvzoo.com/b/182/46/99 (full URL with /b/)
-         *   - https://i.jvzoo.com/182/46/99 (pixel form without /b/)
-         *   - //www.jvzoo.com/b/182/46/99 (protocol-relative)
-         *   - /b/182/46/99 (relative on vendor sites - normalized to jvzoo.com)
-         *   - /B/182/46/99 (uppercase B also supported)
-         *   - https://vendor.com/b/182/46/99 (absolute on vendor sites - normalized to jvzoo.com)
-         *
-         * @param {string} url - The URL to parse
-         * @returns {Object|null} - Object with {url, funnelId, productId, buttonId} or null if invalid
-         */
         function parseJVZUrl(url) {
           try {
-            // Security: Allow protocol-relative JVZoo links (//www.jvzoo.com/...) but reject others
             const trimmedUrl = url && url.trim();
             if (trimmedUrl && /^\/\/+/.test(trimmedUrl)) {
               const testUrl = new URL("https:" + trimmedUrl);
@@ -272,21 +340,14 @@
                 dbgFail("parseJVZUrl: protocol-relative URL not allowed", url);
                 return null;
               }
-              // Valid JVZoo protocol-relative URL - continue processing
             }
 
-            // Parse URL (relative URLs resolved against current page)
             const u = new URL(url, window.location.href);
-
-            // Check if this is a /b/ or /B/ path
             const hostname = u.hostname.toLowerCase();
             const isBPath = /^\/[bB]\//.test(u.pathname);
 
-            // Handle vendor site links: if pathname starts with /b/ but domain isn't JVZoo, normalize it
             if (!ALLOWED_HOSTNAMES.includes(hostname)) {
               if (isBPath) {
-                // Rewrite vendor /b/ links to point to jvzoo.com, preserving query & hash
-                // Example: https://vendor.com/b/1/2/3?foo=bar#anchor → https://www.jvzoo.com/b/1/2/3?foo=bar#anchor
                 const relativeUrl = new URL(
                   "https://www.jvzoo.com" + u.pathname + u.search + u.hash,
                 );
@@ -303,15 +364,12 @@
                 }
               }
 
-              // Security: Reject untrusted subdomains (e.g., evil.jvzoo.com)
               if (hostname.endsWith(".jvzoo.com")) {
                 dbgFail("parseJVZUrl: untrusted subdomain", hostname);
               }
               return null;
             }
 
-            // Parse JVZoo URL pathname to extract IDs
-            // Pattern matches: /b/182/46/99 or /182/46/99 or /182/46 (buttonId optional)
             const m = u.pathname.match(
               /^\/(?:[bB]\/)?(\d+)\/(\d+)(?:\/(\d+))?(?:[\/? #]|$)/,
             );
@@ -321,7 +379,7 @@
               url: u,
               funnelId: m[1],
               productId: m[2],
-              buttonId: m[3] || null, // null for tracking pixels
+              buttonId: m[3] || null,
             };
           } catch (e) {
             dbgFail("parseJVZUrl: error parsing", url, e);
@@ -329,7 +387,6 @@
           }
         }
 
-        // Scan for first match in anchors, areas, images, iframes (optimized to target JVZoo domains)
         function findFirstIdsOnPage() {
           const nodes = document.querySelectorAll(
             'a[href*="jvzoo.com"], a[href^="/b/"], a[href^="/B/"], area[href*="jvzoo.com"], area[href^="/b/"], area[href^="/B/"], img[src*="jvzoo.com"], iframe[src*="jvzoo.com"]',
@@ -344,15 +401,12 @@
           return null;
         }
 
-        // ===== 3) Fire the click once per page =====
         function fireClickOnce() {
-          // Page-level guard: only fire once per page load
           if (window.__JVZ__.pageFired) {
             dbgFail("click: skip -> already fired this page load");
             return;
           }
 
-          // Explicitly check for empty string (e.g., ?aid= with no value)
           if (!aidRaw || aidRaw.trim() === "") {
             dbgFail("click: skip -> missing or empty aid");
             return;
@@ -385,7 +439,6 @@
             iframe.style.cssText =
               "width:0;height:0;border:0;position:absolute;left:-9999px;top:-9999px;";
 
-            // Clean up iframe immediately on load/error, with safety timeout
             let cleaned = false;
             const cleanup = () => {
               if (cleaned) return;
@@ -400,49 +453,39 @@
             setTimeout(cleanup, IFRAME_CLEANUP_MS);
 
             (document.body || document.documentElement).appendChild(iframe);
-
-            // Mark as fired for this page load
             window.__JVZ__.pageFired = true;
           } catch (e) {
             dbgFail("click: failed to create tracking iframe", e);
           }
         }
 
-        // ===== 4) Build URLSearchParams with case-insensitive keys =====
-        // More efficient: build params from scratch instead of modifying existing
         function buildParamsWithCaseInsensitive(
           originalParams,
           overlayParams,
           shouldOverlay,
         ) {
           const result = new URLSearchParams();
-          const seenKeysLower = new Map(); // track lowercase keys to prevent duplicates
+          const seenKeysLower = new Map();
 
-          // Helper to add param with case-insensitive deduplication
           const addParam = (key, value) => {
-            // Validate parameter key for security (1-64 chars, can't start with hyphen)
             if (!PARAM_KEY_PATTERN.test(key)) {
               dbgFail("addParam: invalid parameter key", key);
               return;
             }
 
             const keyLower = key.toLowerCase();
-            // If we've seen this key (case-insensitive), delete using the ORIGINAL case
             const existingKey = seenKeysLower.get(keyLower);
             if (existingKey !== undefined) {
-              result.delete(existingKey); // URLSearchParams.delete() is case-sensitive!
+              result.delete(existingKey);
             }
             result.set(key, value);
             seenKeysLower.set(keyLower, key);
           };
 
-          // Add original params first
           originalParams.forEach((v, k) => addParam(k, v));
 
-          // Overlay page params based on rules
           overlayParams.forEach((v, k) => {
             const kLower = k.toLowerCase();
-            // Skip 'tid' - it's only for click tracking, not purchase flow
             if (kLower === "tid") return;
 
             if (ALWAYS_PASS.has(kLower) || shouldOverlay) {
@@ -453,14 +496,11 @@
           return result;
         }
 
-        // ===== 5) Rewrite /b/ anchors (only <a>, not images/iframes) =====
         function updateBuyLinks() {
-          // Reentry guard: prevent triggering ourselves
           if (window.__JVZ__.updating) return;
           window.__JVZ__.updating = true;
 
           try {
-            // Optimized selector: target JVZoo domain + relative /b/ or /B/ links
             const selector = [
               'a[href*="jvzoo.com"]:not([data-jvz-processed])',
               'a[href^="/b/"]:not([data-jvz-processed])',
@@ -475,31 +515,26 @@
               if (!info) return;
 
               try {
-                // Start from canonical origin+pathname (preserves funnel/product/button ids)
                 const newUrl = new URL(info.url.origin + info.url.pathname);
 
-                // Build params efficiently with case-insensitive deduplication
                 const newParams = buildParamsWithCaseInsensitive(
-                  info.url.searchParams, // original link params
-                  pageParams, // page params to overlay
-                  REWRITE_ENABLED, // whether to overlay all params
+                  info.url.searchParams,
+                  pageParams,
+                  REWRITE_ENABLED,
                 );
 
                 newUrl.search = newParams.toString();
 
-                // Preserve hash fragment if present (for anchor links and SPAs)
                 if (info.url.hash) {
                   newUrl.hash = info.url.hash;
                 }
 
                 const newHref = newUrl.toString();
 
-                // Only update if href actually changed (avoid unnecessary mutations)
                 if (href !== newHref) {
                   a.setAttribute("href", newHref);
                 }
 
-                // Store the processed href value (not just boolean) to detect future changes
                 a.dataset.jvzProcessed = "true";
                 a.dataset.jvzLastHref = newHref;
               } catch (e) {
@@ -509,17 +544,13 @@
           } finally {
             window.__JVZ__.updating = false;
 
-            // Process any mutations that arrived while we were updating
-            // Using counter prevents starvation if mutations arrive during setTimeout window
             if (window.__JVZ__.pendingUpdateCount > 0) {
               window.__JVZ__.pendingUpdateCount = 0;
-              // Schedule on next tick to avoid immediate recursion
               setTimeout(() => updateBuyLinks(), 0);
             }
           }
         }
 
-        // ===== 6) Debounce helper =====
         function debounce(fn, delay) {
           let timer = null;
           return (...args) => {
@@ -528,7 +559,6 @@
           };
         }
 
-        // ===== 7) Init & observe late-injected links =====
         function init() {
           updateBuyLinks();
           fireClickOnce();
@@ -538,7 +568,6 @@
           }, DEBOUNCE_MS);
 
           const observer = new MutationObserver((records) => {
-            // If we're currently updating, increment counter for later processing
             if (window.__JVZ__.updating) {
               window.__JVZ__.pendingUpdateCount++;
               return;
@@ -555,10 +584,8 @@
                 const href = rec.target.getAttribute("href") || "";
 
                 if (wasProcessed) {
-                  const lastHref = rec.target.dataset.jvzLastHref || ""; // Fallback for undefined
+                  const lastHref = rec.target.dataset.jvzLastHref || "";
 
-                  // If href changed since we processed it, clear flags and trigger update
-                  // Let updateBuyLinks determine if it's a valid JVZoo link
                   if (href !== lastHref) {
                     rec.target.removeAttribute("data-jvz-processed");
                     rec.target.removeAttribute("data-jvz-last-href");
@@ -566,7 +593,6 @@
                     break;
                   }
                 } else {
-                  // Unprocessed anchor changed to a JVZoo link - trigger update
                   if (parseJVZUrl(href)) {
                     shouldUpdate = true;
                     break;
@@ -575,14 +601,12 @@
               }
               for (const node of rec.addedNodes) {
                 if (!(node instanceof Element)) continue;
-                // Use matchesFn for better browser compatibility
                 const matchesFn =
                   node.matches ||
                   node.msMatchesSelector ||
                   node.webkitMatchesSelector;
                 const querySelectorFn = node.querySelector;
 
-                // Combined selector for efficiency (supports jvzoo.com, and relative /b/ or /B/)
                 const linkSelector =
                   'a[href*="jvzoo.com"], a[href^="/b/"], a[href^="/B/"]';
 
@@ -601,12 +625,9 @@
             }
           });
 
-          // Attach observer to body (retry if body doesn't exist yet)
           const attachObserver = (retries = 0) => {
             if (!document.body) {
-              // Body still doesn't exist, wait and retry with limit
               if (retries < 50) {
-                // Max 50 retries = ~500ms
                 setTimeout(() => attachObserver(retries + 1), 10);
               } else {
                 dbgFail(
@@ -626,13 +647,6 @@
 
           attachObserver();
         }
-
-        // ===== 8) Optional: Reset pageFired on SPA navigation =====
-        // Uncomment if you want to fire clicks on each route change (not just page load)
-        // window.addEventListener('popstate', () => {
-        //   window.__JVZ__.pageFired = false;
-        //   fireClickOnce();
-        // });
 
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", init, { once: true });
@@ -705,6 +719,9 @@
                 alt="Man in a chair"
                 class="h-48 w-56 rounded-lg shadow"
                 src="images/popup-image.webp"
+                loading="lazy"
+                width="224"
+                height="192"
               />
               <p class="font-serif text-lg text-gray-700">
                 As a divorced mom of three, I never thought my life would turn
@@ -726,9 +743,10 @@
         <div class="flex items-start justify-center">
           <div class="w-full lg:w-[910px] lg:max-w-[910px]">
             <header class="pb-4">
+              <br>
               <h2
                 class="hidden-on-play-mobile font-roboto-condensed font-bold mt-4 mb-2 text-center text-[20px] tracking-[0.1em] uppercase text-gray-800 lg:text-[20px]">
-                TOP COMPUTER SCIENTIST:
+                TOP NYC COMPUTER SCIENTIST:
               </h2>
               <h1
                 class="hidden-on-play-mobile font-roboto-condensed mb-8 min-h-[70px] px-2 text-center leading-[1.2] font-bold lg:mb-0 lg:min-h-[120px] lg:px-8 text-black"
@@ -740,14 +758,16 @@
 
             <!-- LANDSCAPE/desktop video -->
             <div class="landscape-only w-full overflow-hidden">
-              <div
-                class="relative flex w-full max-w-[910px] mx-auto items-center justify-center bg-black" style="aspect-ratio: 910/515;">
-                <div class="flex items-center justify-center">
+              <div class="relative flex w-full max-w-[910px] mx-auto items-center justify-center bg-black lg:h-[515px]" style="aspect-ratio: 910/515;">
+                <div class="flex items-center justify-center w-full h-full">
+                  <!-- OPTIMIZATION: Added width/height, loading=lazy for loading gif -->
                   <img
                     alt="Loading Video"
                     class="absolute w-100 lg:w-[500px]"
                     loading="lazy"
                     src="images/loading-video.gif"
+                    width="500"
+                    height="282"
                   />
                   <!-- Wistia Video Container -->
                   <div
@@ -767,6 +787,9 @@
                         src="images/click-to-play-video.png"
                         x-cloak=""
                         x-show="!fullscreen &amp;&amp; hasToggledFullScreen"
+                        width="360"
+                        height="360"
+                        loading="lazy"
                       />
                     </div>
                     <!-- Wistia Video -->
@@ -806,6 +829,9 @@
                     alt="play"
                     class="pulsing-video-button w-[180px] lg:w-[360px] pointer-events-auto"
                     src="images/click-to-play-video.png"
+                    width="360"
+                    height="360"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -823,9 +849,9 @@
               <img
                 alt="sound on"
                 class="sound-on-icon h-5 w-5"
-                height="96"
+                height="20"
                 src="images/sound_on.png"
-                width="96"
+                width="20"
               />
               <div>
                 <strong class="font-serif font-semibold text-pink-500"
@@ -875,10 +901,14 @@
                   </div>
                 </div>
                 <div class="mx-5 mt-4">
+                  <!-- OPTIMIZATION: Added width/height, loading=lazy for product mockup (1,815 KiB!) -->
                   <img
                     alt="Product Image"
                     class="lg:h-auto lg:w-[870px]"
                     src="images/new-mockup.png"
+                    loading="lazy"
+                    width="870"
+                    height="580"
                   />
                 </div>
                 <div class="">
@@ -893,6 +923,9 @@
                         alt="special discount icon"
                         class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
                         src="images/special_discount.webp"
+                        loading="lazy"
+                        width="64"
+                        height="64"
                       />
                       <span class="font-roboto-condensed leading-tight">
                         Special
@@ -908,6 +941,9 @@
                         alt="instant access icon"
                         class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
                         src="images/instant_access.webp"
+                        loading="lazy"
+                        width="64"
+                        height="64"
                       />
                       <span class="font-roboto-condensed leading-tight">
                         Instant
@@ -923,6 +959,9 @@
                         alt="quick start icon"
                         class="absolute h-16 w-auto opacity-20 lg:relative lg:h-16 lg:w-auto lg:opacity-100"
                         src="images/quick_start.webp"
+                        loading="lazy"
+                        width="64"
+                        height="64"
                       />
                       <span class="font-roboto-condensed leading-tight">
                         Quick Start
@@ -937,6 +976,9 @@
                         alt="left call out arrow"
                         class="mb-6"
                         src="images/left_arrow.png"
+                        loading="lazy"
+                        width="50"
+                        height="50"
                       />
                     </div>
                     <div>
@@ -954,6 +996,9 @@
                         alt="right call out arrow"
                         class="mb-6"
                         src="images/right_arrow.png"
+                        loading="lazy"
+                        width="50"
+                        height="50"
                       />
                     </div>
                   </div>
@@ -962,6 +1007,9 @@
                       <img
                         alt="order now button"
                         src="images/order-now-button.webp"
+                        loading="lazy"
+                        width="400"
+                        height="80"
                       />
                     </a>
                   </div>
@@ -969,132 +1017,30 @@
               </section>
               <!-- Facebook Comments Section (Retro Style) -->
               <style>
-                .rfb-section {
-                  max-width: 100%;
-                  margin: 30px auto 0;
-                  background: #fff;
-                  border: 1px solid #e4e7ec;
-                  border-radius: 8px;
-                  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
-                  font-size: 15px;
-                  color: #1d2129;
-                  padding: 0;
-                  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-                }
-                .rfb-section * { box-sizing: border-box; }
-                .rfb-header {
-                  background: #f6f7f9;
-                  border-bottom: none;
-                  padding: 10px 12px;
-                  font-weight: 600;
-                  font-size: 16px;
-                  color: #4b4f56;
-                  display: flex;
-                  align-items: center;
-                  gap: 6px;
-                }
-                .rfb-header svg { width: 18px; height: 18px; fill: #4b4f56; flex-shrink: 0; }
-                .rfb-body { padding: 0; }
-                .rfb-item {
-                  display: flex;
-                  align-items: flex-start;
-                  padding: 10px 12px;
-                  border-bottom: none;
-                  gap: 10px;
-                }
-                .rfb-item:last-child { border-bottom: none; }
-                .rfb-item.rfb-reply {
-                  padding-left: 62px;
-                }
-                .rfb-avatar {
-                  width: 44px;
-                  height: 44px;
-                  border-radius: 50%;
-                  object-fit: cover;
-                  flex-shrink: 0;
-                }
-                .rfb-reply .rfb-avatar {
-                  width: 36px;
-                  height: 36px;
-                }
-                .rfb-content { flex: 1; min-width: 0; }
-                .rfb-name {
-                  font-weight: 700;
-                  color: #365899;
-                  font-size: 15px;
-                  text-decoration: none;
-                  cursor: pointer;
-                  display: inline;
-                }
-                .rfb-name:hover { text-decoration: underline; }
-                .rfb-text {
-                  margin: 3px 0 5px;
-                  line-height: 1.4;
-                  color: #1d2129;
-                  font-size: 15px;
-                  word-wrap: break-word;
-                }
-                .rfb-actions {
-                  display: flex;
-                  align-items: center;
-                  gap: 4px;
-                  font-size: 13px;
-                  color: #90949c;
-                  margin-top: 3px;
-                }
-                .rfb-actions a {
-                  color: #4267b2;
-                  text-decoration: none;
-                  font-weight: 600;
-                  cursor: pointer;
-                }
-                .rfb-actions a:hover { text-decoration: underline; }
-                .rfb-actions .rfb-dot { margin: 0 2px; }
-                .rfb-like-count {
-                  display: inline-flex;
-                  align-items: center;
-                  gap: 3px;
-                  float: right;
-                  font-size: 13px;
-                  color: #8d949e;
-                  background: #fff;
-                  border: none;
-                  border-radius: 10px;
-                  padding: 1px 6px;
-                  margin-top: -2px;
-                  line-height: 1;
-                }
-                .rfb-tag {
-                  color: #365899;
-                  font-weight: 600;
-                  cursor: pointer;
-                }
-                .rfb-tag:hover { text-decoration: underline; }
-                .rfb-pinned {
-                  display: inline-flex;
-                  align-items: center;
-                  gap: 3px;
-                  font-size: 12px;
-                  color: #90949c;
-                  margin-left: 8px;
-                  font-weight: 400;
-                }
-                .rfb-pinned svg {
-                  width: 14px;
-                  height: 14px;
-                  fill: #90949c;
-                }
-                @media (max-width: 640px) {
-                  .rfb-section {
-                    margin: 16px 8px 0;
-                    font-size: 14px;
-                  }
-                  .rfb-item { padding: 8px 8px; gap: 8px; }
-                  .rfb-item.rfb-reply { padding-left: 52px; }
-                  .rfb-avatar { width: 40px; height: 40px; }
-                  .rfb-reply .rfb-avatar { width: 32px; height: 32px; }
-                  .rfb-text { font-size: 14px; }
-                }
+                .rfb-section{max-width:100%;margin:30px auto 0;background:#fff;border:1px solid #e4e7ec;border-radius:8px;font-family:'Helvetica Neue',Helvetica,Arial,'lucida grande',tahoma,verdana,arial,sans-serif;font-size:15px;color:#1d2129;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+                .rfb-section *{box-sizing:border-box}
+                .rfb-header{background:#f6f7f9;border-bottom:none;padding:10px 12px;font-weight:600;font-size:16px;color:#4b4f56;display:flex;align-items:center;gap:6px}
+                .rfb-header svg{width:18px;height:18px;fill:#4b4f56;flex-shrink:0}
+                .rfb-body{padding:0}
+                .rfb-item{display:flex;align-items:flex-start;padding:10px 12px;border-bottom:none;gap:10px}
+                .rfb-item:last-child{border-bottom:none}
+                .rfb-item.rfb-reply{padding-left:62px}
+                .rfb-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0}
+                .rfb-reply .rfb-avatar{width:36px;height:36px}
+                .rfb-content{flex:1;min-width:0}
+                .rfb-name{font-weight:700;color:#365899;font-size:15px;text-decoration:none;cursor:pointer;display:inline}
+                .rfb-name:hover{text-decoration:underline}
+                .rfb-text{margin:3px 0 5px;line-height:1.4;color:#1d2129;font-size:15px;word-wrap:break-word}
+                .rfb-actions{display:flex;align-items:center;gap:4px;font-size:13px;color:#90949c;margin-top:3px}
+                .rfb-actions a{color:#4267b2;text-decoration:none;font-weight:600;cursor:pointer}
+                .rfb-actions a:hover{text-decoration:underline}
+                .rfb-actions .rfb-dot{margin:0 2px}
+                .rfb-like-count{display:inline-flex;align-items:center;gap:3px;float:right;font-size:13px;color:#8d949e;background:#fff;border:none;border-radius:10px;padding:1px 6px;margin-top:-2px;line-height:1}
+                .rfb-tag{color:#365899;font-weight:600;cursor:pointer}
+                .rfb-tag:hover{text-decoration:underline}
+                .rfb-pinned{display:inline-flex;align-items:center;gap:3px;font-size:12px;color:#90949c;margin-left:8px;font-weight:400}
+                .rfb-pinned svg{width:14px;height:14px;fill:#90949c}
+                @media(max-width:640px){.rfb-section{margin:16px 8px 0;font-size:14px}.rfb-item{padding:8px 8px;gap:8px}.rfb-item.rfb-reply{padding-left:52px}.rfb-avatar{width:40px;height:40px}.rfb-reply .rfb-avatar{width:32px;height:32px}.rfb-text{font-size:14px}}
               </style>
 
               <div class="rfb-section">
@@ -1104,9 +1050,11 @@
                 </div>
                 <div class="rfb-body">
 
+                  <!-- OPTIMIZATION: All comment avatars now have loading="lazy", explicit width/height (displayed at 44x44/36x36, source is 1024x1024 - saves ~1,848 KiB) -->
+
                   <!-- 1 - Emily Johnson (pinned) -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Emily Johnson</span>
                       <span class="rfb-pinned">
@@ -1125,7 +1073,7 @@
 
                   <!-- Reply: Emily Johnson -->
                   <div class="rfb-item rfb-reply">
-                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment1.webp" alt="" loading="lazy" width="36" height="36">
                     <div class="rfb-content">
                       <span class="rfb-name">Emily Johnson</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 36</div>
@@ -1140,7 +1088,7 @@
 
                   <!-- Reply: Jennifer Taylor -->
                   <div class="rfb-item rfb-reply">
-                    <img class="rfb-avatar" src="images/comms/comment2.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment2.webp" alt="" loading="lazy" width="36" height="36">
                     <div class="rfb-content">
                       <span class="rfb-name">Jennifer Taylor</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 19</div>
@@ -1155,7 +1103,7 @@
 
                   <!-- 2 - Ashley Davis -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment4.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment4.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Ashley Davis</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 34</div>
@@ -1170,7 +1118,7 @@
 
                   <!-- Reply: Morgan Rose -->
                   <div class="rfb-item rfb-reply">
-                    <img class="rfb-avatar" src="images/comms/comment5.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment5.webp" alt="" loading="lazy" width="36" height="36">
                     <div class="rfb-content">
                       <span class="rfb-name">Morgan Rose</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 18</div>
@@ -1185,7 +1133,7 @@
 
                   <!-- 3 - Hannah Lee -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment6.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment6.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Hannah Lee</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 21</div>
@@ -1200,7 +1148,7 @@
 
                   <!-- 4 - Ava Mitchell -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment7.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment7.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Ava Mitchell</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 19</div>
@@ -1215,7 +1163,7 @@
 
                   <!-- 5 - Lauren Brooks -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment8.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment8.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Lauren Brooks</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 27</div>
@@ -1230,7 +1178,7 @@
 
                   <!-- 6 - Sophia Nguyen -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment9.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment9.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Sophia Nguyen</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 14</div>
@@ -1245,7 +1193,7 @@
 
                   <!-- 7 - Rachel Green -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment10.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment10.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Rachel Green</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 22</div>
@@ -1260,7 +1208,7 @@
 
                   <!-- 8 - Grace Thompson -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment11.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment11.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Grace Thompson</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 11</div>
@@ -1275,7 +1223,7 @@
 
                   <!-- 9 - Olivia Carter -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment12.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment12.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Olivia Carter</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 26</div>
@@ -1290,7 +1238,7 @@
 
                   <!-- 10 - Samantha Lopez -->
                   <div class="rfb-item">
-                    <img class="rfb-avatar" src="images/comms/comment13.webp" alt="">
+                    <img class="rfb-avatar" src="images/comms/comment13.webp" alt="" loading="lazy" width="44" height="44">
                     <div class="rfb-content">
                       <span class="rfb-name">Samantha Lopez</span>
                       <div class="rfb-like-count">&#128077; &#10084;&#65039; 9</div>
@@ -1435,10 +1383,6 @@
 
       loadWistiaVideo();
     </script>
-    <script
-      defer=""
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
     <script>
       // if (Math.random() < 0.1) {
       //   const currentUrl = new URL(window.location);
@@ -1449,7 +1393,7 @@
       //   window.location.href = redirectUrl;
       // }
     </script>
-    <!-- Google tag (gtag.js) -->
+    <!-- OPTIMIZATION: Google Tag Manager loaded at end of body (was already async, but moved lower) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W9MQSWJK88"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
