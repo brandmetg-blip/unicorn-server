@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../../jv/images/favico1.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="../../../jv/images/favico1.png" rel="icon" sizes="32x32" type="image/png" />
+  <link href="../../../jv/images/favico1.png" rel="icon" sizes="16x16" type="image/png" />
+<title>Unicorn • Emma's Accelerator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--card:#111118;--card2:#16161f;--border:#1e1e2a;--text:#e8e8ef;--muted:#8888a0;--accent:#a855f7;--glow:rgba(168,85,247,.3);--accent2:#ec4899;--gold:#f59e0b;--green:#22c55e;--greenS:rgba(34,197,94,.12);--ff:'Playfair Display',Georgia,serif;--fb:'DM Sans',-apple-system,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+
+/* === HERO === */
+.hero{position:relative;padding:60px 20px 48px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,var(--glow) 0%,transparent 65%);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(236,72,153,.15));border:1px solid rgba(168,85,247,.25);padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--accent);margin-bottom:20px}
+.hero h1{font-family:var(--ff);font-size:clamp(28px,7vw,52px);font-weight:800;line-height:1.15;margin-bottom:16px}
+.gt{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--muted);max-width:500px;margin:0 auto 24px}
+.hero-stat{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);padding:10px 20px;border-radius:12px;font-size:13px;color:var(--gold);font-weight:600}
+
+/* === 3 MAIN TABS === */
+.main-tabs{display:flex;gap:8px;padding:20px 16px 0;max-width:900px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.main-tabs::-webkit-scrollbar{display:none}
+.mt-btn{flex-shrink:0;flex:1;min-width:0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 12px;font-family:var(--fb);font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;white-space:nowrap}
+.mt-btn:hover{border-color:rgba(168,85,247,.3);color:var(--text)}
+.mt-btn.active{background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(236,72,153,.08));border-color:rgba(168,85,247,.4);color:var(--text)}
+.mt-btn .mt-ico{font-size:20px}
+.mt-btn .mt-badge{background:var(--accent2);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:100px;letter-spacing:.5px}
+.tab-c{display:none}.tab-c.active{display:block;animation:fadeIn .3s ease}
+
+/* === PHASE NAV (sticky, single source of truth) === */
+.phase-label-bar{text-align:center;padding:20px 16px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
+.phase-strip{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 0;margin-top:10px}
+.phase-strip-inner{display:flex;gap:8px;max-width:900px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 16px 2px}
+.phase-strip-inner::-webkit-scrollbar{display:none}
+.ps-btn{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.ps-btn:hover{border-color:rgba(168,85,247,.3);color:var(--text)}
+.ps-btn.active{border-color:var(--accent);background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(236,72,153,.06));color:var(--text)}
+.ps-btn.alldone{border-color:rgba(34,197,94,.3)}
+.ps-num{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-size:11px;font-weight:800;background:rgba(255,255,255,.06);color:var(--muted);flex-shrink:0;transition:all .2s}
+.ps-btn.active .ps-num{background:var(--accent);color:#fff}
+.ps-btn.alldone .ps-num{background:var(--green);color:#fff}
+
+/* === PROGRESS === */
+.prog{max-width:900px;margin:0 auto;padding:16px 16px 0}
+.prog-top{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:8px}
+.prog-top span:first-child{color:var(--muted)}.prog-top span:last-child{color:var(--accent)}
+.prog-bar{height:5px;background:var(--border);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s ease}
+
+/* === PHASE CONTENT === */
+.content{max-width:900px;margin:0 auto;padding:28px 16px 80px}
+.phase{display:none;animation:fadeIn .3s ease}.phase.active{display:block}
+.phase-hdr{margin-bottom:28px}
+.phase-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:6px}
+.phase-hdr h2{font-family:var(--ff);font-size:clamp(22px,5vw,32px);font-weight:800;margin-bottom:8px}
+.phase-hdr p{color:var(--muted);font-size:15px}
+
+/* === STEP CARDS === */
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px;cursor:pointer;transition:all .2s}
+.step:hover{border-color:rgba(168,85,247,.15)}
+.step.done{border-color:rgba(34,197,94,.2)}
+.step-top{display:flex;align-items:flex-start;gap:14px}
+.step-chk{flex-shrink:0;width:26px;height:26px;border-radius:7px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent}
+.step-chk:active{transform:scale(.9)}.step-chk.on{background:var(--green);border-color:var(--green)}
+.step-chk.on svg{opacity:1}.step-chk svg{opacity:0;transition:opacity .15s}
+.step-meta{flex:1;min-width:0}
+.step-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:3px}
+.step-name{font-size:16px;font-weight:700;margin-bottom:4px}
+.step-dur{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);background:rgba(255,255,255,.03);padding:3px 8px;border-radius:5px}
+.step-body-wrap{overflow:hidden;max-height:0;transition:max-height .35s ease}
+.step.open .step-body-wrap{max-height:2000px}
+.step-body{padding-top:14px;color:var(--muted);font-size:14px;line-height:1.8}
+.step-body p{margin-bottom:12px}.step-body strong{color:var(--text);font-weight:600}
+.abox{background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.12);border-radius:10px;padding:16px;margin:14px 0}
+.abox-t{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:8px}
+.abox ul{list-style:none;padding:0}.abox li{position:relative;padding-left:18px;margin-bottom:6px;font-size:13px;color:var(--text)}.abox li::before{content:'\2192';position:absolute;left:0;color:var(--accent);font-weight:700}
+.tip{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(245,158,11,.02));border:1px solid rgba(245,158,11,.18);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13px}
+.tip-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:5px}
+.tool{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.12);border-radius:10px;padding:14px 16px;margin:10px 0;display:flex;align-items:center;gap:10px}
+.tool-i{width:36px;height:36px;border-radius:8px;background:var(--greenS);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.tool-d{font-size:13px}.tool-d strong{display:block;color:var(--text);margin-bottom:1px}.tool-d span{color:var(--muted);font-size:12px}
+.highlight{background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(168,85,247,.07));border:1px solid rgba(34,197,94,.18);border-radius:14px;padding:20px;margin:18px 0;text-align:center}
+.highlight h4{font-family:var(--ff);font-size:20px;margin-bottom:6px}.highlight p{color:var(--muted);font-size:13px}
+
+/* === NEXT PHASE BTN === */
+.next-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;margin-top:20px;background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(236,72,153,.04));border:1px solid rgba(168,85,247,.2);border-radius:12px;font-family:var(--fb);font-size:14px;font-weight:700;color:var(--accent);cursor:pointer;transition:all .2s}
+.next-btn:active{transform:scale(.98)}
+.next-btn:hover{border-color:var(--accent);background:linear-gradient(135deg,rgba(168,85,247,.14),rgba(236,72,153,.08))}
+
+/* === BOTTOM CTA === */
+.bcta{text-align:center;padding:40px 16px;margin-top:16px;border-top:1px solid var(--border)}
+.bcta h3{font-family:var(--ff);font-size:24px;margin-bottom:10px}.bcta p{color:var(--muted);margin-bottom:20px;font-size:14px}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:var(--fb);font-size:15px;font-weight:700;padding:14px 32px;border-radius:12px;border:none;cursor:pointer;text-decoration:none;box-shadow:0 4px 20px var(--glow);transition:transform .2s}
+.cta-btn:active{transform:scale(.97)}
+
+/* === VAULT === */
+.vault-hdr{text-align:center;padding:36px 16px 16px;max-width:900px;margin:0 auto}
+.vault-hdr h2{font-family:var(--ff);font-size:clamp(24px,6vw,40px);font-weight:800;margin-bottom:10px}
+.vault-hdr p{color:var(--muted);font-size:15px;max-width:480px;margin:0 auto 8px}
+.vault-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:600;background:var(--greenS);padding:5px 14px;border-radius:100px;margin-top:10px}
+.vault-grid{max-width:900px;margin:0 auto;padding:20px 16px;display:grid;grid-template-columns:1fr;gap:12px}
+.v-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all .2s}
+.v-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.v-ava{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid rgba(168,85,247,.25);background:linear-gradient(135deg,rgba(236,72,153,.15),rgba(168,85,247,.15))}
+.v-handle{font-size:14px;font-weight:700}.v-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.v-copy{background:rgba(168,85,247,.04);border:1px solid rgba(168,85,247,.08);border-radius:8px;padding:10px 12px;margin-bottom:14px}
+.v-copy-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:5px}
+.v-copy ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.v-copy li{font-size:11px;color:var(--text);background:rgba(255,255,255,.03);padding:3px 8px;border-radius:5px}
+.v-btns{display:flex;gap:8px}
+.v-btn{flex:1;text-align:center;padding:10px;border-radius:8px;font-family:var(--fb);font-size:12px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+.v-btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
+.v-btn-s{background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--muted)}
+.vault-bot{max-width:900px;margin:0 auto;padding:24px 16px 80px}
+.v-tip{background:linear-gradient(135deg,rgba(168,85,247,.06),rgba(236,72,153,.03));border:1px solid rgba(168,85,247,.15);border-radius:14px;padding:24px;margin-bottom:14px}
+.v-tip h3{font-family:var(--ff);font-size:18px;margin-bottom:10px}.v-tip p{color:var(--muted);font-size:13px;line-height:1.7}
+.v-tip ol{padding-left:18px;margin:10px 0}.v-tip li{color:var(--text);font-size:13px;margin-bottom:6px;line-height:1.5}.v-tip li strong{color:var(--accent)}
+
+/* === EMMA CHAT === */
+.chat-hdr{text-align:center;padding:36px 16px 8px;max-width:700px;margin:0 auto}
+.chat-hdr h2{font-family:var(--ff);font-size:clamp(24px,6vw,36px);font-weight:800;margin-bottom:8px}
+.chat-hdr p{color:var(--muted);font-size:14px;max-width:400px;margin:0 auto}
+.chat-wrap{max-width:700px;margin:16px auto 0;padding:0 16px 100px}
+.chat-box{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.chat-msgs{flex:1;padding:20px;overflow-y:auto;max-height:50vh;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:88%;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.7;animation:fadeIn .3s ease}
+.msg-e{background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(236,72,153,.04));border:1px solid rgba(168,85,247,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.msg-e .mn{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:5px}
+.msg-u{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);align-self:flex-end;border-bottom-right-radius:4px}
+.typing{align-self:flex-start;padding:12px 16px;background:linear-gradient(135deg,rgba(168,85,247,.06),rgba(236,72,153,.03));border:1px solid rgba(168,85,247,.08);border-radius:14px;border-bottom-left-radius:4px}
+.tdots{display:flex;gap:4px}.tdots span{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.4;animation:blink 1.4s infinite}.tdots span:nth-child(2){animation-delay:.2s}.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.4}40%{opacity:1}}
+.qq-wrap{padding:14px 20px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;max-height:160px;overflow-y:auto}
+.qqb{background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:100px;padding:7px 14px;font-family:var(--fb);font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;transition:all .15s}
+.qqb:active{transform:scale(.96)}
+.chat-in{padding:14px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.chat-input{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:var(--fb);font-size:14px;color:var(--text);outline:none}
+.chat-input:focus{border-color:var(--accent)}.chat-input::placeholder{color:var(--muted)}
+.chat-send{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.chat-send svg{width:18px;height:18px}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* === DESKTOP ENHANCEMENTS === */
+@media(min-width:640px){
+  .vault-grid{grid-template-columns:repeat(2,1fr)}
+  .ps-btn{padding:12px 18px;font-size:13px}
+  .step{padding:24px}
+  .hero{padding:80px 24px 60px}
+}
+@media(min-width:900px){
+  .vault-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">&#9889; ACCELERATOR UNLOCKED</div>
+  <h1>Your First <span class="gt">24 Hours</span><br>to Profit</h1>
+  <p class="hero-sub">Skip the guesswork. Follow Emma's step-by-step fast track and start making money before everyone else finishes the training.</p>
+  <div class="hero-stat">&#128293; 91% of members who follow this see results faster</div>
+</div>
+
+<div class="main-tabs">
+  <button class="mt-btn active" onclick="switchTab('ft')"><span class="mt-ico">&#128640;</span>Fast Track</button>
+  <button class="mt-btn" onclick="switchTab('vault')"><span class="mt-ico">&#128275;</span>Blueprint Vault<span class="mt-badge">DONE FOR YOU</span></button>
+  <button class="mt-btn" onclick="switchTab('emma')"><span class="mt-ico">&#128172;</span>Ask Emma</button>
+</div>
+
+<!-- ====== FAST TRACK ====== -->
+<div class="tab-c active" id="tab-ft">
+  <div class="phase-label-bar">&#128640; YOUR 5 PHASES &#8212; swipe to navigate</div>
+  <div class="phase-strip"><div class="phase-strip-inner" id="phaseNav"></div></div>
+  <div class="prog"><div class="prog-top"><span>YOUR PROGRESS</span><span id="pp">0%</span></div><div class="prog-bar"><div class="prog-fill" id="pf" style="width:0%"></div></div></div>
+  <div class="content" id="ca"></div>
+</div>
+
+<!-- ====== VAULT ====== -->
+<div class="tab-c" id="tab-vault">
+  <div class="vault-hdr">
+    <h2>Blueprint <span class="gt">Vault</span></h2>
+    <p>Done-for-you page blueprints. Pick a page, study their content, remix it as yours.</p>
+    <div class="vault-tag">&#10003; 27 proven pages &#8212; just pick and copy</div>
+  </div>
+  <div class="vault-grid" id="vg"></div>
+  <div class="vault-bot">
+    <div class="v-tip"><h3>&#127919; How to Use the Vault</h3><ol>
+      <li><strong>Pick 2&#8211;4 pages</strong> that match the style you want</li>
+      <li><strong>Screenshot their top 10 posts</strong></li>
+      <li><strong>Remix their content</strong> &#8212; same concept, YOUR design</li>
+      <li><strong>Model their bio &amp; branding</strong></li>
+      <li><strong>Check their Reels</strong> &#8212; find trending audio to remake</li>
+      <li><strong>Post consistently</strong> &#8212; follow the Fast Track schedule</li>
+    </ol><p>These pages have thousands to millions of followers doing what you're about to do.</p></div>
+    <div class="v-tip"><h3>&#129302; Free Tools to Remix Faster</h3><ol>
+      <li><strong>ChatGPT</strong> &#8212; Paste a caption, get 10 variations</li>
+      <li><strong>Canva</strong> &#8212; Instagram templates, match fonts/colors</li>
+      <li><strong>Copilot Image Creator</strong> &#8212; AI backgrounds</li>
+      <li><strong>CapCut</strong> &#8212; Reel templates + auto-captions</li>
+      <li><strong>Remove.bg</strong> &#8212; Clean background removal</li>
+    </ol></div>
+    <div class="bcta"><h3>Ready to Start?</h3><p>Follow the step-by-step plan.</p><button class="cta-btn" onclick="switchTab('ft')">&#128640; Go to Fast Track</button></div>
+  </div>
+</div>
+
+<!-- ====== ASK EMMA ====== -->
+<div class="tab-c" id="tab-emma">
+  <div class="chat-hdr"><h2>Ask <span class="gt">Emma</span></h2><p>Your personal coach. Tap a question or type your own!</p></div>
+  <div class="chat-wrap"><div class="chat-box">
+    <div class="chat-msgs" id="chatMsgs"><div class="msg msg-e"><div class="mn">&#128150; Emma</div>Hey babe! &#128075; I'm Emma, your Accelerator coach.<br><br>I'm here to help you get your first profits ASAP. Tap a question below or type your own! &#128156;</div></div>
+    <div class="qq-wrap" id="qqWrap"></div>
+    <div class="chat-in"><input class="chat-input" id="chatIn" placeholder="Ask Emma anything..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="chat-send" onclick="sendMsg()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+  </div></div>
+</div>
+
+<script>
+// ===== PAGES =====
+const PAGES=[
+{handle:'bossbabe.inc',emoji:'\u{1F451}',desc:'THE original boss babe brand. Quote + lifestyle photo blend, carousel tips, community engagement.',copyPoints:['Quote + lifestyle blend','Carousel tips','Reel advice clips','Engagement style']},
+{handle:'confidentlywomen',emoji:'\u{1F4AA}',desc:'Confidence and empowerment. Clean, bold aesthetic with motivational messaging.',copyPoints:['Bold quotes','Clean design','Self-help carousels','Story engagement']},
+{handle:'myselflovesupply',emoji:'\u{1F49B}',desc:'Self-love, healing, affirmations. Soft aesthetic, high save rates.',copyPoints:['Affirmation posts','Pastel style','Healing content','High-save carousels']},
+{handle:'womenontopp',emoji:'\u{1F680}',desc:'Female empowerment and business motivation. Great carousels and Reels.',copyPoints:['Business carousels','Leadership quotes','Motivational Reels','Strong bio CTA']},
+{handle:'feminism.inc',emoji:'\u{2764}\u{FE0F}',desc:'Feminist empowerment quotes. High engagement and shareability.',copyPoints:['Awareness posts','Shareable format','Discussion captions','Bold typography']},
+{handle:'bossbabefocus',emoji:'\u{1F3AF}',desc:'Business and hustle motivation. Clean quote card format.',copyPoints:['Hustle quotes','Business carousels','Reel format','Grid aesthetic']},
+{handle:'thefemalehustlers',emoji:'\u{1F4BC}',desc:'Entrepreneurship and side hustle tips for women.',copyPoints:['Side hustle tips','Entrepreneur quotes','Money mindset','Success stories']},
+{handle:'businesswifey',emoji:'\u{1F48E}',desc:'Business meets lifestyle. Luxury aesthetic with entrepreneurship quotes.',copyPoints:['Luxury aesthetic','Lifestyle + quotes','Elegant palette','Aspirational style']},
+{handle:'herempoweringmindset',emoji:'\u{1F9E0}',desc:'Mindset shifts and empowerment. Great carousel content.',copyPoints:['Mindset carousels','Growth quotes','Empowerment Reels','Psychology tips']},
+{handle:'beautifulwomenempire',emoji:'\u{1F338}',desc:'Beauty meets empowerment. Feminine aesthetic, confidence content.',copyPoints:['Feminine style','Beauty + confidence','Elegant branding','Motivational captions']},
+{handle:'highvaluedwomen',emoji:'\u{2728}',desc:'High-value lifestyle and mindset. Standards and self-worth focus.',copyPoints:['Self-worth quotes','Boundary content','Lifestyle posts','Dark aesthetic']},
+{handle:'fempowerment.inc',emoji:'\u{1F525}',desc:'Female empowerment with bold, modern design.',copyPoints:['Bold design','Empowerment captions','Carousel tips','Story content']},
+{handle:'bossbabebrilliant',emoji:'\u{1F4A1}',desc:'Brilliant quotes and business tips for boss babes.',copyPoints:['Business carousels','Quote format','Modern aesthetic','Hook strategy']},
+{handle:'iam.affirmations',emoji:'\u{1F31F}',desc:'Daily affirmations. Very high engagement and saves.',copyPoints:['Daily affirmations','Text-based style','Morning content','High save rate']},
+{handle:'selflovehealer',emoji:'\u{1FAF6}',desc:'Self-love healing. Soft aesthetic with relatable messaging.',copyPoints:['Healing quotes','Warm aesthetic','Relatable captions','Therapeutic style']},
+{handle:'womanceocircle',emoji:'\u{1F469}\u{200D}\u{1F4BC}',desc:'Female CEO and leadership content.',copyPoints:['CEO mindset','Leadership carousels','Strategy content','Pro aesthetic']},
+{handle:'womennsoul',emoji:'\u{1F33F}',desc:'Soulful content. Spirituality meets empowerment.',copyPoints:['Spiritual blend','Earthy aesthetic','Soul quotes','Mindfulness']},
+{handle:'stay.positive.in.life',emoji:'\u{2600}\u{FE0F}',desc:'Positivity and daily motivation. Bright and uplifting.',copyPoints:['Bright aesthetic','Daily positivity','High shares','Feel-good cards']},
+{handle:'think_like_a_boss.co',emoji:'\u{1F4AA}',desc:'Boss mindset. Entrepreneurship motivation with actionable tips.',copyPoints:['Boss quotes','Business tips','Reel clips','Caption hooks']},
+{handle:'womenofthefuture.co',emoji:'\u{1F52E}',desc:'Future-focused female empowerment. Modern aesthetic.',copyPoints:['Future messaging','Clean design','Visionary quotes','Innovation content']},
+{handle:'confidentwomenclub',emoji:'\u{1F451}',desc:'Confidence community. Pastel aesthetic, self-help carousels.',copyPoints:['Pastel templates','Confidence tips','Polls','Clean bio CTA']},
+{handle:'manifestsuccessxo',emoji:'\u{1F31F}',desc:'Manifestation and success mindset. Modern visuals.',copyPoints:['Manifestation posts','Success mindset','Attraction content','Vision aesthetic']},
+{handle:'successfulfemalemindset',emoji:'\u{1F9E0}',desc:'Success-focused mindset. Growth and ambition.',copyPoints:['Mindset carousels','Ambition quotes','Growth Reels','Caption style']},
+{handle:'femaleboss_mindset',emoji:'\u{1F525}',desc:'Female boss motivation. High-energy aesthetic.',copyPoints:['Energy quotes','Boss Reels','Hustle content','Bold design']},
+{handle:'womenwholeadempires',emoji:'\u{1F3F0}',desc:'Empire-building for ambitious women.',copyPoints:['Empire messaging','Wealth quotes','Leadership carousels','Premium aesthetic']},
+{handle:'thefemaleconquerors',emoji:'\u2694\uFE0F',desc:'Conqueror mindset. Bold content about overcoming and winning.',copyPoints:['Bold messaging','Obstacles content','Victory quotes','Dark aesthetic']},
+{handle:'bossgirlgram',emoji:'\u{1F484}',desc:'Boss girl lifestyle. Fun, modern, relatable.',copyPoints:['Modern aesthetic','Relatable content','Lifestyle mix','Trend Reels']},
+];
+
+// ===== PHASES =====
+const PHASES=[
+{nav:'Spy & Model',label:'Phase 1 \u2014 Hour 0\u20131',title:'Spy on What Already Works',desc:"Find pages crushing it and reverse-engineer their blueprint.",steps:[
+{title:'Pick Your Niche',time:'5 min',body:`<p>Best niches: <strong>motivation, self-improvement, luxury, finance, fitness, relationships.</strong> Pick something you could scroll for 30 min without getting bored.</p><div class="tip"><div class="tip-t">\u{1F4A1} Emma's Tip</div>Motivation &amp; self-improvement monetize easiest. Check the <strong>Blueprint Vault tab</strong> for 27 hand-picked pages!</div>`},
+{title:'Find 2\u20134 Blueprint Pages',time:'15 min',body:`<p>Open the <strong>Blueprint Vault</strong> and pick 2\u20134 pages to model.</p><div class="abox"><div class="abox-t">\u{1F50D} What to look for</div><ul><li>Consistent post style</li><li>Good engagement</li><li>Posts Reels AND static posts</li><li>Active in the last 7 days</li><li>Link in bio (they're monetizing)</li></ul></div><p><strong>Screenshot everything:</strong> bio, top posts, highlights, link in bio.</p>`},
+{title:'Decode Their Formula',time:'15 min',body:`<div class="abox"><div class="abox-t">\u{1F4CB} Blueprint Breakdown</div><ul><li><strong>Username format</strong></li><li><strong>Bio structure</strong> \u2014 hook, CTA</li><li><strong>Profile pic / logo</strong></li><li><strong>Content types</strong> \u2014 quotes, carousels, Reels</li><li><strong>Top 10 posts</strong></li><li><strong>Posting frequency</strong></li><li><strong>Monetization</strong> \u2014 link in bio</li></ul></div>`}
+]},
+{nav:'Account Setup',label:'Phase 2 \u2014 Hour 1\u20133',title:'Build Your Page',desc:"Use Blueprint Pages as your guide.",steps:[
+{title:'Create Your Account',time:'10 min',body:`<p>Use <strong>Core Unicorn training</strong> for full walkthrough.</p><div class="abox"><div class="abox-t">\u26A1 Quick Setup</div><ul><li><strong>Username:</strong> Model after Blueprints</li><li><strong>Display Name:</strong> Niche keyword</li><li><strong>Bio:</strong> Copy STRUCTURE from Blueprints</li><li><strong>Profile Pic:</strong> Clean logo via Canva</li><li><strong>Professional Account</strong> (Creator)</li></ul></div><div class="tool"><div class="tool-i">\u{1F3A8}</div><div class="tool-d"><strong>Canva (Free)</strong><span>canva.com</span></div></div>`},
+{title:'Warm Up Your Account',time:'1\u20132 hrs',body:`<p>New accounts that post immediately get <strong>shadowbanned</strong>.</p><div class="abox"><div class="abox-t">\u{1F525} Warm-Up</div><ul><li>Scroll feed 10\u201315 min, like naturally</li><li>Follow 20\u201330 niche accounts</li><li>Comment on 10\u201315 posts (5+ words)</li><li>Watch niche Reels 10+ min</li><li>Reply to Stories</li><li>Engage via explore page</li></ul></div><div class="tip"><div class="tip-t">\u{1F4A1} Emma's Tip</div>20\u201330 min warm-up daily for week 1. The difference between 200 and 20,000 views.</div>`}
+]},
+{nav:'Content Machine',label:'Phase 3 \u2014 Hour 3\u20136',title:'Turn Their Content Into Yours',desc:"Remix what's proven to work.",steps:[
+{title:'Build Your First 9 Posts',time:'1\u20132 hrs',body:`<div class="abox"><div class="abox-t">\u{1F3AF} Strategy</div><ul><li>3 top posts from each Blueprint Page</li><li>Remix: different wording, fonts, colors</li><li>Mix: 5 quotes + 2 carousels + 2 Reels</li><li>Same visual style across all 9</li></ul></div><div class="tool"><div class="tool-i">\u{1F916}</div><div class="tool-d"><strong>Copilot Image Creator</strong><span>Free AI backgrounds</span></div></div><div class="tool"><div class="tool-i">\u270D\uFE0F</div><div class="tool-d"><strong>ChatGPT</strong><span>20 caption variations</span></div></div><div class="tool"><div class="tool-i">\u{1F3AC}</div><div class="tool-d"><strong>CapCut</strong><span>Trending Reel templates</span></div></div>`},
+{title:'Content Calendar',time:'15 min',body:`<div class="abox"><div class="abox-t">\u{1F4C5} First Week</div><ul><li><strong>Day 1\u20133:</strong> 3 posts/day (fill grid)</li><li><strong>Day 4\u20137:</strong> 1\u20132 posts/day</li><li><strong>Daily:</strong> 3\u20135 Stories</li><li><strong>Daily:</strong> 20\u201330 min engagement</li></ul></div>`},
+{title:'The Reels Shortcut',time:'30 min',body:`<div class="abox"><div class="abox-t">\u{1F3AC} Reels Formula</div><ul><li>Find trending Reel from Blueprints</li><li>Use same trending audio</li><li>Remake with your text overlay</li><li>Under 15 seconds</li><li>Hook in first 1 second</li></ul></div>`}
+]},
+{nav:'Get Paid',label:'Phase 4 \u2014 Hour 6\u201312',title:'Start Making Money',desc:"You don't need 10K followers. You need the right link.",steps:[
+{title:'Set Up Your Money Link',time:'20 min',body:`<p><strong>Core Unicorn Training \u2014 Module 4</strong></p><div class="abox"><div class="abox-t">\u{1F4B0} Setup</div><ul><li>Create a free account on <strong>Clickbank</strong> (clickbank.com) or <strong>Digistore24</strong> (digistore24.com)</li><li>Browse the marketplace and pick a product in your niche</li><li>Grab your unique affiliate link</li><li>Set up Linktree (free) and add your link</li><li>Add link to Instagram bio with a CTA</li></ul></div><div class="highlight"><h4>\u{1F4B8} Click + purchase = Commission (often 50-75%!)</h4><p>No product to create. No customer service. Traffic \u2192 link \u2192 paid.</p></div>`},
+{title:'Drive Traffic TODAY',time:'1\u20132 hrs',body:`<div class="abox"><div class="abox-t">\u{1F680} Traffic Plays</div><ul><li><strong>Story CTA:</strong> "Link in bio" 2\u20133x today</li><li><strong>DM Strategy:</strong> Start niche conversations</li><li><strong>Comments:</strong> Be visible on big pages</li><li><strong>Reel CTA:</strong> "Link in bio" on every Reel</li><li><strong>Collab:</strong> Shoutout-for-shoutout</li></ul></div>`},
+{title:'Activate Traffic Pool',time:'15 min',body:`<p>Watch the Traffic Pool lesson in Core Training.</p><div class="highlight"><h4>\u{1F984} Community traffic \u2192 Your link \u2192 You get paid</h4><p>Members earn while they sleep.</p></div>`}
+]},
+{nav:'Scale',label:'Phase 5 \u2014 Hour 12\u201324',title:'Lock In & Scale',desc:"Put it on autopilot.",steps:[
+{title:'Batch 7 Days of Content',time:'2 hrs',body:`<div class="abox"><div class="abox-t">\u{1F4E6} Batch</div><ul><li>Screenshot 20 posts from Blueprints</li><li>Remix via Canva + ChatGPT</li><li>3\u20135 Reels via CapCut</li><li>Schedule everything</li><li>7 days of Stories prepped</li></ul></div>`},
+{title:'Track & Double Down',time:'15 min',body:`<div class="abox"><div class="abox-t">\u{1F4CA} Track</div><ul><li>Which posts got most reach? Make more</li><li>Link clicks low? Fix bio CTA</li><li>Check Clickbank/Digistore24 for commissions</li><li>Engagement dropping? More hooks</li></ul></div>`},
+{title:'Your Daily 30-Min Routine',time:'30 min/day',body:`<div class="abox"><div class="abox-t">\u23F1\uFE0F Daily 30</div><ul><li><strong>10 min:</strong> Engage (like, comment, Stories)</li><li><strong>10 min:</strong> Post or check scheduled content</li><li><strong>5 min:</strong> Stories with CTAs</li><li><strong>5 min:</strong> Check insights + commissions</li></ul></div><div class="highlight"><h4>\u{1F3AF} You're in The Game.</h4><p>Most people are still on Module 1. You've already built, posted, and monetized. Compounding starts now.</p></div>`}
+]}
+];
+
+// ===== EMMA Q&A =====
+const QA=[
+{q:["what niche","which niche","best niche","niche ideas","pick a niche","choose a niche"],a:"Great question babe! \u{1F49C} For theme pages, pick a niche with <strong>high emotion and shareability</strong>. Motivation, self-improvement, boss babe, and wealth mindset monetize the easiest \u2014 that audience WANTS to invest in themselves.<br><br>Pick something you could scroll for 30 min without getting bored. Check the <strong>Blueprint Vault</strong> for 27 pages across these niches!"},
+{q:["warm up","warmup","shadow ban","shadowban","new account"],a:"SO important \u2014 don't skip this! \u{1F525}<br><br>For the first 2\u20133 days:<br>\u2022 Scroll feed 10\u201315 min, like naturally<br>\u2022 Follow 20\u201330 niche accounts<br>\u2022 Comment on 10\u201315 posts (5+ words)<br>\u2022 Watch niche Reels 10+ min<br>\u2022 Reply to Stories<br><br>Do 20\u201330 min daily for week 1. When your Explore page looks like the content you'll post \u2014 you're ready! \u{1F680}"},
+{q:["first sale","make money","get paid","first commission","earn","monetize","how fast","make money"],a:"Here's the path! \u{1F4B0}<br><br>1. Go to <strong>Clickbank</strong> or <strong>Digistore24</strong> and create a free account<br>2. Find a product in your niche with good commissions<br>3. Grab your affiliate link<br>4. Set up Linktree (free) + add your link<br>5. Add to your Instagram bio<br>6. Drive traffic via Stories, Reels, comments<br><br>Day 1 goal: 10 link clicks. If 2 buy = first commissions! Also activate the <strong>Traffic Pool</strong> \u2014 free community traffic! \u{1F984}"},
+{q:["how many times","posting frequency","how often","post per day","schedule","when to post"],a:"First week schedule: \u{1F4C5}<br><br>\u2022 <strong>Days 1\u20133:</strong> 3 posts/day (fill your grid)<br>\u2022 <strong>Days 4\u20137:</strong> 1\u20132 posts/day<br>\u2022 <strong>Daily:</strong> 3\u20135 Stories<br>\u2022 <strong>Daily:</strong> 20\u201330 min engagement<br><br>After week 1: 1\u20132 posts/day minimum. Consistency > perfection! \u{1F4AA}"},
+{q:["bio","what should my bio","bio ideas","write bio","instagram bio"],a:"Bio formula: \u270D\uFE0F<br><br>\u2022 <strong>Line 1:</strong> Hook \u2014 who you help<br>\u2022 <strong>Line 2:</strong> What they get by following<br>\u2022 <strong>Line 3:</strong> Social proof<br>\u2022 <strong>Line 4:</strong> CTA to your link<br><br>Go to the Blueprint Vault, screenshot 3\u20134 bios, and copy the STRUCTURE. Make it yours! \u{1F49C}"},
+{q:["reels","viral","reel ideas","go viral","trending"],a:"Reels = #1 growth weapon! \u{1F3AC}<br><br>\u2022 Find trending Reels from your Blueprints<br>\u2022 Use same audio<br>\u2022 Remake with YOUR text overlay<br>\u2022 Under 15 seconds<br>\u2022 Hook in first 1 second<br><br>Use CapCut (free!) for trending templates. Post 1 Reel/day minimum! \u{1F525}"},
+{q:["scared","nervous","imposter","not good enough","can't do this","afraid","anxious","fail"],a:"EVERYONE feels this way at the start, babe \u{1F49C}<br><br>Every page in the Vault started at zero. Your first posts won't be your best \u2014 that's fine! Nobody's watching yet.<br><br>Do this RIGHT NOW:<br>\u2022 Open the Blueprint Vault<br>\u2022 Pick 2 pages<br>\u2022 Screenshot 3 posts<br>\u2022 Open Canva, remake ONE<br><br>Just one post. One small step. You got this, queen! \u{1F451}"},
+{q:["followers","grow","get more followers","growth"],a:"How to grow fast: \u{1F680}<br><br>1. <strong>Post Reels daily</strong> \u2014 biggest reach tool<br>2. <strong>Engage 20\u201330 min/day</strong> on big niche pages<br>3. <strong>Stories daily</strong> with polls and quizzes<br>4. <strong>Shoutout-for-shoutout</strong> with similar pages<br>5. <strong>Be consistent</strong> \u2014 1\u20132 posts/day, every day<br><br>No magic. Just consistency! \u{1F4AA}"},
+{q:["blueprint page","what pages","which pages","copy","model"],a:"Blueprint Pages are your cheat sheet! \u{1F50D}<br><br>Check the <strong>Blueprint Vault tab</strong> \u2014 27 hand-picked pages. Pick 2\u20134 and study everything: bio, content types, top posts, Reels, posting frequency, monetization.<br><br>Then remix: same concept, YOUR design. This is how every big page started! \u{1F3AF}"},
+{q:["tools","apps","free tools","canva","capcut","chatgpt","software"],a:"Everything you need is FREE! \u{1F389}<br><br>\u2022 <strong>Canva</strong> \u2014 design tool<br>\u2022 <strong>ChatGPT</strong> \u2014 caption writer<br>\u2022 <strong>CapCut</strong> \u2014 Reel editor<br>\u2022 <strong>Copilot Image Creator</strong> \u2014 AI visuals<br>\u2022 <strong>Remove.bg</strong> \u2014 background removal<br><br>No paid tools needed to start! \u{1F4AA}"},
+{q:["traffic pool","unicorn traffic","shared traffic"],a:"The Traffic Pool is your secret weapon! \u{1F984}<br><br>The community shares traffic \u2014 other people's visitors get sent to YOUR link. The more active you are, the more traffic you get.<br><br>Watch the Traffic Pool lesson in Core Training and get registered TODAY!"},
+{q:["remix","repost","copy content","create content","what to post"],a:"Remixing = the core of this model \u{1F3A8}<br><br>1. Screenshot top posts from Blueprint Pages<br>2. Same concept, YOUR design (different fonts, colors, wording)<br>3. Use ChatGPT for caption variations<br>4. For Reels: same audio, your text overlay<br><br>Every theme page does this. Don't reinvent the wheel! \u{1F49C}"},
+{q:["clickbank","digistore","affiliate link","affiliate","commission","payment"],a:"Here's how it works! \u{1F4B8}<br><br>1. Create free account on <strong>Clickbank</strong> or <strong>Digistore24</strong><br>2. Browse marketplace, filter by niche<br>3. Pick products with high gravity/conversions<br>4. Grab your affiliate link<br>5. Add to Linktree \u2192 Instagram bio<br><br>Commissions are often 50\u201375%! Clickbank pays via direct deposit, Digistore24 via PayPal or bank. \u{1F680}"},
+{q:["captions","caption ideas","what to write","engaging"],a:"Caption formula: \u270D\uFE0F<br><br>\u2022 <strong>Hook:</strong> First line must stop the scroll<br>\u2022 <strong>Body:</strong> Value, story, or expand on quote<br>\u2022 <strong>CTA:</strong> \"Save this\", \"Tag someone\", \"Link in bio\"<br><br>Paste any great caption into ChatGPT and ask for 10 variations! \u{1F525}"},
+{q:["theme page","quote page","how do theme pages work"],a:"A theme page posts curated content around a topic instead of personal photos. \u{1F4F1}<br><br>Why they work:<br>\u2022 No face needed<br>\u2022 Easy to create content<br>\u2022 Grows fast (shareable)<br>\u2022 Monetize via affiliate links<br>\u2022 Can run multiple pages<br><br>Perfect beginner business! \u{1F680}"},
+{q:["hashtag","what hashtags","how many hashtags"],a:"Hashtag strategy: \u{1F3AF}<br><br>\u2022 15\u201320 hashtags per post<br>\u2022 Mix: 5 big (1M+), 5 medium (100K\u20131M), 5 small (10K\u2013100K)<br>\u2022 Copy from your Blueprint Pages<br>\u2022 Put in caption, not first comment<br><br>But Reels matter way more than hashtags now! \u{1F525}"},
+{q:["stories","story ideas","story strategy"],a:"Stories = relationship builder + money driver! \u{1F4F2}<br><br>3\u20135 daily:<br>\u2022 Quote reposts<br>\u2022 Polls/Questions<br>\u2022 \"Link in bio\" pushes<br>\u2022 Behind the scenes<br>\u2022 Niche reposts<br><br>Every 3rd\u20134th Story should push to your link! \u{1F4B0}"},
+{q:["how long","results","timeline","patience","not seeing results"],a:"Real talk: \u{1F4C8}<br><br>\u2022 <strong>Week 1:</strong> Building foundation. Normal to see little.<br>\u2022 <strong>Week 2\u20134:</strong> Engagement picks up.<br>\u2022 <strong>Month 1\u20133:</strong> Compounding starts. Real growth + first commissions.<br><br>Don't quit in week 2 because you have 50 followers. The ones who win just keep posting! \u{1F4AA}"},
+{q:["phone","mobile","laptop","computer","equipment"],a:"100% phone-only works! \u{1F4F1}<br><br>Canva, CapCut, ChatGPT, Clickbank/Digistore24 \u2014 all work on mobile. Most big theme page owners run everything from their phone! No excuses \u{1F49C}"},
+{q:["multiple pages","second page","scale"],a:"Yes \u2014 but NOT yet! \u{1F6D1}<br><br>Get first page to 1K+ followers and consistent commissions first. Then duplicate the system for a new sub-niche. Some members run 3\u20135 pages! But master one first \u{1F3AF}"},
+{q:["engagement","low engagement","nobody likes","no comments","algorithm","no views","no reach"],a:"Low engagement is normal early on! \u{1F50D}<br><br>\u2022 Did you warm up? If not, take 2\u20133 days off posting, just engage<br>\u2022 Posts visually clean? Compare to Blueprints<br>\u2022 Using hooks in captions?<br>\u2022 Posting Reels? (non-negotiable)<br>\u2022 Engaging 20\u201330 min daily?<br>\u2022 Posting consistently?<br><br>Even big pages started slow. Keep going! \u{1F4AA}"},
+{q:["logo","profile picture","profile pic","branding","design"],a:"5-minute logo in Canva: \u{1F3A8}<br><br>\u2022 Search \"Instagram profile picture\"<br>\u2022 Use a simple text logo or minimal icon<br>\u2022 Keep colors consistent with your aesthetic<br>\u2022 Make sure it's readable small<br><br>Look at your Blueprint Pages' profile pics for inspo! \u{1F49C}"},
+{q:["collab","shoutout","s4s","cross promote"],a:"Great free growth hack! \u{1F91D}<br><br>Find 3\u20135 pages similar in size. DM: \"Love your page! Down for a shoutout swap?\" Share each other on Stories.<br><br>Start once you have your first 9 posts up! \u{1F680}"},
+{q:["hi","hello","hey","what's up","yo"],a:"Hey babe! \u{1F49C} What can I help you with? Ask about niches, content, Reels, making money, or anything about building your page! \u{1F680}"},
+{q:["thank","thanks","awesome","great","perfect","love it","amazing"],a:"You're welcome, queen! \u{1F49C} Knowledge without action is just entertainment. Go implement! You got this! \u{1F4AA}\u{1F525}"},
+{q:["bye","goodbye","later","done"],a:"Go get it babe! \u{1F680} I'm always here when you need me. Now go build that empire! \u{1F451}\u{1F49C}"},
+];
+
+const QQ_LIST=["What niche should I pick?","How do I warm up my account?","How do I make my first sale?","How often should I post?","What should my bio say?","How do I make viral Reels?","I'm scared to start!","How do I get followers?","What tools do I need?","What's a Blueprint Page?","How do I remix content?","How do I find products to sell?","Hashtag strategy?","Story ideas?","How long until results?","Can I do this from my phone?"];
+
+// ===== FUZZY MATCH =====
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim()}
+function match(input){
+  const ni=norm(input),wi=new Set(ni.split(/\s+/));
+  let best=null,bs=0;
+  for(const e of QA){for(const q of e.q){
+    const nq=norm(q);
+    if(ni.includes(nq)||nq.includes(ni)){if(100>bs){bs=100;best=e}}
+    const wq=new Set(nq.split(/\s+/));let ov=0;
+    for(const w of wi)if(wq.has(w))ov++;
+    const sc=(ov/Math.max(wq.size,wi.size))*80;
+    if(sc>bs){bs=sc;best=e}
+  }}
+  return bs>=25?best:null;
+}
+
+// ===== RENDER =====
+let ap=0,done={};
+const ts=PHASES.reduce((s,p)=>s+p.steps.length,0);
+
+function switchTab(t){
+  document.querySelectorAll('.tab-c').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.mt-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelectorAll('.mt-btn')[{ft:0,vault:1,emma:2}[t]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderVault(){
+  const g=document.getElementById('vg');g.innerHTML='';
+  PAGES.forEach(p=>{const c=document.createElement('div');c.className='v-card';
+  c.innerHTML=`<div class="v-top"><div class="v-ava">${p.emoji}</div><div class="v-handle">@${p.handle}</div></div><div class="v-desc">${p.desc}</div><div class="v-copy"><div class="v-copy-t">What to copy</div><ul>${p.copyPoints.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="v-btns"><a class="v-btn v-btn-p" href="https://www.instagram.com/${p.handle}/" target="_blank">\u{1F4F1} Visit</a><a class="v-btn v-btn-s" href="https://www.instagram.com/${p.handle}/reels/" target="_blank">\u{1F3AC} Reels</a></div>`;
+  g.appendChild(c);});
+}
+
+function render(){
+  const nav=document.getElementById('phaseNav'),area=document.getElementById('ca');
+  nav.innerHTML='';area.innerHTML='';
+  PHASES.forEach((ph,pi)=>{
+    const ad=ph.steps.every((_,si)=>done[pi+'-'+si]);
+    const b=document.createElement('button');
+    b.className='ps-btn'+(pi===ap?' active':'')+(ad?' alldone':'');
+    b.innerHTML=`<span class="ps-num">${ad?'\u2713':(pi+1)}</span>${ph.nav}`;
+    b.onclick=()=>{ap=pi;render();};
+    nav.appendChild(b);
+    const s=document.createElement('div');s.className='phase'+(pi===ap?' active':'');
+    s.innerHTML=`<div class="phase-hdr"><div class="phase-tag">${ph.label}</div><h2>${ph.title}</h2><p>${ph.desc}</p></div>`;
+    ph.steps.forEach((st,si)=>{
+      const k=pi+'-'+si,d=done[k];
+      const c=document.createElement('div');c.className='step'+(d?' done':'');
+      c.innerHTML=`<div class="step-top"><div class="step-chk ${d?'on':''}" data-k="${k}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.5L5.5 10L11 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="step-meta"><div class="step-lbl">Step ${si+1}</div><div class="step-name">${st.title}</div><div class="step-dur">\u23F1 ${st.time}</div></div></div><div class="step-body-wrap"><div class="step-body">${st.body}</div></div>`;
+      c.querySelector('.step-top').onclick=e=>{if(e.target.closest('.step-chk'))return;c.classList.toggle('open')};
+      c.querySelector('.step-chk').onclick=e=>{e.stopPropagation();done[k]?delete done[k]:done[k]=true;upProg();render()};
+      s.appendChild(c);
+    });
+    if(pi<PHASES.length-1){
+      const nb=document.createElement('button');nb.className='next-btn';
+      nb.innerHTML=`Continue to: ${PHASES[pi+1].nav} \u2192`;
+      nb.onclick=()=>{ap=pi+1;render();document.querySelector('.phase-strip').scrollIntoView({behavior:'smooth'})};
+      s.appendChild(nb);
+    }
+    area.appendChild(s);
+  });
+  const ct=document.createElement('div');ct.className='bcta';
+  ct.innerHTML=`<h3>Go Deeper</h3><p>Core Unicorn Training for the full system.</p><a class="cta-btn" href="https://getunicornofficial.com/jvty1105/ty-access/">\u{1F984} Members Area</a>`;
+  area.appendChild(ct);
+}
+
+function upProg(){
+  const d=Object.keys(done).length,p=Math.round(d/ts*100);
+  document.getElementById('pp').textContent=p+'%';
+  document.getElementById('pf').style.width=p+'%';
+}
+
+// CHAT
+function renderQQ(){const w=document.getElementById('qqWrap');w.innerHTML='';QQ_LIST.forEach(q=>{const b=document.createElement('button');b.className='qqb';b.textContent=q;b.onclick=()=>{document.getElementById('chatIn').value=q;sendMsg()};w.appendChild(b)})}
+function addMsg(h,t){const m=document.getElementById('chatMsgs'),d=document.createElement('div');d.className='msg msg-'+t;if(t==='e')d.innerHTML=`<div class="mn">\u{1F496} Emma</div>${h}`;else d.textContent=h;m.appendChild(d);m.scrollTop=m.scrollHeight}
+function sendMsg(){
+  const inp=document.getElementById('chatIn'),txt=inp.value.trim();if(!txt)return;inp.value='';
+  addMsg(txt,'u');
+  const m=document.getElementById('chatMsgs'),t=document.createElement('div');t.className='typing';t.id='typ';t.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';m.appendChild(t);m.scrollTop=m.scrollHeight;
+  setTimeout(()=>{const x=document.getElementById('typ');if(x)x.remove();const r=match(txt);addMsg(r?r.a:"That's outside what I can help with right now, but check the <strong>Fast Track</strong> for the full system or the <strong>Blueprint Vault</strong> for pages to model! Try asking about niches, content, Reels, followers, or making money \u{1F49C}",'e')},700+Math.random()*600);
+}
+
+render();renderVault();renderQQ();
+</script>
+</body>
+</html>
